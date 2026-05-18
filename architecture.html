@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glitch Artworks — Architecture</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;background:#080706;color:#f0ebe0;font-family:'Syne',sans-serif;overflow:hidden;}
+
+/* grain */
+body::after{content:'';position:fixed;inset:0;z-index:50;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:0.4;}
+
+/* ambient orbs */
+.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;}
+.orb1{width:600px;height:600px;background:#d4832a;opacity:0.07;top:-200px;right:-150px;}
+.orb2{width:500px;height:500px;background:#8a4a15;opacity:0.06;bottom:-150px;left:-150px;}
+
+/* dot grid */
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(240,235,224,0.05) 1px,transparent 1px);
+  background-size:52px 52px;}
+
+/* scanline */
+.scanline{position:fixed;top:-2px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,131,42,0.08),transparent);
+  animation:scan 18s linear infinite;z-index:40;pointer-events:none;}
+@keyframes scan{0%{top:-2px}100%{top:100vh}}
+
+/* wash */
+.wash{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at center, rgba(212,131,42,0.0) 0%, transparent 65%);
+  transition:background 0.6s ease;}
+
+/* UI */
+.ui{position:fixed;inset:0;z-index:20;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;padding:28px 40px;}
+.ui-top{display:flex;justify-content:space-between;align-items:flex-start;}
+.brand{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(240,235,224,0.2);}
+.category{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(212,131,42,0.5);}
+.ui-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
+.tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:300;letter-spacing:0.06em;color:rgba(240,235,224,0.25);line-height:1.7;}
+.nav-links{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+.back{pointer-events:auto;font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(240,235,224,0.18);text-decoration:none;transition:color 0.3s;}
+.back:hover{color:rgba(212,131,42,0.9);}
+.hint{font-size:8px;letter-spacing:0.2em;color:rgba(240,235,224,0.08);animation:breathe 3s ease-in-out infinite;}
+@keyframes breathe{0%,100%{opacity:0.08}50%{opacity:0.28}}
+
+/* MAIN SCENE */
+.scene{position:fixed;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;}
+
+/* SVG wrapper — the whole composition */
+.composition{
+  position:relative;
+  transition:transform 0.1s ease;
+}
+
+/* construction lines SVG */
+.lines-svg{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  z-index:1;
+  overflow:visible;
+}
+
+/* letter outlines SVG */
+.letters-svg{
+  position:relative;
+  z-index:2;
+  overflow:visible;
+  cursor:default;
+}
+
+/* construction line style */
+.cl{
+  fill:none;
+  stroke:rgba(212,131,42,0.18);
+  stroke-width:0.3px;
+  stroke-miterlimit:10;
+  transition:stroke 0.5s ease, opacity 0.5s ease;
+}
+
+/* circles */
+.cc{
+  fill:none;
+  stroke:rgba(212,131,42,0.14);
+  stroke-width:0.3px;
+  transition:stroke 0.5s ease, opacity 0.5s ease;
+}
+
+/* extended lines — spread outward on hover, hidden by default */
+.cl-ext{
+  fill:none;
+  stroke:rgba(212,131,42,0.0);
+  stroke-width:0.4px;
+  stroke-dasharray:4 8;
+  transition:stroke 0.6s ease, stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* letter paths — white */
+.lp{
+  fill:rgba(240,235,224,0.92);
+  transition:fill 0.4s ease;
+}
+
+/* hover state classes */
+.composition.hovered .cl{
+  stroke:rgba(212,131,42,0.55);
+}
+.composition.hovered .cc{
+  stroke:rgba(212,131,42,0.4);
+}
+.composition.hovered .cl-ext{
+  stroke:rgba(212,131,42,0.35);
+  stroke-dashoffset:0;
+}
+.composition.hovered .lp{
+  fill:rgba(255,255,255,1);
+}
+
+/* pulse dots at line endpoints */
+.pulse-dot{
+  fill:rgba(212,131,42,0.5);
+  animation:dotPulse 2s ease-in-out infinite;
+}
+@keyframes dotPulse{0%,100%{opacity:0.3;r:2}50%{opacity:0.9;r:3.5}}
+
+/* glow filter */
+.glow-line{
+  stroke:rgba(212,131,42,0.0);
+  fill:none;
+  stroke-width:1px;
+  filter:url(#purpleGlow);
+  transition:stroke 0.5s ease;
+}
+.composition.hovered .glow-line{
+  stroke:rgba(212,131,42,0.3);
+}
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="bg-grid"></div>
+<div class="scanline"></div>
+<div class="wash" id="wash"></div>
+
+<div class="ui">
+  <div class="ui-top">
+    <span class="brand">Glitch Artworks</span>
+    <span class="category">05 — Architecture</span>
+  </div>
+  <div class="ui-bottom">
+    <div class="tagline">Space as language.<br>Something is being built here.</div>
+    <div class="nav-links">
+      <a class="back" href="https://www.glitchartworks.com">← Back to home</a>
+      <span class="hint">Hover to explore</span>
+    </div>
+  </div>
+</div>
+
+<section class="scene">
+  <div class="composition" id="comp">
+
+    <!-- LETTER OUTLINES — white Nomark shapes -->
+    <!-- ViewBox: 0 0 675.9 316.94 — scaled to fit viewport via JS -->
+    <svg class="letters-svg" id="lettersSvg"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 675.9 316.94">
+
+      <defs>
+        <filter id="purpleGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="letterGlow" x="-10%" y="-10%" width="120%" height="120%">
+          <feGaussianBlur stdDeviation="1.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- ── CONSTRUCTION LINES — your exact SVG lines, purple ── -->
+      <!-- Vertical lines row 1 -->
+      <line class="cl" x1="34.93" y1="12.19" x2="34.93" y2="148.88"/>
+      <line class="cl" x1="128.49" y1="12.19" x2="128.49" y2="148.88"/>
+      <line class="cl" x1="137.52" y1="12.19" x2="137.52" y2="148.88"/>
+      <line class="cl" x1="253.5" y1="12.19" x2="253.5" y2="148.88"/>
+      <line class="cl" x1="270.37" y1="12.19" x2="270.37" y2="148.88"/>
+      <line class="cl" x1="365.08" y1="12.19" x2="365.08" y2="148.88"/>
+      <line class="cl" x1="352.71" y1="12.19" x2="352.71" y2="148.88"/>
+      <line class="cl" x1="393.16" y1="12.19" x2="393.16" y2="148.88"/>
+      <line class="cl" x1="405.62" y1="12.19" x2="405.62" y2="148.88"/>
+      <line class="cl" x1="434.19" y1="12.19" x2="434.19" y2="148.88"/>
+      <line class="cl" x1="516.78" y1="12.19" x2="516.78" y2="148.88"/>
+      <line class="cl" x1="533.25" y1="12.19" x2="533.25" y2="148.88"/>
+      <line class="cl" x1="629.13" y1="12.19" x2="629.13" y2="148.88"/>
+      <line class="cl" x1="616.76" y1="12.19" x2="616.76" y2="148.88"/>
+
+      <!-- Vertical lines row 2 -->
+      <line class="cl" x1="149.21" y1="148.06" x2="149.21" y2="284.75"/>
+      <line class="cl" x1="211.84" y1="148.06" x2="211.84" y2="284.75"/>
+      <line class="cl" x1="223.44" y1="148.06" x2="223.44" y2="284.75"/>
+      <line class="cl" x1="232.08" y1="148.06" x2="232.08" y2="284.75"/>
+      <line class="cl" x1="299.12" y1="148.06" x2="299.12" y2="284.75"/>
+      <line class="cl" x1="348.06" y1="148.06" x2="348.06" y2="284.75"/>
+      <line class="cl" x1="334.91" y1="148.06" x2="334.91" y2="284.75"/>
+      <line class="cl" x1="415.32" y1="148.06" x2="415.32" y2="284.75"/>
+      <line class="cl" x1="432.23" y1="148.06" x2="432.23" y2="284.75"/>
+      <line class="cl" x1="514.99" y1="148.06" x2="514.99" y2="284.75"/>
+
+      <!-- Horizontal lines row 2 -->
+      <line class="cl" x1="544.53" y1="159.39" x2="125.7" y2="159.39"/>
+      <line class="cl" x1="544.53" y1="161.71" x2="125.7" y2="161.71"/>
+      <line class="cl" x1="544.53" y1="275.36" x2="125.7" y2="275.36"/>
+      <line class="cl" x1="544.53" y1="273.04" x2="125.7" y2="273.04"/>
+      <line class="cl" x1="544.53" y1="191.86" x2="125.7" y2="191.86"/>
+      <line class="cl" x1="544.53" y1="240.57" x2="125.7" y2="240.57"/>
+
+      <!-- Full width horizontals -->
+      <line class="cl" x1="675.9" y1="21.54" x2="0" y2="21.54"/>
+      <line class="cl" x1="675.9" y1="23.86" x2="0" y2="23.86"/>
+      <line class="cl" x1="675.9" y1="137.51" x2="0" y2="137.51"/>
+      <line class="cl" x1="675.9" y1="135.2" x2="0" y2="135.2"/>
+      <line class="cl" x1="675.9" y1="60.2" x2="0" y2="60.2"/>
+      <line class="cl" x1="675.9" y1="91.62" x2="0" y2="91.62"/>
+
+      <!-- Circles -->
+      <circle class="cc" cx="92.87" cy="79.53" r="57.93"/>
+      <circle class="cc" cx="591.19" cy="79.53" r="57.93"/>
+
+      <!-- EXTENDED lines — spread outward on hover -->
+      <!-- Verticals extend up and down -->
+      <line class="cl-ext" id="ext-v1" x1="34.93" y1="12.19" x2="34.93" y2="-60"/>
+      <line class="cl-ext" id="ext-v2" x1="629.13" y1="12.19" x2="629.13" y2="-60"/>
+      <line class="cl-ext" id="ext-v3" x1="34.93" y1="148.88" x2="34.93" y2="380"/>
+      <line class="cl-ext" id="ext-v4" x1="629.13" y1="148.88" x2="629.13" y2="380"/>
+      <line class="cl-ext" id="ext-v5" x1="149.21" y1="284.75" x2="149.21" y2="400"/>
+      <line class="cl-ext" id="ext-v6" x1="514.99" y1="284.75" x2="514.99" y2="400"/>
+
+      <!-- Horizontals extend left and right -->
+      <line class="cl-ext" id="ext-h1" x1="-80" y1="21.54" x2="0" y2="21.54"/>
+      <line class="cl-ext" id="ext-h2" x1="675.9" y1="21.54" x2="760" y2="21.54"/>
+      <line class="cl-ext" id="ext-h3" x1="-80" y1="137.51" x2="0" y2="137.51"/>
+      <line class="cl-ext" id="ext-h4" x1="675.9" y1="137.51" x2="760" y2="137.51"/>
+      <line class="cl-ext" id="ext-h5" x1="-80" y1="91.62" x2="0" y2="91.62"/>
+      <line class="cl-ext" id="ext-h6" x1="675.9" y1="91.62" x2="760" y2="91.62"/>
+      <line class="cl-ext" id="ext-h7" x1="-80" y1="240.57" x2="125.7" y2="240.57"/>
+      <line class="cl-ext" id="ext-h8" x1="544.53" y1="240.57" x2="760" y2="240.57"/>
+
+      <!-- Glow lines on key construction lines -->
+      <line class="glow-line" x1="675.9" y1="135.2" x2="0" y2="135.2"/>
+      <line class="glow-line" x1="675.9" y1="137.51" x2="0" y2="137.51"/>
+      <circle class="glow-line" cx="92.87" cy="79.53" r="57.93"/>
+      <circle class="glow-line" cx="591.19" cy="79.53" r="57.93"/>
+
+      <!-- Pulse dots at key line endpoints -->
+      <circle class="pulse-dot" cx="34.93" cy="12.19" r="2"/>
+      <circle class="pulse-dot" cx="629.13" cy="12.19" r="2" style="animation-delay:0.4s"/>
+      <circle class="pulse-dot" cx="34.93" cy="148.88" r="2" style="animation-delay:0.8s"/>
+      <circle class="pulse-dot" cx="629.13" cy="148.88" r="2" style="animation-delay:1.2s"/>
+      <circle class="pulse-dot" cx="149.21" cy="284.75" r="2" style="animation-delay:0.6s"/>
+      <circle class="pulse-dot" cx="514.99" cy="284.75" r="2" style="animation-delay:1.0s"/>
+      <circle class="pulse-dot" cx="0" cy="91.62" r="2" style="animation-delay:0.3s"/>
+      <circle class="pulse-dot" cx="675.9" cy="91.62" r="2" style="animation-delay:0.9s"/>
+
+      <!-- ── LETTER PATHS — white, exact Nomark outlines ── -->
+      <!-- C -->
+      <path class="lp" d="M130.81,109.68c-5.41,14.69-17.56,27.83-37.89,27.83-32.03,0-57.99-25.96-57.99-57.99s25.96-57.99,57.99-57.99c13.99,0,24.09,8.07,30.06,16.11.24.32,1.49,2.12,2.15,3.18c1.43,2.12,2.58,2.88,2.58-5.37h.77v24.74h-.77c0-10-1.82-17.26-6.12-22.95-6.86-9.08-16.96-14.94-28.67-14.94-25.19,0-44.84,26.29-44.84,57.22s19.65,57.22,44.84,57.22c15.85,0,29.65-8.33,37.11-27.06h.77Z"/>
+      <!-- O -->
+      <path class="lp" d="M253.5,79.53c0,32.03-25.96,57.99-57.99,57.99s-57.99-25.96-57.99-57.99,25.96-57.99,57.99-57.99,57.99,25.96,57.99,57.99ZM240.36,79.53c0-30.93-19.65-57.22-44.84-57.22s-44.84,26.29-44.84,57.22,19.65,57.22,44.84,57.22,44.84-26.29,44.84-57.22Z"/>
+      <!-- M -->
+      <path class="lp" d="M365.08,33.91v91.24c0,7.73,2.32,9.28,12.37,9.28v.77h-37.11v-.77c10.05,0,12.37-1.55,12.37-9.28V26.04l-38.66,109.16h-.77l-42.52-103.79v93.74c0,7.73,2.32,9.28,12.37,9.28v.77h-25.51v-.77c10.05,0,12.37-1.55,12.37-9.28V33.13c0-6.96-2.32-8.5-12.37-8.5v-.77h22.42l39.05,94.95,33.63-94.95h24.74v.77c-10.05,0-12.37,1.55-12.37,9.28Z"/>
+      <!-- I -->
+      <path class="lp" d="M405.62,33.91v91.24c0,7.73,2.32,9.28,12.37,9.28v.77h-37.11v-.77c10.05,0,12.37-1.55,12.37-9.28V33.91c0-7.73-2.32-9.28-12.37-9.28v-.77h37.11v.77c-10.05,0-12.37,1.55-12.37,9.28Z"/>
+      <!-- N -->
+      <path class="lp" d="M529.68,23.86v.77c-10.05,0-12.37,1.55-12.37,9.28v101.29h-.77l-81.96-104.64v94.59c0,7.73,2.32,9.28,12.37,9.28v.77h-25.51v-.77c10.05,0,12.37-1.55,12.37-9.28V33.13c0-6.96-2.32-8.5-12.37-8.5v-.77h21.65l73.45,94.15V33.91c0-7.73-2.32-9.28-12.37-9.28v-.77h25.51Z"/>
+      <!-- G -->
+      <path class="lp" d="M641.5,91.9v.77c-10.05,0-12.37,1.55-12.37,9.28v23.2c-4-3.11-8.95.09-12.37,3.13c-6.38,5.59-14.81,9.24-25.51,9.24-32.03,0-57.99-25.96-57.99-57.99s25.96-57.99,57.99-57.99c18.65,0,28.68,13.54,32.15,19.2,1.44,2.13,2.64,3.09,2.64-5.28h.77v24.74h-.77c0-10-1.65-16.8-6.12-22.95-6.93-9.02-16.96-14.94-28.67-14.94-25.2,0-44.94,26.29-44.94,57.22s19.75,57.22,44.94,57.22c9.56,0,18.38-3.04,25.51-9.57v-25.23c0-7.73-2.32-9.28-12.37-9.28v-.77h37.11Z"/>
+      <!-- S -->
+      <path class="lp" d="M223.44,243.91c-.72,21.42-21.04,31.46-40.37,31.46-13.23,0-23.73-5.61-29.36-13.94v.02c-1.91-2.87-3.73-6.18-3.73,3.87h-.77v-24.74h.77c0,9.98,1.84,17.16,6.28,22.83,6.47,7.68,16.96,11.19,26.88,11.19,16.96,0,27.92-11.23,27.92-27.83,0-33.13-57.47-27.68-58.76-60.31-.66-16.76,14.69-27.06,32.48-27.06,10.34,0,18.16,4.81,23.03,12.27,1.47,2.25,3.26,4.57,3.26-4.53h.77v24.74h-.77c0-9.33-1.85-17.78-6.23-22.77-4.86-5.53-11.94-8.93-19.28-8.93-15.46,0-23.82,10.74-23.2,22.42,1.49,27.88,62.4,21.74,61.08,61.33Z"/>
+      <!-- OO -->
+      <path class="lp" d="M415.32,217.37c0,32.03-25.96,57.99-57.99,57.99-12.54,0-24.15-3.98-33.63-10.75-9.49,6.76-21.09,10.75-33.63,10.75-32.03,0-57.99-25.96-57.99-57.99s25.96-57.99,57.99-57.99c12.54,0,24.15,3.98,33.63,10.75,9.49-6.76,21.1-10.75,33.63-10.75,32.03,0,57.99,25.96,57.99,57.99ZM319.09,260.96c-12.1-10.63-19.74-26.21-19.74-43.58s7.64-32.96,19.74-43.58c-7.76-8.46-17.85-13.63-29.02-13.63-25.19,0-44.84,26.29-44.84,57.22s19.65,57.21,44.84,57.21c11.18,0,21.26-5.17,29.02-13.63ZM334.91,217.37c0-16.9-5.87-32.42-15.3-43.01-11.95,10.49-19.49,25.87-19.49,43.01s7.54,32.53,19.49,43.01c9.43-10.6,15.3-26.11,15.3-43.01ZM402.18,217.37c0-31.6-20.1-57.22-44.84-57.22-12.28,0-23.65,3.87-32.97,10.45,14.37,10.55,23.69,27.57,23.69,46.76s-9.33,36.21-23.69,46.76c9.32,6.58,20.69,10.45,32.97,10.45,24.74,0,44.84-25.62,44.84-57.21Z"/>
+      <!-- N2 -->
+      <path class="lp" d="M527.69,161.7v.77c-10.05,0-12.37,1.55-12.37,9.28v101.29h-.77l-81.96-104.64v94.59c0,7.73,2.32,9.28,12.37,9.28v.77h-25.51v-.77c10.05,0,12.37-1.55,12.37-9.28v-92.01c0-6.96-2.32-8.5-12.37-8.5v-.77h21.65l73.45,94.15v-84.1c0-7.73-2.32-9.28-12.37-9.28v-.77h25.51Z"/>
+    </svg>
+
+  </div>
+</section>
+
+<script>
+const comp     = document.getElementById('comp');
+const wash     = document.getElementById('wash');
+const lettersSvg = document.getElementById('lettersSvg');
+
+// ── SIZE SVG to fit viewport ──
+function sizeComposition() {
+  const W = window.innerWidth;
+  const H = window.innerHeight;
+  const padding = 80;
+  // viewBox is 675.9 x 316.94
+  const aspect = 675.9 / 316.94;
+  let w = W - padding*2;
+  let h = w / aspect;
+  if(h > H - padding*2) {
+    h = H - padding*2;
+    w = h * aspect;
+  }
+  lettersSvg.style.width  = w + 'px';
+  lettersSvg.style.height = h + 'px';
+}
+sizeComposition();
+window.addEventListener('resize', sizeComposition);
+
+// ── HOVER INTERACTION ──
+let isHovered = false;
+let mouseX = 0, mouseY = 0;
+let targetTiltX = 0, targetTiltY = 0;
+let currentTiltX = 0, currentTiltY = 0;
+
+comp.addEventListener('mouseenter', () => {
+  isHovered = true;
+  comp.classList.add('hovered');
+  wash.style.background = 'radial-gradient(ellipse at center, rgba(212,131,42,0.18) 0%, transparent 65%)';
+  // init extended line dash offsets
+  document.querySelectorAll('.cl-ext').forEach(l => {
+    const len = getLineLength(l);
+    l.setAttribute('stroke-dasharray', len);
+    l.setAttribute('stroke-dashoffset', len);
+    // trigger reveal after class applied
+    setTimeout(() => l.setAttribute('stroke-dashoffset', '0'), 10);
+  });
+});
+
+comp.addEventListener('mouseleave', () => {
+  isHovered = false;
+  comp.classList.remove('hovered');
+  wash.style.background = 'radial-gradient(ellipse at center, rgba(212,131,42,0.0) 0%, transparent 65%)';
+  targetTiltX = 0; targetTiltY = 0;
+});
+
+comp.addEventListener('mousemove', e => {
+  const rect = comp.getBoundingClientRect();
+  const cx = rect.left + rect.width/2;
+  const cy = rect.top  + rect.height/2;
+  targetTiltY =  ((e.clientX - cx) / (rect.width/2))  * 6;
+  targetTiltX = -((e.clientY - cy) / (rect.height/2)) * 3;
+});
+
+function getLineLength(el) {
+  if(el.tagName === 'line') {
+    const dx = el.x2.baseVal.value - el.x1.baseVal.value;
+    const dy = el.y2.baseVal.value - el.y1.baseVal.value;
+    return Math.sqrt(dx*dx + dy*dy);
+  }
+  return 100;
+}
+
+// Set initial dash state for extended lines
+document.querySelectorAll('.cl-ext').forEach(l => {
+  const len = getLineLength(l) || 100;
+  l.setAttribute('stroke-dasharray', len);
+  l.setAttribute('stroke-dashoffset', len);
+});
+
+// ── ANIMATE — smooth tilt only on hover ──
+function animate() {
+  requestAnimationFrame(animate);
+  currentTiltX += (targetTiltX - currentTiltX) * 0.08;
+  currentTiltY += (targetTiltY - currentTiltY) * 0.08;
+  if(isHovered) {
+    comp.style.transform = `perspective(800px) rotateX(${currentTiltX}deg) rotateY(${currentTiltY}deg)`;
+  } else {
+    comp.style.transform = `perspective(800px) rotateX(${currentTiltX}deg) rotateY(${currentTiltY}deg)`;
+  }
+}
+animate();
+</script>
+</body>
+</html>
