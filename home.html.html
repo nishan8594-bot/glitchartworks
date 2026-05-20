@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glitch Artworks — Nishan</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#080706;--bone:#f0ebe0;--muted:#7a7268;--gold:#c9962a;}
+html,body{width:100%;min-height:100vh;background:var(--bg);color:var(--bone);font-family:"Syne",sans-serif;overflow-x:hidden;}
+
+body::after{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:50;opacity:0.35;}
+
+.orb{position:fixed;border-radius:50%;filter:blur(130px);opacity:0.06;pointer-events:none;z-index:0;}
+.orb1{width:700px;height:700px;background:#c9962a;top:-250px;left:-250px;}
+.orb2{width:600px;height:600px;background:#1d6a5b;bottom:-200px;right:-200px;}
+.orb3{width:350px;height:350px;background:#b84a2e;top:30%;left:38%;transform:translate(-50%,-50%);transition:background 0.8s ease;}
+
+.scene{position:relative;width:100%;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;z-index:1;margin-top:-40px;}
+.wash{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;pointer-events:none;z-index:1;}
+.scanline{position:absolute;top:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(240,235,224,0.03),transparent);animation:scan 20s linear infinite;z-index:40;pointer-events:none;}
+@keyframes scan{0%{top:-2px}100%{top:100vh}}
+
+/* dot + line overlay */
+.dot-svg{position:absolute;inset:0;width:100%;height:100%;z-index:20;overflow:visible;pointer-events:none;}
+
+/* construction lines overlay — sits on top of logo, same size */
+.lines-svg{position:absolute;z-index:16;transform:translate(-50%,-50%);pointer-events:none;overflow:visible;}
+
+/* logo stack */
+.logo-wrap{position:absolute;z-index:15;transform:translate(-50%,-50%);pointer-events:none;}
+
+/* base logo PNG */
+.logo-img{width:100%;height:100%;object-fit:contain;display:block;}
+
+/* GLITCH — proper channel split on the full logo */
+.glitch-r,.glitch-b{
+  position:absolute;inset:0;
+  background-image:url('https://static.wixstatic.com/media/e7708a_57dd422cdfcb401bb0ed5d29d1588b89~mv2.png/v1/fill/w_851,h_605,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/latest%20logo.png');
+  background-size:contain;background-repeat:no-repeat;background-position:center;
+  opacity:0;mix-blend-mode:screen;
+}
+.glitch-r{filter:hue-rotate(340deg) saturate(8) brightness(2.5) contrast(2);animation:gR 6s infinite;}
+.glitch-b{filter:hue-rotate(160deg) saturate(8) brightness(2.2) contrast(2);animation:gB 6s infinite;}
+
+/* fast sharp glitch — no lag */
+@keyframes gR{
+  0%,82%,100%{opacity:0;transform:translate(0)}
+  83%{opacity:0.9;transform:translate(-6px,0)}
+  84%{opacity:0;transform:translate(0)}
+  85%{opacity:0.7;transform:translate(-4px,1px)}
+  86%{opacity:0;transform:translate(0)}
+  88%{opacity:0.5;transform:translate(-3px,0)}
+  89%{opacity:0;transform:translate(0)}
+}
+@keyframes gB{
+  0%,82%,100%{opacity:0;transform:translate(0)}
+  83%{opacity:0.8;transform:translate(6px,0)}
+  84%{opacity:0;transform:translate(0)}
+  85%{opacity:0.6;transform:translate(4px,-1px)}
+  86%{opacity:0;transform:translate(0)}
+  88%{opacity:0.4;transform:translate(3px,0)}
+  89%{opacity:0;transform:translate(0)}
+}
+
+/* about — right of logo */
+.about-elem{
+  position:absolute;z-index:25;pointer-events:auto;white-space:nowrap;text-align:left;
+}
+.about-line{
+  font-family:"Cormorant Garamond",serif;font-style:italic;
+  font-size:15px;font-weight:300;letter-spacing:0.05em;
+  color:rgba(240,235,224,0.75);display:block;transition:color 0.4s;
+}
+.about-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:9px;letter-spacing:0.28em;text-transform:uppercase;
+  color:rgba(240,235,224,0.28);text-decoration:none;
+  margin-top:6px;transition:color 0.3s;
+}
+.about-link::after{content:"↗";}
+.about-elem:hover .about-line,.about-elem:hover .about-link{color:var(--gold);}
+.about-elem.active .about-line{color:var(--zone-col);opacity:0.6;}
+
+/* contact — bottom centre, in viewport */
+.contact-cta{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px;}
+.contact-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(240,235,224,0.7);transition:color 0.4s;}
+.contact-row{display:flex;align-items:center;gap:16px;}
+.contact-email{font-size:11px;letter-spacing:0.1em;color:rgba(240,235,224,0.6);text-decoration:none;border-bottom:0.5px solid rgba(240,235,224,0.2);padding-bottom:2px;transition:color 0.3s,border-color 0.3s;}
+.contact-email:hover{color:var(--gold);border-color:var(--gold);}
+.contact-sep{color:rgba(240,235,224,0.15);}
+.contact-page{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(240,235,224,0.5);text-decoration:none;transition:color 0.3s;}
+.contact-page:hover{color:var(--gold);}
+.contact-cta.active .contact-label{color:var(--zone-col);opacity:0.45;}
+
+/* scroll */
+.scroll-ind{position:absolute;right:28px;bottom:28px;z-index:25;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:7px;}
+.scroll-ind span{font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(52,200,100,0.45);writing-mode:vertical-rl;}
+.scroll-line{width:0.5px;height:28px;background:linear-gradient(to bottom,rgba(52,200,100,0.5),rgba(52,200,100,0.05));animation:scrollP 2s ease-in-out infinite;}
+@keyframes scrollP{0%,100%{opacity:0.3}50%{opacity:0.9}}
+
+/* hint */
+.hint{position:absolute;bottom:60px;left:50%;transform:translateX(-50%);z-index:20;pointer-events:none;transition:opacity 0.4s;}
+.hint-inner{font-size:9px;letter-spacing:0.35em;text-transform:uppercase;color:rgba(240,235,224,0.08);animation:breathe 3s ease-in-out infinite;}
+@keyframes breathe{0%,100%{opacity:0.08}50%{opacity:0.22}}
+
+/* glass card */
+.glass-card{position:fixed;z-index:30;padding:16px 22px;border-radius:8px;border:1px solid rgba(240,235,224,0.08);background:rgba(8,7,6,0.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);pointer-events:none;opacity:0;transform:scale(0.92) translateY(4px);transition:opacity 0.25s cubic-bezier(0.23,1,0.32,1),transform 0.25s cubic-bezier(0.23,1,0.32,1);min-width:160px;box-shadow:0 20px 60px rgba(0,0,0,0.6);overflow:hidden;}
+.glass-card.visible{opacity:1;transform:scale(1) translateY(0);}
+.glass-card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(240,235,224,0.12),transparent);}
+.glass-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:1.5px;}
+.gc-num{font-size:9px;letter-spacing:0.28em;color:rgba(240,235,224,0.2);margin-bottom:8px;}
+.gc-name{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:300;color:var(--bone);line-height:1;margin-bottom:6px;}
+.gc-desc{font-size:10px;letter-spacing:0.07em;color:rgba(240,235,224,0.35);line-height:1.8;}
+.gc-arrow{display:block;margin-top:10px;font-size:11px;color:rgba(240,235,224,0.25);}
+
+/* dot pulse — glow filter based, no movement */
+@keyframes glowPulse{
+  0%,100%{opacity:0.06;filter:blur(8px);}
+  50%{opacity:0.35;filter:blur(14px);}
+}
+@keyframes dotBreath{
+  0%,100%{opacity:0.45;filter:drop-shadow(0 0 2px currentColor);}
+  50%{opacity:0.95;filter:drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor);}
+}
+
+/* construction lines alive — gentle wave */
+@keyframes lineAlive{0%,100%{opacity:0.07}50%{opacity:0.14}}
+
+/* below fold */
+.below{position:relative;z-index:1;border-top:0.5px solid rgba(240,235,224,0.05);display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;}
+.bc{padding:40px 32px;border-right:0.5px solid rgba(240,235,224,0.04);transition:background 0.4s;position:relative;overflow:hidden;}
+.bc:last-child{border-right:none;}
+.bc:hover{background:rgba(240,235,224,0.012);}
+.bc::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(240,235,224,0.015),transparent);transition:left 0.7s;}
+.bc:hover::before{left:100%;}
+.bc-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+.bc-head{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:22px;font-weight:300;color:var(--bone);line-height:1.4;margin-bottom:10px;}
+.bc-body{font-size:11px;line-height:1.9;color:var(--muted);}
+.bc-featured{padding:0;cursor:pointer;}
+.bc-featured:hover{background:transparent;}
+.bc-featured::before{display:none;}
+.feat-img{width:100%;aspect-ratio:4/3;background:rgba(240,235,224,0.03);border-bottom:0.5px solid rgba(240,235,224,0.05);overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.feat-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:rgba(240,235,224,0.1);}
+.feat-placeholder span{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;}
+.feat-body{padding:24px 28px 30px;}
+.feat-label{font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.feat-title{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:300;color:var(--bone);line-height:1.2;margin-bottom:8px;}
+.feat-meta{font-size:11px;letter-spacing:0.08em;color:rgba(240,235,224,0.28);line-height:1.9;margin-bottom:14px;}
+.feat-link{display:inline-flex;align-items:center;gap:7px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(240,235,224,0.4);text-decoration:none;border-bottom:0.5px solid rgba(240,235,224,0.12);padding-bottom:3px;transition:color 0.2s,border-color 0.2s;}
+.feat-link:hover{color:var(--bone);border-color:rgba(240,235,224,0.4);}
+footer{position:relative;z-index:1;padding:18px 40px;border-top:0.5px solid rgba(240,235,224,0.04);display:flex;justify-content:space-between;align-items:center;}
+.foot-l{font-size:10px;letter-spacing:0.22em;color:rgba(240,235,224,0.12);}
+.foot-r{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:13px;color:rgba(240,235,224,0.1);}
+
+::-webkit-scrollbar{width:0;height:0;background:transparent;}
+/* ── LIGHTNING PROTECTION ── */
+#lightning{position:fixed;inset:0;z-index:99999;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;}
+#lightning.strike{animation:strikeSeq 1.3s forwards;}
+@keyframes strikeSeq{
+  0%{opacity:0;background:transparent;}
+  6%{opacity:1;background:rgba(255,20,20,0.12);}
+  12%{opacity:0;background:transparent;}
+  18%{opacity:1;background:rgba(255,20,20,0.22);}
+  24%{opacity:0;background:transparent;}
+  30%{opacity:1;background:rgba(255,30,30,0.35);}
+  42%{opacity:0;background:transparent;}
+  100%{opacity:0;}
+}
+#lightning svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;filter:drop-shadow(0 0 24px #ff2200) drop-shadow(0 0 60px #ff4400);}
+#lightning.strike svg{animation:boltFlash 1.3s forwards;}
+@keyframes boltFlash{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(0.7);}
+  8%{opacity:1;transform:translate(-50%,-50%) scale(1.05);}
+  16%{opacity:0;}
+  22%{opacity:0.95;transform:translate(-50%,-50%) scale(1);}
+  32%{opacity:0;}
+  40%{opacity:1;transform:translate(-50%,-50%) scale(1.02);}
+  58%{opacity:0;transform:translate(-50%,-50%) scale(1);}
+  100%{opacity:0;}
+}
+#lightning-msg{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);font-family:"Syne",sans-serif;font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:#ff4422;opacity:0;text-shadow:0 0 14px rgba(255,60,20,0.9);white-space:nowrap;}
+#lightning.strike #lightning-msg{animation:msgFlash 1.3s forwards;}
+@keyframes msgFlash{0%{opacity:0;}42%{opacity:0;}52%{opacity:1;}88%{opacity:1;}100%{opacity:0;}}</style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3" id="orb3"></div>
+
+<section class="scene" id="scene">
+  <div class="scanline"></div>
+  <div class="wash" id="wash"></div>
+  <svg class="dot-svg" id="dotSvg"></svg>
+
+  <!-- LOGO STACK -->
+  <div class="logo-wrap" id="logoWrap">
+    <!-- PNG preserves exact Nomark letterforms -->
+    <img class="logo-img"
+      src="https://static.wixstatic.com/media/e7708a_57dd422cdfcb401bb0ed5d29d1588b89~mv2.png/v1/fill/w_851,h_605,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/latest%20logo.png"
+      alt="Glitch Artworks"/>
+    <!-- glitch channel splits -->
+    <div class="glitch-r"></div>
+    <div class="glitch-b"></div>
+  </div>
+
+  <!-- CONSTRUCTION LINES SVG — same size as logo, perfectly aligned -->
+  <svg class="lines-svg" id="linesSvg"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 765.89 730.83">
+  <g>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="50.73" y1="241.96" x2="50.73" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="166.2" y1="241.96" x2="166.2" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="183.31" y1="241.96" x2="183.31" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="213.45" y1="241.96" x2="213.45" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="230.56" y1="241.96" x2="230.56" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="297.94" y1="241.96" x2="297.94" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="425.43" y1="241.96" x2="425.43" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="442.54" y1="241.96" x2="442.54" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="493.87" y1="241.96" x2="493.87" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="567.92" y1="241.96" x2="567.92" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="585.03" y1="241.96" x2="585.03" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="620.32" y1="241.96" x2="620.32" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="659.89" y1="241.96" x2="659.89" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="677" y1="241.96" x2="677" y2="488.88"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="374.1" y1="241.96" x2="374.1" y2="336.76"/>
+  </g>
+<g>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1=".03" y1="440.06" x2="765.89" y2="440.06"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" y1="283.84" x2="765.86" y2="283.84"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" y1="303.15" x2="765.86" y2="303.15"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" y1="336.76" x2="765.86" y2="336.76"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="60.58" y1="381.57" x2="200.42" y2="381.57"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="505.13" y1="321.25" x2="619.26" y2="321.25"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" x1="508.07" y1="407.12" x2="615.05" y2="407.12"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" y1="444.22" x2="765.86" y2="444.22"/>
+    <line fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" y1="287.91" x2="765.86" y2="287.91"/>
+  </g>
+<circle fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" cx="130.93" cy="364.03" r="80.21"/>
+<circle fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" cx="571.12" cy="364.03" r="80.21"/>
+<circle fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.3" stroke-miterlimit="10" cx="350.96" cy="368.32" r="300.26"/>
+</svg>
+
+  <!-- ABOUT — right of logo, on bottom construction line -->
+  <div class="about-elem" id="aboutElem">
+    <span class="about-line">Architect by training. Artist and designer by nature.</span>
+    <a class="about-link" href="https://www.glitchartworks.com/about" target="_blank">About Glitch</a>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-cta" id="contactCta">
+    <span class="contact-label">Let's make something real</span>
+    <div class="contact-row">
+      <a class="contact-email" href="mailto:nishan.glitch@gmail.com">nishan.glitch@gmail.com</a>
+      <span class="contact-sep">·</span>
+      <a class="contact-page" href="https://www.glitchartworks.com/contact-8" target="_blank">Contact ↗</a>
+    </div>
+  </div>
+
+  <div class="scroll-ind"><span>Scroll</span><div class="scroll-line"></div></div>
+
+  <div class="glass-card" id="glassCard">
+    <div class="gc-num" id="gcNum"></div>
+    <div class="gc-name" id="gcName"></div>
+    <div class="gc-desc" id="gcDesc"></div>
+    <span class="gc-arrow">→</span>
+  </div>
+
+  <div class="hint" id="hint"><div class="hint-inner">Explore the grid</div></div>
+</section>
+
+<div class="below">
+  <div class="bc bc-featured" onclick="window.open('https://www.glitchartworks.com/art','_blank')">
+    <div class="feat-img"><div class="feat-placeholder"><span>Mural photo coming soon</span></div></div>
+    <div class="feat-body">
+      <div class="feat-label">Featured Work</div>
+      <div class="feat-title">Star Avenue<br>Lifestyle Mall</div>
+      <div class="feat-meta">Large-scale mural · Shah Alam, KL<br>33 sqm · Acrylic · 2025</div>
+      <a class="feat-link" href="https://www.glitchartworks.com/art" target="_blank">View project →</a>
+    </div>
+  </div>
+  <div class="bc">
+    <div class="bc-label">Currently</div>
+    <div class="bc-head">Building the door before walking through it.</div>
+    <div class="bc-body">Pre-launch. This site is the last thing before the hard launch.</div>
+  </div>
+  <div class="bc">
+    <div class="bc-label">Building toward</div>
+    <div class="bc-head">A world that takes art and design seriously.</div>
+    <div class="bc-body">Not as decoration. Not as background noise. As something that shapes how we experience being alive.</div>
+  </div>
+  <div class="bc">
+    <div class="bc-label">Approach</div>
+    <div class="bc-head">Art explores.<br>Design solves.</div>
+    <div class="bc-body">I work closely with clients — as a bridge between their vision and the visual world their audience connects to.</div>
+  </div>
+</div>
+
+<footer>
+  <span class="foot-l">© 2025 Glitch Artworks — Nishan</span>
+  <span class="foot-r">Penang · Kuala Lumpur</span>
+</footer>
+
+<script>
+// SVG coordinate system — viewBox 765.89 x 730.83
+// Logo PNG aspect: 851x605 → mapped to SVG space
+const SVG_W = 765.89, SVG_H = 730.83;
+
+// Construction lines from SVG — extended further outward to spread beyond logo
+// Each line is extended ~30% beyond its original endpoints
+const SPREAD = 120; // px in SVG space to extend lines outward
+
+const constructionLines = [
+  // verticals — extended top and bottom
+  {x1:50.73,  y1:241.96-SPREAD, x2:50.73,  y2:488.88+SPREAD},
+  {x1:166.2,  y1:241.96-SPREAD, x2:166.2,  y2:488.88+SPREAD},
+  {x1:183.31, y1:241.96-SPREAD, x2:183.31, y2:488.88+SPREAD},
+  {x1:213.45, y1:241.96-SPREAD, x2:213.45, y2:488.88+SPREAD},
+  {x1:230.56, y1:241.96-SPREAD, x2:230.56, y2:488.88+SPREAD},
+  {x1:297.94, y1:241.96-SPREAD, x2:297.94, y2:488.88+SPREAD},
+  {x1:374.1,  y1:241.96-SPREAD, x2:374.1,  y2:336.76+40},
+  {x1:425.43, y1:241.96-SPREAD, x2:425.43, y2:488.88+SPREAD},
+  {x1:442.54, y1:241.96-SPREAD, x2:442.54, y2:488.88+SPREAD},
+  {x1:493.87, y1:241.96-SPREAD, x2:493.87, y2:488.88+SPREAD},
+  {x1:567.92, y1:241.96-SPREAD, x2:567.92, y2:488.88+SPREAD},
+  {x1:585.03, y1:241.96-SPREAD, x2:585.03, y2:488.88+SPREAD},
+  {x1:620.32, y1:241.96-SPREAD, x2:620.32, y2:488.88+SPREAD},
+  {x1:659.89, y1:241.96-SPREAD, x2:659.89, y2:488.88+SPREAD},
+  {x1:677,    y1:241.96-SPREAD, x2:677,    y2:488.88+SPREAD},
+  // horizontals — extended left and right
+  {x1:-SPREAD,       y1:440.06, x2:765.89+SPREAD, y2:440.06},
+  {x1:-SPREAD,       y1:283.84, x2:765.89+SPREAD, y2:283.84},
+  {x1:-SPREAD,       y1:303.15, x2:765.89+SPREAD, y2:303.15},
+  {x1:-SPREAD,       y1:336.76, x2:765.89+SPREAD, y2:336.76},
+  {x1:-SPREAD,       y1:444.22, x2:765.89+SPREAD, y2:444.22},
+  {x1:-SPREAD,       y1:287.91, x2:765.89+SPREAD, y2:287.91},
+  {x1:60.58-40,      y1:381.57, x2:200.42+40,     y2:381.57},
+  {x1:505.13-40,     y1:321.25, x2:619.26+40,     y2:321.25},
+  {x1:508.07-40,     y1:407.12, x2:615.05+40,     y2:407.12},
+  // circles
+  {type:'circle', cx:130.93, cy:364.03, r:80.21},
+  {type:'circle', cx:571.12, cy:364.03, r:80.21},
+  {type:'circle', cx:350.96, cy:368.32, r:300.26},
+];
+
+// Zones — dots placed on EXACT SVG construction line endpoints
+// SVG viewBox: 0 0 765.89 730.83
+// Vertical lines span y=241.96 to y=488.88
+// Horizontal lines span x=0 to x=765.89
+// DOT_DIST: how far beyond the logo edge each dot sits (in SVG units)
+const DOT_DIST = 90;
+
+const zones = [
+  // Branding — vertical x=50.73, exits TOP at y=241.96
+  {id:"branding", num:"01", name:"Branding",    desc:"Identity & visual systems\nLogos · Strategy · Print",
+   color:"#4a7fc1",
+   dotSvg:{x:50.73,  y:241.96-DOT_DIST},
+   lineEnd:{x:50.73, y:241.96},
+   url:"/branding"},
+
+  // Art — vertical x=677, exits TOP at y=241.96
+  {id:"art",      num:"02", name:"Art",          desc:"Physical & hand-made\nMurals · Illustration · Canvas",
+   color:"#c13a3a",
+   dotSvg:{x:677,    y:241.96-DOT_DIST},
+   lineEnd:{x:677,   y:241.96},
+   url:"/art"},
+
+  // Architecture — horizontal y=336.76, exits LEFT at x=0
+  {id:"arch",     num:"03", name:"Architecture", desc:"Space as language\nSpatial design · Renders",
+   color:"#d4832a",
+   dotSvg:{x:-DOT_DIST, y:336.76},
+   lineEnd:{x:0,         y:336.76},
+   url:"/architecture"},
+
+  // Digital Art — horizontal y=440.06, exits RIGHT at x=765.89
+  {id:"digital",  num:"04", name:"Digital Art",  desc:"Screen-born imagery\nMotion · Graphic design",
+   color:"#3aad6e",
+   dotSvg:{x:765.89+DOT_DIST, y:440.06},
+   lineEnd:{x:765.89,          y:440.06},
+   url:"/digital-art"},
+
+  // UI/UX — vertical x=166.2, exits BOTTOM at y=488.88
+  {id:"uiux",     num:"05", name:"UI / UX",      desc:"Interfaces & experiences\nWeb · App · Interaction",
+   color:"#c9962a",
+   dotSvg:{x:166.2,  y:488.88+DOT_DIST},
+   lineEnd:{x:166.2, y:488.88},
+   url:"/uiux"},
+
+  // 3D — vertical x=585.03, exits BOTTOM at y=488.88
+  {id:"3d",       num:"06", name:"3D",           desc:"Form, depth & dimension\nModelling · Environments",
+   color:"#7c5cbf",
+   dotSvg:{x:585.03,  y:488.88+DOT_DIST},
+   lineEnd:{x:585.03, y:488.88},
+   url:"/3d"},
+];
+
+const scene     = document.getElementById("scene");
+const dotSvg    = document.getElementById("dotSvg");
+const linesSvg  = document.getElementById("linesSvg");
+const logoWrap  = document.getElementById("logoWrap");
+const wash      = document.getElementById("wash");
+const hint      = document.getElementById("hint");
+const orb3      = document.getElementById("orb3");
+const aboutElem = document.getElementById("aboutElem");
+const contactCta= document.getElementById("contactCta");
+const glassCard = document.getElementById("glassCard");
+const gcNum     = document.getElementById("gcNum");
+const gcName    = document.getElementById("gcName");
+const gcDesc    = document.getElementById("gcDesc");
+
+let scaleX, scaleY, logoLeft, logoTop, LOGO_W, LOGO_H;
+let els = {};
+let cardStyleTag = null;
+
+function s2p(svgX, svgY){
+  return {x: logoLeft + svgX * scaleX, y: logoTop + svgY * scaleY};
+}
+
+function setup(){
+  const W = scene.clientWidth, H = scene.clientHeight;
+  const CX = W/2, CY = H/2;
+
+  // Logo sized to 60vw, SVG aspect ratio
+  LOGO_W = Math.min(W * 0.60, 720);
+  LOGO_H = LOGO_W * (730.83 / 765.89); // exact SVG aspect for line alignment
+
+  logoWrap.style.width  = LOGO_W + "px";
+  logoWrap.style.height = LOGO_H + "px";
+  logoWrap.style.left   = CX + "px";
+  logoWrap.style.top    = CY + "px";
+
+  // lines SVG same size as logo, same position
+  linesSvg.style.width  = LOGO_W + "px";
+  linesSvg.style.height = LOGO_H + "px";
+  linesSvg.style.left   = CX + "px";
+  linesSvg.style.top    = CY + "px";
+
+  scaleX   = LOGO_W / SVG_W;
+  scaleY   = LOGO_H / SVG_H;
+  logoLeft = CX - LOGO_W / 2;
+  logoTop  = CY - LOGO_H / 2;
+
+  buildLines();
+  buildDots();
+
+  // About — right of logo, on y=444.22 (the line just below the letterforms)
+  // x=440 puts it in the right half, clear of the lightning bolt
+  const aPos = s2p(440, 444.22);
+  aboutElem.style.left = aPos.x + "px";
+  aboutElem.style.top  = (aPos.y + 6) + "px";
+}
+
+function buildLines(){
+  linesSvg.innerHTML = "";
+  constructionLines.forEach((l, i) => {
+    if(l.type === "circle"){
+      const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
+      c.setAttribute("cx", l.cx); c.setAttribute("cy", l.cy); c.setAttribute("r", l.r);
+      c.setAttribute("stroke","rgba(255,255,255,0.1)"); c.setAttribute("stroke-width","0.3");
+      c.setAttribute("fill","none");
+      // alive animation — staggered slightly
+      c.style.animation = `lineAlive ${3 + (i%4)*0.5}s ease-in-out ${(i%6)*0.3}s infinite`;
+      linesSvg.appendChild(c);
+    } else {
+      const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute("x1", l.x1); line.setAttribute("y1", l.y1);
+      line.setAttribute("x2", l.x2); line.setAttribute("y2", l.y2);
+      line.setAttribute("stroke","rgba(255,255,255,0.09)");
+      line.setAttribute("stroke-width","0.3");
+      line.style.animation = `lineAlive ${2.5 + (i%5)*0.4}s ease-in-out ${(i%8)*0.2}s infinite`;
+      linesSvg.appendChild(line);
+    }
+  });
+}
+
+function buildDots(){
+  dotSvg.innerHTML = "";
+  els = {};
+
+  zones.forEach((z, i) => {
+    const dot  = s2p(z.dotSvg.x,  z.dotSvg.y);
+    const lEnd = s2p(z.lineEnd.x, z.lineEnd.y);
+    const lineLen = Math.hypot(dot.x - lEnd.x, dot.y - lEnd.y);
+
+    // faint base
+    const base = document.createElementNS("http://www.w3.org/2000/svg","line");
+    base.setAttribute("x1", lEnd.x); base.setAttribute("y1", lEnd.y);
+    base.setAttribute("x2", dot.x);  base.setAttribute("y2", dot.y);
+    base.setAttribute("stroke","rgba(240,235,224,0.055)");
+    base.setAttribute("stroke-width","0.5");
+    dotSvg.appendChild(base);
+
+    // reveal line
+    const rev = document.createElementNS("http://www.w3.org/2000/svg","line");
+    rev.setAttribute("x1", lEnd.x); rev.setAttribute("y1", lEnd.y);
+    rev.setAttribute("x2", dot.x);  rev.setAttribute("y2", dot.y);
+    rev.setAttribute("stroke", z.color);
+    rev.setAttribute("stroke-width","1");
+    rev.setAttribute("stroke-dasharray", lineLen);
+    rev.setAttribute("stroke-dashoffset", lineLen);
+    rev.style.transition = "stroke-dashoffset 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.3s";
+    rev.style.opacity = "0";
+    dotSvg.appendChild(rev);
+
+    // glow halo — fast pulse, no stagger delay
+    const halo = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    halo.setAttribute("cx", dot.x); halo.setAttribute("cy", dot.y); halo.setAttribute("r","12");
+    halo.setAttribute("fill", z.color);
+    halo.style.animation = "glowPulse 1.8s ease-in-out infinite";
+    halo.setAttribute("filter",`blur(8px)`);
+    dotSvg.appendChild(halo);
+
+    // inner dot — fast breath
+    const innerDot = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    innerDot.setAttribute("cx", dot.x); innerDot.setAttribute("cy", dot.y); innerDot.setAttribute("r","3.5");
+    innerDot.setAttribute("fill", z.color);
+    innerDot.style.animation = "dotBreath 1.8s ease-in-out infinite";
+    innerDot.style.filter = `drop-shadow(0 0 4px ${z.color}) drop-shadow(0 0 8px ${z.color})`;
+    innerDot.style.cursor = "pointer";
+    dotSvg.appendChild(innerDot);
+
+    // crosshair
+    const ch = 5;
+    [[dot.x-ch,dot.y,dot.x+ch,dot.y],[dot.x,dot.y-ch,dot.x,dot.y+ch]].forEach(([x1,y1,x2,y2])=>{
+      const l = document.createElementNS("http://www.w3.org/2000/svg","line");
+      l.setAttribute("x1",x1);l.setAttribute("y1",y1);l.setAttribute("x2",x2);l.setAttribute("y2",y2);
+      l.setAttribute("stroke",z.color);l.setAttribute("stroke-width","0.5");l.setAttribute("opacity","0.25");
+      dotSvg.appendChild(l);
+    });
+
+    // hit area
+    const hit = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    hit.setAttribute("cx", dot.x); hit.setAttribute("cy", dot.y); hit.setAttribute("r","160");
+    hit.setAttribute("fill","transparent"); hit.style.cursor="pointer"; hit.style.pointerEvents="all";
+    dotSvg.appendChild(hit);
+
+    els[z.id] = {rev, innerDot, halo, hit, dot, lineLen};
+    [innerDot, hit].forEach(el => {
+      el.addEventListener("mouseenter", () => onEnter(z));
+      el.addEventListener("mouseleave", () => onLeave(z));
+      el.addEventListener("click", () => window.open("https://www.glitchartworks.com" + z.url, "_blank"));
+    });
+  });
+}
+
+function onEnter(z){
+  const el = els[z.id];
+  el.rev.style.opacity = "1";
+  el.rev.setAttribute("stroke-width","2");
+  el.rev.style.filter = `drop-shadow(0 0 4px ${z.color}) drop-shadow(0 0 8px ${z.color})`;
+  el.rev.setAttribute("stroke-dashoffset","0");
+  el.halo.setAttribute("r","26");
+  el.halo.style.opacity = "0.75";
+  positionCard(z, el.dot.x, el.dot.y, z.color);
+  wash.style.background=`radial-gradient(ellipse at center,${z.color}1a 0%,transparent 60%)`;
+  wash.style.opacity="1"; orb3.style.background=z.color; hint.style.opacity="0";
+  aboutElem.style.setProperty("--zone-col",z.color); aboutElem.classList.add("active");
+  contactCta.style.setProperty("--zone-col",z.color); contactCta.classList.add("active");
+}
+
+function onLeave(z){
+  const el = els[z.id];
+  el.rev.style.opacity="0";
+  el.rev.setAttribute("stroke-width","1");
+  el.rev.style.filter = ""; el.rev.setAttribute("stroke-dashoffset",el.lineLen);
+  el.halo.setAttribute("r","12");
+  el.halo.style.opacity = "";
+  glassCard.classList.remove("visible");
+  wash.style.opacity="0"; orb3.style.background="#b84a2e"; hint.style.opacity="1";
+  aboutElem.classList.remove("active"); contactCta.classList.remove("active");
+}
+
+function positionCard(z, dotX, dotY, color){
+  gcNum.textContent=z.num; gcName.textContent=z.name;
+  gcDesc.innerHTML=z.desc.replace("\n","<br>");
+  if(!cardStyleTag){cardStyleTag=document.createElement("style");document.head.appendChild(cardStyleTag);}
+  cardStyleTag.textContent=`.glass-card::after{background:linear-gradient(90deg,transparent,${color},transparent);opacity:1;}`;
+  const W=window.innerWidth, H=window.innerHeight, cW=180, cH=130, pad=24;
+  let left=dotX+pad, top=dotY-cH/2;
+  if(left+cW>W-20) left=dotX-cW-pad;
+  if(top<10) top=10; if(top+cH>H-10) top=H-cH-10;
+  glassCard.style.left=left+"px"; glassCard.style.top=top+"px";
+  glassCard.classList.add("visible");
+}
+
+setup();
+window.addEventListener("resize",()=>{setup();glassCard.classList.remove("visible");});
+</script>
+<!-- LIGHTNING STRIKE PROTECTION -->
+<div id="lightning">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 765.89 730.83" style="height:90vh;width:auto;filter:drop-shadow(0 0 30px #ff2200) drop-shadow(0 0 80px #ff4400) drop-shadow(0 0 120px rgba(255,60,0,0.5));">
+    <path d="M339.87,359.6s-3.8,5.58-13.9,14c-.13.11-.57.47-1.26.7-1.25.43-2.94.28-3.88-.61-.99-.94-.93-2.48-.89-3.34.69-13.67,2.22-21.81,2.22-21.81.1-.52.15-.77.18-.95,1.37-7.14,20.58-102.86,69.77-347.37l-.57-.21c-27.53,131.91-55.05,263.82-82.58,395.72.13-.08.27-.15.4-.23,3.39-3.66,5.97-6.7,7.55-8.61,2.35-2.83,8.63-9.64,21.2-23.26.76-.83,2.25-2.4,3.22-2.01,1.47.59.86,5.3.65,6.9-1.22,9.43-42.22,213.27-72.26,362.16.26.05.53.11.79.16,27.53-131.91,55.05-263.82,82.58-395.72-.24-.07-.48-.14-.72-.21-1.92,5.15-5.98,15.11-12.5,24.7Z" fill="#ff3300"/>
+    <path d="M339.87,359.6s-3.8,5.58-13.9,14c-.13.11-.57.47-1.26.7-1.25.43-2.94.28-3.88-.61-.99-.94-.93-2.48-.89-3.34.69-13.67,2.22-21.81,2.22-21.81.1-.52.15-.77.18-.95,1.37-7.14,20.58-102.86,69.77-347.37l-.57-.21c-27.53,131.91-55.05,263.82-82.58,395.72.13-.08.27-.15.4-.23,3.39-3.66,5.97-6.7,7.55-8.61,2.35-2.83,8.63-9.64,21.2-23.26.76-.83,2.25-2.4,3.22-2.01,1.47.59.86,5.3.65,6.9-1.22,9.43-42.22,213.27-72.26,362.16.26.05.53.11.79.16,27.53-131.91,55.05-263.82,82.58-395.72-.24-.07-.48-.14-.72-.21-1.92,5.15-5.98,15.11-12.5,24.7Z" fill="white" opacity="0.4"/>
+  </svg>
+  <div id="lightning-msg">⚡ nice try — this work is protected ⚡</div>
+<script>
+// Image protection — lightning on right-click/drag
+const _lb = document.getElementById("lightning");
+let _lt;
+function _strike(){
+  clearTimeout(_lt);
+  _lb.classList.remove("strike");
+  void _lb.offsetWidth;
+  _lb.classList.add("strike");
+  _lt = setTimeout(()=>_lb.classList.remove("strike"), 1400);
+}
+document.addEventListener("contextmenu",e=>{ if(e.target.tagName==="IMG"){e.preventDefault();_strike();} });
+document.addEventListener("dragstart",e=>{ if(e.target.tagName==="IMG"){e.preventDefault();_strike();} });
+</script>
+</body>
+</html>
