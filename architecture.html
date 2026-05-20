@@ -139,7 +139,34 @@ body::after{content:'';position:fixed;inset:0;z-index:50;pointer-events:none;
 .composition.hovered .glow-line{
   stroke:rgba(212,131,42,0.3);
 }
-</style>
+/* ── LIGHTNING PROTECTION ── */
+#lightning{position:fixed;inset:0;z-index:99999;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;}
+#lightning.strike{animation:strikeSeq 1.3s forwards;}
+@keyframes strikeSeq{
+  0%{opacity:0;background:transparent;}
+  6%{opacity:1;background:rgba(255,20,20,0.12);}
+  12%{opacity:0;background:transparent;}
+  18%{opacity:1;background:rgba(255,20,20,0.22);}
+  24%{opacity:0;background:transparent;}
+  30%{opacity:1;background:rgba(255,30,30,0.35);}
+  42%{opacity:0;background:transparent;}
+  100%{opacity:0;}
+}
+#lightning svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;filter:drop-shadow(0 0 24px #ff2200) drop-shadow(0 0 60px #ff4400);}
+#lightning.strike svg{animation:boltFlash 1.3s forwards;}
+@keyframes boltFlash{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(0.7);}
+  8%{opacity:1;transform:translate(-50%,-50%) scale(1.05);}
+  16%{opacity:0;}
+  22%{opacity:0.95;transform:translate(-50%,-50%) scale(1);}
+  32%{opacity:0;}
+  40%{opacity:1;transform:translate(-50%,-50%) scale(1.02);}
+  58%{opacity:0;transform:translate(-50%,-50%) scale(1);}
+  100%{opacity:0;}
+}
+#lightning-msg{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);font-family:"Syne",sans-serif;font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:#ff4422;opacity:0;text-shadow:0 0 14px rgba(255,60,20,0.9);white-space:nowrap;}
+#lightning.strike #lightning-msg{animation:msgFlash 1.3s forwards;}
+@keyframes msgFlash{0%{opacity:0;}42%{opacity:0;}52%{opacity:1;}88%{opacity:1;}100%{opacity:0;}}</style>
 </head>
 <body>
 
@@ -378,6 +405,27 @@ function animate() {
   }
 }
 animate();
+</script>
+<!-- LIGHTNING STRIKE PROTECTION -->
+<div id="lightning">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 765.89 730.83" style="height:90vh;width:auto;filter:drop-shadow(0 0 30px #ff2200) drop-shadow(0 0 80px #ff4400) drop-shadow(0 0 120px rgba(255,60,0,0.5));">
+    <path d="M339.87,359.6s-3.8,5.58-13.9,14c-.13.11-.57.47-1.26.7-1.25.43-2.94.28-3.88-.61-.99-.94-.93-2.48-.89-3.34.69-13.67,2.22-21.81,2.22-21.81.1-.52.15-.77.18-.95,1.37-7.14,20.58-102.86,69.77-347.37l-.57-.21c-27.53,131.91-55.05,263.82-82.58,395.72.13-.08.27-.15.4-.23,3.39-3.66,5.97-6.7,7.55-8.61,2.35-2.83,8.63-9.64,21.2-23.26.76-.83,2.25-2.4,3.22-2.01,1.47.59.86,5.3.65,6.9-1.22,9.43-42.22,213.27-72.26,362.16.26.05.53.11.79.16,27.53-131.91,55.05-263.82,82.58-395.72-.24-.07-.48-.14-.72-.21-1.92,5.15-5.98,15.11-12.5,24.7Z" fill="#ff3300"/>
+    <path d="M339.87,359.6s-3.8,5.58-13.9,14c-.13.11-.57.47-1.26.7-1.25.43-2.94.28-3.88-.61-.99-.94-.93-2.48-.89-3.34.69-13.67,2.22-21.81,2.22-21.81.1-.52.15-.77.18-.95,1.37-7.14,20.58-102.86,69.77-347.37l-.57-.21c-27.53,131.91-55.05,263.82-82.58,395.72.13-.08.27-.15.4-.23,3.39-3.66,5.97-6.7,7.55-8.61,2.35-2.83,8.63-9.64,21.2-23.26.76-.83,2.25-2.4,3.22-2.01,1.47.59.86,5.3.65,6.9-1.22,9.43-42.22,213.27-72.26,362.16.26.05.53.11.79.16,27.53-131.91,55.05-263.82,82.58-395.72-.24-.07-.48-.14-.72-.21-1.92,5.15-5.98,15.11-12.5,24.7Z" fill="white" opacity="0.4"/>
+  </svg>
+  <div id="lightning-msg">⚡ nice try — this work is protected ⚡</div>
+<script>
+// Image protection — lightning on right-click/drag
+const _lb = document.getElementById("lightning");
+let _lt;
+function _strike(){
+  clearTimeout(_lt);
+  _lb.classList.remove("strike");
+  void _lb.offsetWidth;
+  _lb.classList.add("strike");
+  _lt = setTimeout(()=>_lb.classList.remove("strike"), 1400);
+}
+document.addEventListener("contextmenu",e=>{ if(e.target.tagName==="IMG"){e.preventDefault();_strike();} });
+document.addEventListener("dragstart",e=>{ if(e.target.tagName==="IMG"){e.preventDefault();_strike();} });
 </script>
 </body>
 </html>
