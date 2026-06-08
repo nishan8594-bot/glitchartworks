@@ -26,6 +26,7 @@
   --border-inv:rgba(13,12,11,0.08);
   --line-stroke:rgba(255,255,255,0.09);
   --gold:#ffbe35;
+  --util-red:#ff4c4c;       /* non-category header links: Contact, active Home */
   --orb1-col:#ffbe35;
   --orb2-col:#00e5b0;
   --text:#ffffff;
@@ -124,8 +125,8 @@ header{
   pointer-events:none;
 }
 .hdr-logo:hover{opacity:1;transform:scale(1.10) translateY(-1px);}
-.hdr-logo.active{background:color-mix(in srgb,var(--accent-eff) 22%,transparent);border-color:color-mix(in srgb,var(--accent-eff) 38%,transparent);}
-.hdr-logo.active svg{fill:var(--accent-eff);filter:drop-shadow(0 0 4px var(--accent-eff));}
+.hdr-logo.active{background:color-mix(in srgb,var(--util-red) 22%,transparent);border-color:color-mix(in srgb,var(--util-red) 38%,transparent);}
+.hdr-logo.active svg{fill:var(--util-red);filter:drop-shadow(0 0 4px var(--util-red));}
 .hdr-logo svg{width:14px;height:14px;fill:var(--text);transition:fill 0.6s;position:relative;z-index:1;}
 nav{display:flex;align-items:center;gap:24px;}
 .nav-link{
@@ -219,6 +220,17 @@ nav{display:flex;align-items:center;gap:24px;}
   box-shadow:0 2px 6px rgba(0,0,0,0.14),0 1px 0 rgba(255,255,255,1) inset,0 0 14px rgba(255,200,30,0.85);
 }
 .theme-float:hover .theme-float-knob{filter:brightness(1.1);}
+
+/* ── Custom cursor — dot + ring + glow, white on dark / black on light ─────── */
+#cursor{position:fixed;pointer-events:none;z-index:9999;top:0;left:0;}
+#cursor .dot{width:5px;height:5px;border-radius:50%;background:var(--text);position:absolute;transform:translate(-50%,-50%);box-shadow:0 0 8px var(--text),0 0 16px color-mix(in srgb,var(--text) 45%,transparent);transition:transform 0.15s,background 0.6s,box-shadow 0.6s;}
+#cursor .ring{width:28px;height:28px;border-radius:50%;border:0.5px solid color-mix(in srgb,var(--text) 40%,transparent);position:absolute;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s,border-color 0.3s;}
+#cursor.hover .dot{transform:translate(-50%,-50%) scale(2.5);}
+#cursor.hover .ring{width:48px;height:48px;border-color:color-mix(in srgb,var(--text) 70%,transparent);}
+#cursor-glow{position:fixed;pointer-events:none;z-index:8999;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--text) 11%,transparent) 0%,color-mix(in srgb,var(--text) 4%,transparent) 40%,transparent 70%);transform:translate(-50%,-50%);opacity:0;transition:opacity 0.4s;top:0;left:0;}
+/* Hide the native pointer only on real mouse devices; leave touch untouched */
+@media (hover:hover) and (pointer:fine){ *{cursor:none !important;} }
+@media (hover:none),(pointer:coarse){ #cursor,#cursor-glow{display:none !important;} }
 
 /* ── Generic scanline ─────────────────────────────────────────────────────── */
 .scanline{position:absolute;top:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--scan-col),transparent);animation:scan 20s linear infinite;z-index:40;pointer-events:none;}

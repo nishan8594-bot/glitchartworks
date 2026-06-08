@@ -33,7 +33,7 @@
     { label: "Art",         href: "art.html",          cat: "var(--cat-art)" },
     { label: "3D",          href: "3d.html",           cat: "var(--cat-3d)" },
     { label: "Architecture",href: "architecture.html", cat: "var(--cat-arch)" },
-    { label: "Contact",     href: "contact.html",      cat: "" }
+    { label: "Contact",     href: "contact.html",      cat: "var(--util-red)" }
   ];
 
   var SOCIAL = [
@@ -147,6 +147,42 @@
     var lightning = buildLightning();
     body.appendChild(lightning);
     wireProtection(lightning);
+
+    initCursor();
+  }
+
+  function initCursor() {
+    if (document.getElementById("cursor")) return;
+    if (!window.matchMedia || !window.matchMedia("(hover:hover) and (pointer:fine)").matches) return;
+
+    var cur = document.createElement("div");
+    cur.id = "cursor";
+    cur.innerHTML = '<div class="ring"></div><div class="dot"></div>';
+    var glow = document.createElement("div");
+    glow.id = "cursor-glow";
+    document.body.appendChild(cur);
+    document.body.appendChild(glow);
+
+    var cx = window.innerWidth / 2, cy = window.innerHeight / 2, gx = cx, gy = cy;
+    document.addEventListener("mousemove", function (e) {
+      cx = e.clientX; cy = e.clientY;
+      cur.style.transform = "translate(" + cx + "px," + cy + "px)";
+      glow.style.opacity = "1";
+    });
+    document.addEventListener("mouseleave", function () { glow.style.opacity = "0"; });
+    (function anim() {
+      gx += (cx - gx) * 0.09; gy += (cy - gy) * 0.09;
+      glow.style.left = gx + "px"; glow.style.top = gy + "px";
+      requestAnimationFrame(anim);
+    })();
+
+    var SEL = "a,button,input,select,textarea,[role=button],.nav-link,.soc-icon,.hdr-logo,.theme-float,[data-cursor-hover]";
+    document.addEventListener("mouseover", function (e) {
+      if (e.target.closest && e.target.closest(SEL)) cur.classList.add("hover");
+    });
+    document.addEventListener("mouseout", function (e) {
+      if (e.target.closest && e.target.closest(SEL)) cur.classList.remove("hover");
+    });
   }
 
   if (document.readyState === "loading") {
