@@ -20,10 +20,20 @@
 
   var CFG = window.GLITCH || {};
 
-  /* ── Apply saved theme immediately (before chrome paints) ──────────────── */
+  /* ── Which page is this? ──────────────────────────────────────────────── */
+  var activeKey = (CFG.active || currentFile()).replace(/\.html$/i, "").toLowerCase();
+  var GALLERY  = ["branding", "uiux", "digitalart", "art"];   // dark-only image galleries
+  var CATEGORY = GALLERY.concat(["3d", "architecture"]);      // all six categories
+  var isGallery  = GALLERY.indexOf(activeKey) !== -1;
+  var isCategory = CATEGORY.indexOf(activeKey) !== -1;
+
+  /* ── Apply saved theme (galleries are forced dark) ────────────────────── */
   var savedDay = false;
-  try { savedDay = localStorage.getItem("glitch-theme") === "day"; } catch (e) {}
+  if (!isGallery) { try { savedDay = localStorage.getItem("glitch-theme") === "day"; } catch (e) {} }
   document.documentElement.classList.toggle("day", savedDay);
+
+  /* ── Category pages: the cursor takes the page's own accent colour ────── */
+  if (isCategory) document.documentElement.style.setProperty("--cursor-col", "var(--accent-eff)");
 
   /* ── Canonical nav — relative links so it works on GitHub Pages ────────── */
   var NAV = [
@@ -139,7 +149,7 @@
       body.insertBefore(o1, body.firstChild);
     }
 
-    body.insertBefore(buildToggle(), body.firstChild);
+    if (!isGallery) body.insertBefore(buildToggle(), body.firstChild);
     body.insertBefore(buildHeader(), body.firstChild);
 
     if (!document.querySelector("footer")) body.appendChild(buildFooter());

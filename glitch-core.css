@@ -223,11 +223,11 @@ nav{display:flex;align-items:center;gap:24px;}
 
 /* ── Custom cursor — dot + ring + glow, white on dark / black on light ─────── */
 #cursor{position:fixed;pointer-events:none;z-index:9999;top:0;left:0;}
-#cursor .dot{width:5px;height:5px;border-radius:50%;background:var(--text);position:absolute;transform:translate(-50%,-50%);box-shadow:0 0 8px var(--text),0 0 16px color-mix(in srgb,var(--text) 45%,transparent);transition:transform 0.15s,background 0.6s,box-shadow 0.6s;}
-#cursor .ring{width:28px;height:28px;border-radius:50%;border:0.5px solid color-mix(in srgb,var(--text) 40%,transparent);position:absolute;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s,border-color 0.3s;}
+#cursor .dot{width:5px;height:5px;border-radius:50%;background:var(--cursor-col,var(--text));position:absolute;transform:translate(-50%,-50%);box-shadow:0 0 8px var(--cursor-col,var(--text)),0 0 16px color-mix(in srgb,var(--cursor-col,var(--text)) 45%,transparent);transition:transform 0.15s,background 0.6s,box-shadow 0.6s;}
+#cursor .ring{width:28px;height:28px;border-radius:50%;border:0.5px solid color-mix(in srgb,var(--cursor-col,var(--text)) 40%,transparent);position:absolute;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s,border-color 0.3s;}
 #cursor.hover .dot{transform:translate(-50%,-50%) scale(2.5);}
-#cursor.hover .ring{width:48px;height:48px;border-color:color-mix(in srgb,var(--text) 70%,transparent);}
-#cursor-glow{position:fixed;pointer-events:none;z-index:8999;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--text) 11%,transparent) 0%,color-mix(in srgb,var(--text) 4%,transparent) 40%,transparent 70%);transform:translate(-50%,-50%);opacity:0;transition:opacity 0.4s;top:0;left:0;}
+#cursor.hover .ring{width:48px;height:48px;border-color:color-mix(in srgb,var(--cursor-col,var(--text)) 70%,transparent);}
+#cursor-glow{position:fixed;pointer-events:none;z-index:8999;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--cursor-col,var(--text)) 11%,transparent) 0%,color-mix(in srgb,var(--cursor-col,var(--text)) 4%,transparent) 40%,transparent 70%);transform:translate(-50%,-50%);opacity:0;transition:opacity 0.4s;top:0;left:0;}
 /* Hide the native pointer only on real mouse devices; leave touch untouched */
 @media (hover:hover) and (pointer:fine){ *{cursor:none !important;} }
 @media (hover:none),(pointer:coarse){ #cursor,#cursor-glow{display:none !important;} }
