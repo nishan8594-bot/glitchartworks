@@ -4,191 +4,60 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Glitch Artworks — Architecture</title>
+
+<!-- Shared chrome (header, footer, toggle, effects, image-protection) -->
+<link rel="stylesheet" href="glitch-core.css">
+<!-- Apply saved theme before paint to avoid a flash -->
+<script>try{if(localStorage.getItem('glitch-theme')==='day')document.documentElement.classList.add('day');}catch(e){}</script>
+<script>window.GLITCH={active:'architecture'};</script>
+<script defer src="glitch-core.js"></script>
+
+<!-- Page accent: vivid orange (single value works in both themes) -->
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap');
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{width:100%;height:100%;background:#080706;color:#f0ebe0;font-family:'Syne',sans-serif;overflow:hidden;}
+:root{ --accent:#ff7f00; }
 
-/* grain */
-body::after{content:'';position:fixed;inset:0;z-index:50;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");opacity:0.4;}
-
-/* ambient orbs */
-.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0;}
-.orb1{width:600px;height:600px;background:#d4832a;opacity:0.07;top:-200px;right:-150px;}
-.orb2{width:500px;height:500px;background:#8a4a15;opacity:0.06;bottom:-150px;left:-150px;}
-
-/* dot grid */
+/* ambient dot-grid + scanline, theme-aware */
 .bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:radial-gradient(circle,rgba(240,235,224,0.05) 1px,transparent 1px);
+  background-image:radial-gradient(circle,color-mix(in srgb,var(--text) 6%,transparent) 1px,transparent 1px);
   background-size:52px 52px;}
-
-/* scanline */
 .scanline{position:fixed;top:-2px;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(212,131,42,0.08),transparent);
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent-eff) 30%,transparent),transparent);
   animation:scan 18s linear infinite;z-index:40;pointer-events:none;}
-@keyframes scan{0%{top:-2px}100%{top:100vh}}
-
-/* wash */
 .wash{position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(ellipse at center, rgba(212,131,42,0.0) 0%, transparent 65%);
+  background:radial-gradient(ellipse at center, rgba(255,127,0,0.0) 0%, transparent 65%);
   transition:background 0.6s ease;}
 
-/* UI */
-.ui{position:fixed;inset:0;z-index:20;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;padding:28px 40px;}
-.ui-top{display:flex;justify-content:space-between;align-items:flex-start;}
-.brand{font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:rgba(240,235,224,0.2);}
-.category{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(212,131,42,0.5);}
-.ui-bottom{display:flex;justify-content:space-between;align-items:flex-end;}
-.tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;font-weight:300;letter-spacing:0.06em;color:rgba(240,235,224,0.25);line-height:1.7;}
-.nav-links{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
-.back{pointer-events:auto;font-size:9px;letter-spacing:0.28em;text-transform:uppercase;color:rgba(240,235,224,0.18);text-decoration:none;transition:color 0.3s;}
-.back:hover{color:rgba(212,131,42,0.9);}
-.hint{font-size:8px;letter-spacing:0.2em;color:rgba(240,235,224,0.08);animation:breathe 3s ease-in-out infinite;}
-@keyframes breathe{0%,100%{opacity:0.08}50%{opacity:0.28}}
+/* MAIN SCENE — now lives in normal flow, framed by the shared header/footer */
+.scene{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:90px 24px 60px;}
+.composition{position:relative;transition:transform 0.1s ease;}
+.lines-svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;overflow:visible;}
+.letters-svg{position:relative;z-index:2;overflow:visible;cursor:default;}
 
-/* MAIN SCENE */
-.scene{position:fixed;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;}
-
-/* SVG wrapper — the whole composition */
-.composition{
-  position:relative;
-  transition:transform 0.1s ease;
-}
-
-/* construction lines SVG */
-.lines-svg{
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  pointer-events:none;
-  z-index:1;
-  overflow:visible;
-}
-
-/* letter outlines SVG */
-.letters-svg{
-  position:relative;
-  z-index:2;
-  overflow:visible;
-  cursor:default;
-}
-
-/* construction line style */
-.cl{
-  fill:none;
-  stroke:rgba(212,131,42,0.18);
-  stroke-width:0.3px;
-  stroke-miterlimit:10;
-  transition:stroke 0.5s ease, opacity 0.5s ease;
-}
-
-/* circles */
-.cc{
-  fill:none;
-  stroke:rgba(212,131,42,0.14);
-  stroke-width:0.3px;
-  transition:stroke 0.5s ease, opacity 0.5s ease;
-}
-
-/* extended lines — spread outward on hover, hidden by default */
-.cl-ext{
-  fill:none;
-  stroke:rgba(212,131,42,0.0);
-  stroke-width:0.4px;
-  stroke-dasharray:4 8;
-  transition:stroke 0.6s ease, stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1);
-}
-
-/* letter paths — white */
-.lp{
-  fill:rgba(240,235,224,0.92);
-  transition:fill 0.4s ease;
-}
-
-/* hover state classes */
-.composition.hovered .cl{
-  stroke:rgba(212,131,42,0.55);
-}
-.composition.hovered .cc{
-  stroke:rgba(212,131,42,0.4);
-}
-.composition.hovered .cl-ext{
-  stroke:rgba(212,131,42,0.35);
-  stroke-dashoffset:0;
-}
-.composition.hovered .lp{
-  fill:rgba(255,255,255,1);
-}
-
-/* pulse dots at line endpoints */
-.pulse-dot{
-  fill:rgba(212,131,42,0.5);
-  animation:dotPulse 2s ease-in-out infinite;
-}
+/* construction lines / circles / extended lines — driven by the accent */
+.cl{fill:none;stroke:color-mix(in srgb,var(--accent-eff) 18%,transparent);stroke-width:0.3px;stroke-miterlimit:10;transition:stroke 0.5s ease, opacity 0.5s ease;}
+.cc{fill:none;stroke:color-mix(in srgb,var(--accent-eff) 14%,transparent);stroke-width:0.3px;transition:stroke 0.5s ease, opacity 0.5s ease;}
+.cl-ext{fill:none;stroke:transparent;stroke-width:0.4px;stroke-dasharray:4 8;transition:stroke 0.6s ease, stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1);}
+.lp{fill:color-mix(in srgb,var(--text) 92%,transparent);transition:fill 0.4s ease;}
+.composition.hovered .cl{stroke:color-mix(in srgb,var(--accent-eff) 55%,transparent);}
+.composition.hovered .cc{stroke:color-mix(in srgb,var(--accent-eff) 40%,transparent);}
+.composition.hovered .cl-ext{stroke:color-mix(in srgb,var(--accent-eff) 35%,transparent);stroke-dashoffset:0;}
+.composition.hovered .lp{fill:var(--text);}
+.pulse-dot{fill:color-mix(in srgb,var(--accent-eff) 50%,transparent);animation:dotPulse 2s ease-in-out infinite;}
 @keyframes dotPulse{0%,100%{opacity:0.3;r:2}50%{opacity:0.9;r:3.5}}
+.glow-line{stroke:transparent;fill:none;stroke-width:1px;filter:url(#purpleGlow);transition:stroke 0.5s ease;}
+.composition.hovered .glow-line{stroke:color-mix(in srgb,var(--accent-eff) 30%,transparent);}
 
-/* glow filter */
-.glow-line{
-  stroke:rgba(212,131,42,0.0);
-  fill:none;
-  stroke-width:1px;
-  filter:url(#purpleGlow);
-  transition:stroke 0.5s ease;
-}
-.composition.hovered .glow-line{
-  stroke:rgba(212,131,42,0.3);
-}
-/* ── LIGHTNING PROTECTION ── */
-#lightning{position:fixed;inset:0;z-index:99999;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;}
-#lightning.strike{animation:strikeSeq 1.3s forwards;}
-@keyframes strikeSeq{
-  0%{opacity:0;background:transparent;}
-  6%{opacity:1;background:rgba(255,20,20,0.12);}
-  12%{opacity:0;background:transparent;}
-  18%{opacity:1;background:rgba(255,20,20,0.22);}
-  24%{opacity:0;background:transparent;}
-  30%{opacity:1;background:rgba(255,30,30,0.35);}
-  42%{opacity:0;background:transparent;}
-  100%{opacity:0;}
-}
-#lightning svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;filter:drop-shadow(0 0 24px #ff2200) drop-shadow(0 0 60px #ff4400);}
-#lightning.strike svg{animation:boltFlash 1.3s forwards;}
-@keyframes boltFlash{
-  0%{opacity:0;transform:translate(-50%,-50%) scale(0.7);}
-  8%{opacity:1;transform:translate(-50%,-50%) scale(1.05);}
-  16%{opacity:0;}
-  22%{opacity:0.95;transform:translate(-50%,-50%) scale(1);}
-  32%{opacity:0;}
-  40%{opacity:1;transform:translate(-50%,-50%) scale(1.02);}
-  58%{opacity:0;transform:translate(-50%,-50%) scale(1);}
-  100%{opacity:0;}
-}
-#lightning-msg{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);font-family:"Syne",sans-serif;font-size:10px;letter-spacing:0.35em;text-transform:uppercase;color:#ff4422;opacity:0;text-shadow:0 0 14px rgba(255,60,20,0.9);white-space:nowrap;}
-#lightning.strike #lightning-msg{animation:msgFlash 1.3s forwards;}
-@keyframes msgFlash{0%{opacity:0;}42%{opacity:0;}52%{opacity:1;}88%{opacity:1;}100%{opacity:0;}}</style>
+/* small caption under the wordmark */
+.coming-tag{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);z-index:20;
+  font-family:"Cormorant Garamond",serif;font-style:italic;font-size:15px;font-weight:300;
+  letter-spacing:0.06em;color:var(--text-dim);text-align:center;transition:color 0.6s;}
+</style>
 </head>
 <body>
 
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
 <div class="bg-grid"></div>
 <div class="scanline"></div>
 <div class="wash" id="wash"></div>
-
-<div class="ui">
-  <div class="ui-top">
-    <span class="brand">Glitch Artworks</span>
-    <span class="category">05 — Architecture</span>
-  </div>
-  <div class="ui-bottom">
-    <div class="tagline">Space as language.<br>Something is being built here.</div>
-    <div class="nav-links">
-      <a class="back" href="https://www.glitchartworks.com">← Back to home</a>
-      <span class="hint">Hover to explore</span>
-    </div>
-  </div>
-</div>
 
 <section class="scene">
   <div class="composition" id="comp">
@@ -318,6 +187,8 @@ body::after{content:'';position:fixed;inset:0;z-index:50;pointer-events:none;
   </div>
 </section>
 
+<div class="coming-tag">Space as language — something is being built here.</div>
+
 <script>
 const comp     = document.getElementById('comp');
 const wash     = document.getElementById('wash');
@@ -351,7 +222,7 @@ let currentTiltX = 0, currentTiltY = 0;
 comp.addEventListener('mouseenter', () => {
   isHovered = true;
   comp.classList.add('hovered');
-  wash.style.background = 'radial-gradient(ellipse at center, rgba(212,131,42,0.18) 0%, transparent 65%)';
+  wash.style.background = 'radial-gradient(ellipse at center, rgba(255,127,0,0.18) 0%, transparent 65%)';
   // init extended line dash offsets
   document.querySelectorAll('.cl-ext').forEach(l => {
     const len = getLineLength(l);
@@ -365,7 +236,7 @@ comp.addEventListener('mouseenter', () => {
 comp.addEventListener('mouseleave', () => {
   isHovered = false;
   comp.classList.remove('hovered');
-  wash.style.background = 'radial-gradient(ellipse at center, rgba(212,131,42,0.0) 0%, transparent 65%)';
+  wash.style.background = 'radial-gradient(ellipse at center, rgba(255,127,0,0.0) 0%, transparent 65%)';
   targetTiltX = 0; targetTiltY = 0;
 });
 
@@ -405,27 +276,6 @@ function animate() {
   }
 }
 animate();
-</script>
-<!-- LIGHTNING STRIKE PROTECTION -->
-<div id="lightning">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 765.89 730.83" style="height:90vh;width:auto;filter:drop-shadow(0 0 30px #ff2200) drop-shadow(0 0 80px #ff4400) drop-shadow(0 0 120px rgba(255,60,0,0.5));">
-    <path d="M339.87,359.6s-3.8,5.58-13.9,14c-.13.11-.57.47-1.26.7-1.25.43-2.94.28-3.88-.61-.99-.94-.93-2.48-.89-3.34.69-13.67,2.22-21.81,2.22-21.81.1-.52.15-.77.18-.95,1.37-7.14,20.58-102.86,69.77-347.37l-.57-.21c-27.53,131.91-55.05,263.82-82.58,395.72.13-.08.27-.15.4-.23,3.39-3.66,5.97-6.7,7.55-8.61,2.35-2.83,8.63-9.64,21.2-23.26.76-.83,2.25-2.4,3.22-2.01,1.47.59.86,5.3.65,6.9-1.22,9.43-42.22,213.27-72.26,362.16.26.05.53.11.79.16,27.53-131.91,55.05-263.82,82.58-395.72-.24-.07-.48-.14-.72-.21-1.92,5.15-5.98,15.11-12.5,24.7Z" fill="#ff3300"/>
-    <path d="M339.87,359.6s-3.8,5.58-13.9,14c-.13.11-.57.47-1.26.7-1.25.43-2.94.28-3.88-.61-.99-.94-.93-2.48-.89-3.34.69-13.67,2.22-21.81,2.22-21.81.1-.52.15-.77.18-.95,1.37-7.14,20.58-102.86,69.77-347.37l-.57-.21c-27.53,131.91-55.05,263.82-82.58,395.72.13-.08.27-.15.4-.23,3.39-3.66,5.97-6.7,7.55-8.61,2.35-2.83,8.63-9.64,21.2-23.26.76-.83,2.25-2.4,3.22-2.01,1.47.59.86,5.3.65,6.9-1.22,9.43-42.22,213.27-72.26,362.16.26.05.53.11.79.16,27.53-131.91,55.05-263.82,82.58-395.72-.24-.07-.48-.14-.72-.21-1.92,5.15-5.98,15.11-12.5,24.7Z" fill="white" opacity="0.4"/>
-  </svg>
-  <div id="lightning-msg">⚡ nice try — this work is protected ⚡</div>
-<script>
-// Image protection — lightning on right-click/drag
-const _lb = document.getElementById("lightning");
-let _lt;
-function _strike(){
-  clearTimeout(_lt);
-  _lb.classList.remove("strike");
-  void _lb.offsetWidth;
-  _lb.classList.add("strike");
-  _lt = setTimeout(()=>_lb.classList.remove("strike"), 1400);
-}
-document.addEventListener("contextmenu",e=>{ if(e.target.tagName==="IMG"){e.preventDefault();_strike();} });
-document.addEventListener("dragstart",e=>{ if(e.target.tagName==="IMG"){e.preventDefault();_strike();} });
 </script>
 </body>
 </html>
