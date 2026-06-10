@@ -251,6 +251,23 @@ footer{
 .foot-c{font-size:10.3px;letter-spacing:0.28em;text-transform:uppercase;color:var(--text-dim);transition:color 0.6s;}
 .foot-r{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:14.9px;color:var(--text-dim);transition:color 0.6s;}
 
+/* ── Galleries: footer pinned as a slim bottom scrim ──────────────────────────
+   Full-bleed gallery pages are fixed-height and non-scrolling, so a normal-flow
+   footer has no bottom of the document to sit at. On .is-gallery we pin it as a
+   frosted bar along the bottom edge. pointer-events:none keeps the gallery fully
+   interactive underneath; the bar is dark-only to match galleries. */
+:root.is-gallery footer{
+  display:flex;          /* override any stray per-page footer{display:none} */
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  padding:11px 30px;
+  background:linear-gradient(to top,rgba(8,7,6,0.94) 0%,rgba(8,7,6,0.68) 55%,rgba(8,7,6,0) 100%);
+  -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
+  border-top:0.5px solid var(--border);
+  pointer-events:none;
+}
+/* Lift any bottom-pinned gallery UI (e.g. the project progress dots) clear of the bar */
+:root.is-gallery .progress{bottom:54px;}
+
 /* ── Scrollbar ────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar{width:0;height:0;background:transparent;}
 
