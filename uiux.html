@@ -76,15 +76,16 @@
   .project-scroll::-webkit-scrollbar { display: none; }
 
   /* Intro panel */
-  .project-intro { position: relative; width: var(--sidebar); flex-shrink: 0; height: 100%; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 40px 32px; border-right: 0.5px solid var(--border); }
-  .bg-cover { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.85; z-index: 0; }
-  :root.day .bg-cover::after { content: ""; position: absolute; inset: 0; background: rgba(255,255,255,0.12); }
-  .bg-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%); }
+  .project-intro { position: relative; width: calc(100vw - var(--sidebar)); flex-shrink: 0; height: 100%; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 48px 52px; border-right: 0.5px solid var(--border); }
+  .bg-cover { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.92; z-index: 0; }
+  .bg-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 0%, transparent 35%, rgba(8,7,6,0.55) 58%, rgba(8,7,6,0.85) 75%, rgba(8,7,6,0.95) 100%); }
+  :root.day .bg-cover::after { background: linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(8,7,6,0.5) 62%, rgba(8,7,6,0.82) 78%, rgba(8,7,6,0.92) 100%); }
   .project-intro > *:not(.bg-cover) { position: relative; z-index: 1; }
-  .pi-num { font-size: 8.5px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
-  .pi-name { font-size: 22px; font-weight: 700; line-height: 1.1; color: #fff; margin-bottom: 4px; }
-  .pi-name em { font-style: italic; font-family: "Cormorant Garamond", serif; font-weight: 300; }
-  .pi-type { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .project-intro::before { content: ""; position: absolute; top: 48px; left: 52px; right: 52px; height: 0.5px; background: linear-gradient(90deg, rgba(255,243,79,0.35), transparent); z-index: 2; }
+  .pi-num { font-size: 9.9px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,243,79,0.7); margin-bottom: 10px; display: block; }
+  .pi-name { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: clamp(54px,7vw,112px); line-height: 0.9; color: #fff; }
+  .pi-name em { font-style: italic; color: var(--accent); }
+  .pi-type { margin-top: 22px; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
 
   /* Screen column panel */
   .cp { position: relative; height: 100%; border-right: 0.5px solid var(--border); flex-shrink: 0; overflow: hidden; display: flex; flex-direction: column; }
@@ -405,8 +406,32 @@ projects.forEach((pr,i)=>{
   projList.appendChild(it);
 });
 
-/* scroll: wheel drives horizontal, sync dots */
-scroll.addEventListener('wheel',(e)=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ scroll.scrollBy({left:e.deltaY,behavior:'auto'}); e.preventDefault(); } },{passive:false});
+/* scroll: wheel snaps one panel per tick (branding-style), sync dots */
+let wLock=false;
+function snapPanel(dir){
+  const cols=[...scroll.querySelectorAll('.cp, .project-intro')];
+  if(!cols.length) return;
+  const sl=scroll.scrollLeft;
+  let cur=0,min=Infinity;
+  cols.forEach((c,i)=>{const d=Math.abs(c.offsetLeft-sl); if(d<min){min=d;cur=i;}});
+  const next=Math.max(0,Math.min(cols.length-1,cur+dir));
+  scroll.scrollTo({left:cols[next].offsetLeft,behavior:'smooth'});
+}
+scroll.addEventListener('wheel',(e)=>{
+  const horiz=Math.abs(e.deltaX)>Math.abs(e.deltaY);
+  const delta=horiz?e.deltaX:e.deltaY;
+  if(Math.abs(delta)<2) return;
+  e.preventDefault();
+  if(wLock) return; wLock=true; setTimeout(()=>{wLock=false;},620);
+  snapPanel(delta>0?1:-1);
+},{passive:false});
+let tsx=0,tsy=0;
+scroll.addEventListener('touchstart',(e)=>{tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;},{passive:true});
+scroll.addEventListener('touchend',(e)=>{
+  const dx=e.changedTouches[0].clientX-tsx, dy=e.changedTouches[0].clientY-tsy;
+  if(Math.abs(dx)<40 && Math.abs(dy)<40) return;
+  if(Math.abs(dx)>=Math.abs(dy)){ snapPanel(dx<0?1:-1); } else { snapPanel(dy<0?1:-1); }
+},{passive:true});
 scroll.addEventListener('scroll',()=>{
   const cols=scroll.querySelectorAll('.cp, .project-intro'); const sl=scroll.scrollLeft;
   let active=0,min=Infinity; cols.forEach((c,i)=>{const d=Math.abs(c.offsetLeft-sl); if(d<min){min=d;active=i;}});
