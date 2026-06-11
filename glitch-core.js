@@ -72,10 +72,9 @@
   }
 
   function buildHeader() {
-    var active = (CFG.active || currentFile()).toLowerCase();
+    var active = (CFG.active || currentFile()).replace(/\.html$/i, "").toLowerCase();
     var navHTML = NAV.map(function (n) {
-      var isActive = n.href.toLowerCase() === active ||
-                     (CFG.active && CFG.active.toLowerCase() === n.label.toLowerCase());
+      var isActive = n.href.replace(/\.html$/i, "").toLowerCase() === active;
       var style = n.cat ? ' style="--cat:' + n.cat + '"' : "";
       return '<a class="nav-link' + (isActive ? " active" : "") + '" href="' + n.href + '"' + style + '>' + n.label + "</a>";
     }).join("");
@@ -121,6 +120,41 @@
     return f;
   }
 
+  /* ── Stars: shared client / coursework badges ─────────────────────────── */
+  function starSVG(isHw) {
+    var col = isHw ? "#4a9eff" : "#ff8c42";
+    return '<svg viewBox="0 0 20 20" fill="' + col + '" xmlns="http://www.w3.org/2000/svg"><path d="M10 1l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.27 6.62l5.34-.78L10 1z"/></svg>';
+  }
+  var scTimer;
+  function showStarCard(el, isHw) {
+    var card = document.getElementById("starCard");
+    if (!card) return;
+    clearTimeout(scTimer);
+    var r = el.getBoundingClientRect();
+    card.className = "star-card show " + (isHw ? "hw" : "rc");
+    document.getElementById("starCardLabel").textContent = isHw ? "Class Project" : "Real Client";
+    document.getElementById("starCardMsg").textContent = isHw
+      ? "Academic assignment \u2014 designed to brief, executed to portfolio standard."
+      : "Commissioned by a real client. Delivered and applied in production.";
+    var left = r.right + 10, top = r.top - 10;
+    if (left + 290 > window.innerWidth) left = r.left - 295;
+    if (top + 90 > window.innerHeight) top = window.innerHeight - 100;
+    card.style.left = left + "px";
+    card.style.top = top + "px";
+    scTimer = setTimeout(function () { card.classList.remove("show"); }, 3500);
+  }
+  /* Public: returns a wired star <span> (or null). type = "hw" | "rc". */
+  function makeStar(type, extraClass) {
+    if (type !== "hw" && type !== "rc") return null;
+    var isHw = type === "hw";
+    var span = document.createElement("span");
+    span.className = "star-badge " + type + (extraClass ? " " + extraClass : "");
+    span.innerHTML = starSVG(isHw);
+    span.setAttribute("data-cursor-hover", "");
+    span.addEventListener("click", function (e) { e.stopPropagation(); showStarCard(span, isHw); });
+    return span;
+  }
+
   function buildLightning() {
     var wrap = document.createElement("div");
     wrap.id = "lightning";
@@ -141,7 +175,10 @@
     document.addEventListener("dragstart",   function (e) { if (e.target.tagName === "IMG") { e.preventDefault(); strike(); } });
   }
 
+  var injected = false;
   function inject() {
+    if (injected) return;          // idempotent: guard against double DOMContentLoaded / double include
+    injected = true;
     var body = document.body;
 
     if (!document.querySelector(".orb")) {
@@ -159,6 +196,20 @@
     var lightning = buildLightning();
     body.appendChild(lightning);
     wireProtection(lightning);
+
+    if (!document.getElementById("starCard")) {
+      var sc = document.createElement("div");
+      sc.className = "star-card";
+      sc.id = "starCard";
+      sc.innerHTML = '<span class="star-card-label" id="starCardLabel"></span><p class="star-card-msg" id="starCardMsg"></p>';
+      body.appendChild(sc);
+    }
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest || !e.target.closest(".star-badge")) {
+        var c = document.getElementById("starCard");
+        if (c) c.classList.remove("show");
+      }
+    });
 
     initCursor();
   }
@@ -202,4 +253,10 @@
   } else {
     inject();
   }
+
+  /* Expose shared helpers for per-page galleries to use. */
+  window.GLITCH = window.GLITCH || {};
+  window.GLITCH.makeStar = makeStar;
+  window.GLITCH.showStarCard = showStarCard;
+  window.GLITCH.starSVG = starSVG;
 })();

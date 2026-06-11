@@ -47,7 +47,7 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--bone);font-fam
 .sidebar::-webkit-scrollbar{display:none;}
 .sidebar-head{padding:24px 28px 18px;border-bottom:0.5px solid var(--border);flex-shrink:0;}
 .sidebar-label{font-size:8px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(var(--redb-rgb),0.6);margin-bottom:5px;}
-.sidebar-title{font-family:"Cormorant Garamond",serif;font-weight:300;font-size:22px;color:var(--bone);line-height:1.1;}
+.sidebar-title{font-family:"Cormorant Garamond",serif;font-weight:300;font-size:24px;color:var(--bone);line-height:1.1;}
 .sidebar-title em{font-style:italic;color:var(--red-bright);}
 
 /* ── TABS ──────────────────────────────────────────────────────────────────── */
@@ -202,7 +202,7 @@ const IMGS = {
 
 const projects = [
   {
-    num:"01",
+    num:"01", star:"rc",
     name:`Wall <em>Mural</em>`,
     cover:null,
     type:"Wall Mural",
@@ -215,7 +215,7 @@ const projects = [
     panels:[]
   },
   {
-    num:"02",
+    num:"02", star:"rc",
     name:`Enrico's <em>Road Art</em>`,
     cover:IMGS.enricoHero,
     type:"Street / Road Art",
@@ -234,7 +234,7 @@ const projects = [
     ]
   },
   {
-    num:"03",
+    num:"03", star:"rc",
     name:`Residential Master Room <em>Wall Art</em>`,
     cover:IMGS.mrHero,
     type:"Wall Art / Geometric Mural",
@@ -468,6 +468,24 @@ buildSidebar();
 buildCanvas();
 goToProject(0);
 window.addEventListener("resize",()=>{const rowH=window.innerHeight-50;snakeInner.style.transform=`translateY(${-activeProject*rowH}px)`;});
+
+/* ── Stars: inserted once core's shared helper is ready (keeps core deferred) ── */
+function addStars(){
+  const tabs=document.querySelectorAll("#sidebar .tab");
+  const intros=document.querySelectorAll(".project-intro");
+  projects.forEach((p,i)=>{
+    if(!p.star||!window.GLITCH||!GLITCH.makeStar) return;
+    const th=tabs[i]&&tabs[i].querySelector(".tab-header");
+    if(th&&!th.querySelector(".star-badge")) th.insertBefore(GLITCH.makeStar(p.star),th.querySelector(".tab-arrow"));
+    const pn=intros[i]&&intros[i].querySelector(".pi-name");
+    if(pn&&!pn.querySelector(".star-badge")) pn.appendChild(GLITCH.makeStar(p.star,"pi-star"));
+  });
+}
+(function whenCore(){
+  if(window.GLITCH&&GLITCH.makeStar) return addStars();
+  if(document.readyState==="loading") window.addEventListener("DOMContentLoaded",whenCore,{once:true});
+  else setTimeout(whenCore,30);
+})();
 </script>
 </body>
 </html>
