@@ -22,14 +22,14 @@
 
   /* ── Which page is this? ──────────────────────────────────────────────── */
   var activeKey = (CFG.active || currentFile()).replace(/\.html$/i, "").toLowerCase();
-  var GALLERY  = ["branding", "uiux", "digitalart", "art"];   // dark-only image galleries
+  var GALLERY  = ["branding", "uiux", "digitalart", "art"];   // full-bleed image galleries (layout only)
   var CATEGORY = GALLERY.concat(["3d", "architecture"]);      // all six categories
   var isGallery  = GALLERY.indexOf(activeKey) !== -1;
   var isCategory = CATEGORY.indexOf(activeKey) !== -1;
 
-  /* ── Apply saved theme (galleries are forced dark) ────────────────────── */
+  /* ── Apply saved theme — every page supports day/night ────────────────── */
   var savedDay = false;
-  if (!isGallery) { try { savedDay = localStorage.getItem("glitch-theme") === "day"; } catch (e) {} }
+  try { savedDay = localStorage.getItem("glitch-theme") === "day"; } catch (e) {}
   document.documentElement.classList.toggle("day", savedDay);
 
   /* ── Category pages: the cursor takes the page's own accent colour ────── */
@@ -150,7 +150,7 @@
       body.insertBefore(o1, body.firstChild);
     }
 
-    if (!isGallery) body.insertBefore(buildToggle(), body.firstChild);
+    body.insertBefore(buildToggle(), body.firstChild);
     body.insertBefore(buildHeader(), body.firstChild);
 
     if (!document.querySelector("footer")) body.appendChild(buildFooter());
