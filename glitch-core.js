@@ -30,6 +30,7 @@
   /* ── Apply saved theme — every page supports day/night ────────────────── */
   var savedDay = false;
   try { savedDay = localStorage.getItem("glitch-theme") === "day"; } catch (e) {}
+  if (isGallery) savedDay = false;   // galleries are dark-only
   document.documentElement.classList.toggle("day", savedDay);
 
   /* ── Category pages: the cursor takes the page's own accent colour ────── */
@@ -150,7 +151,7 @@
       body.insertBefore(o1, body.firstChild);
     }
 
-    body.insertBefore(buildToggle(), body.firstChild);
+    if (!isGallery) body.insertBefore(buildToggle(), body.firstChild);  // dark-only galleries get no toggle
     body.insertBefore(buildHeader(), body.firstChild);
 
     if (!document.querySelector("footer")) body.appendChild(buildFooter());

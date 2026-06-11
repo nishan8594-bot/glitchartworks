@@ -224,6 +224,8 @@ nav{display:flex;align-items:center;gap:24px;}
   box-shadow:0 2px 6px rgba(0,0,0,0.14),0 1px 0 rgba(255,255,255,1) inset,0 0 14px rgba(255,200,30,0.85);
 }
 .theme-float:hover .theme-float-knob{filter:brightness(1.1);}
+/* Dark-only galleries never show the toggle (also not injected by core.js). */
+:root.is-gallery .theme-float{display:none !important;}
 
 /* ── Custom cursor — dot + ring + glow, white on dark / black on light ─────── */
 #cursor{position:fixed;pointer-events:none;z-index:9999;top:0;left:0;}
