@@ -97,15 +97,15 @@ header{
   display:flex;align-items:center;justify-content:space-between;
   padding:0 28px;
   background:var(--header-bg);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%);
   border-bottom:none;
   transition:background 0.6s,border-color 0.6s;
 }
 .hdr-logo span{display:none;}
 /* Full-bleed gallery pages: the floating header would vanish over the artwork,
    so give it a solid bar with a hairline edge. Other pages stay transparent. */
-:root.is-gallery header{background:rgba(8,7,6,0.2);border-bottom:0.5px solid var(--border);}
-:root.day.is-gallery header{background:rgba(248,246,241,0.26);border-bottom:0.5px solid var(--border);}
+:root.is-gallery header{background:linear-gradient(180deg,rgba(255,255,255,0.07),rgba(255,255,255,0) 65%),rgba(8,7,6,0.18);border-bottom:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.11);}
+:root.day.is-gallery header{background:linear-gradient(180deg,rgba(255,255,255,0.62),rgba(255,255,255,0.16) 70%),rgba(248,246,241,0.22);border-bottom:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.85);}
 /* Transparent glass needs a touch of shadow so text stays legible over bright artwork */
 :root.is-gallery .nav-link,:root.is-gallery .foot-l,:root.is-gallery .foot-c,:root.is-gallery .foot-r{text-shadow:0 1px 6px rgba(0,0,0,0.55);}
 :root.day.is-gallery .nav-link,:root.day.is-gallery .foot-l,:root.day.is-gallery .foot-c,:root.day.is-gallery .foot-r{text-shadow:0 1px 6px rgba(255,255,255,0.65);}
@@ -114,17 +114,17 @@ header{
   width:30px;height:30px;border-radius:8px;
   display:flex;align-items:center;justify-content:center;
   text-decoration:none;
-  background:rgba(30,28,36,0.72);
+  background:linear-gradient(155deg,rgba(64,61,74,0.80),rgba(22,20,28,0.74));
   border:0.5px solid rgba(255,255,255,0.10);
-  box-shadow:0 2px 8px rgba(0,0,0,0.45),0 1px 0 rgba(255,255,255,0.06) inset;
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:0 2px 8px rgba(0,0,0,0.45),0 1px 0 rgba(255,255,255,0.10) inset;
+  backdrop-filter:blur(8px) saturate(140%);-webkit-backdrop-filter:blur(8px) saturate(140%);
   transition:transform 0.18s,box-shadow 0.22s,background 0.6s;
   opacity:0.90;position:relative;overflow:hidden;
 }
 :root.day .hdr-logo{
-  background:rgba(255,255,255,0.55);
+  background:linear-gradient(155deg,rgba(255,255,255,0.78),rgba(255,255,255,0.45));
   border:0.5px solid rgba(0,0,0,0.08);
-  box-shadow:0 2px 8px rgba(0,0,0,0.10),0 1px 0 rgba(255,255,255,0.9) inset;
+  box-shadow:0 2px 8px rgba(0,0,0,0.10),0 1px 0 rgba(255,255,255,1) inset;
 }
 .hdr-logo::before{
   content:"";position:absolute;top:0;left:10%;width:80%;height:1px;
@@ -152,10 +152,10 @@ nav{display:flex;align-items:center;gap:24px;}
   display:flex;align-items:center;justify-content:center;
   text-decoration:none;flex-shrink:0;color:#fff;
   position:relative;overflow:hidden;
-  background:rgba(30,28,36,0.72);
+  background:linear-gradient(155deg,rgba(64,61,74,0.80),rgba(22,20,28,0.74));
   border:0.5px solid rgba(255,255,255,0.10);
-  box-shadow:0 2px 8px rgba(0,0,0,0.45),0 1px 0 rgba(255,255,255,0.06) inset;
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:0 2px 8px rgba(0,0,0,0.45),0 1px 0 rgba(255,255,255,0.10) inset;
+  backdrop-filter:blur(8px) saturate(140%);-webkit-backdrop-filter:blur(8px) saturate(140%);
   transition:transform 0.18s,box-shadow 0.22s;
   opacity:0.90;
 }
@@ -186,9 +186,9 @@ nav{display:flex;align-items:center;gap:24px;}
 .soc-tt::after{background:#888;}
 
 :root.day .soc-icon{
-  background:rgba(255,255,255,0.55);
+  background:linear-gradient(155deg,rgba(255,255,255,0.78),rgba(255,255,255,0.45));
   border:0.5px solid rgba(0,0,0,0.08);
-  box-shadow:0 2px 8px rgba(0,0,0,0.10),0 1px 0 rgba(255,255,255,0.9) inset;
+  box-shadow:0 2px 8px rgba(0,0,0,0.10),0 1px 0 rgba(255,255,255,1) inset;
   color:#1a1a1a;
 }
 :root.day .soc-icon::before{background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);}
@@ -256,14 +256,23 @@ footer{
 /* ── Galleries: footer pinned as a slim bottom scrim ──────────────────────────
    Full-bleed gallery pages are fixed-height and non-scrolling, so a normal-flow
    footer has no bottom of the document to sit at. On .is-gallery we pin it as a
-   frosted bar along the bottom edge. pointer-events:none keeps the gallery fully
-   interactive underneath; the bar is dark-only to match galleries. */
+   glossy glass bar along the bottom edge. pointer-events:none keeps the gallery
+   fully interactive underneath. */
+
+/* Gallery height standard: content fills to the very bottom edge so the fixed
+   footer reads as transparent glass over the artwork (as on the Art page). This
+   out-specifies any per-page `.shell{bottom:NNpx}` without editing the page. */
+:root.is-gallery .shell{bottom:0;}
+
 :root.is-gallery footer{
   display:flex;          /* override any stray per-page footer{display:none} */
   position:fixed;left:0;right:0;bottom:0;z-index:60;
   padding:11px 30px;
-  background:rgba(8,7,6,0.1);
-  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  /* glossy transparent glass: top sheen, faint body, no dark divider line */
+  background:linear-gradient(180deg,rgba(255,255,255,0.07) 0%,rgba(255,255,255,0.012) 50%,rgba(8,7,6,0.05) 100%);
+  -webkit-backdrop-filter:blur(13px) saturate(155%);backdrop-filter:blur(13px) saturate(155%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.12);
+  border:none;
   pointer-events:none;
 }
 /* Lift any bottom-pinned gallery UI (e.g. the project progress dots) clear of the bar */
@@ -276,9 +285,10 @@ footer{
 :root.day .prog-dot{background:rgba(0,0,0,0.2);}
 :root.day .prog-dot.active{background:var(--accent);opacity:1;}
 :root.is-gallery .progress{bottom:54px;}   /* clear the slim gallery footer */
-/* Day-mode gallery footer — light frosted glass */
+/* Day-mode gallery footer — light glossy glass */
 :root.day.is-gallery footer{
-  background:rgba(248,246,241,0.16);
+  background:linear-gradient(180deg,rgba(255,255,255,0.55) 0%,rgba(255,255,255,0.18) 55%,rgba(248,246,241,0.06) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.8);
 }
 
 /* ── Scrollbar ────────────────────────────────────────────────────────────── */
@@ -306,7 +316,7 @@ footer{
 .star-badge.pw svg{filter:drop-shadow(0 0 3px rgba(74,158,255,0.85));}
 .pi-name .pi-star{display:inline-flex;vertical-align:middle;margin-left:10px;cursor:none;}
 /* glass info card — shown next to a star on tap, auto-hides */
-.star-card{position:fixed;z-index:9990;background:var(--card-bg);border:0.5px solid var(--card-border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:12px 16px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity 0.25s,transform 0.25s;transform:translateY(4px) scale(0.96);min-width:220px;max-width:280px;box-shadow:0 8px 32px rgba(0,0,0,0.5);}
+.star-card{position:fixed;z-index:9990;background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0) 55%),var(--card-bg);border:0.5px solid var(--card-border);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);padding:12px 16px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity 0.25s,transform 0.25s;transform:translateY(4px) scale(0.96);min-width:220px;max-width:280px;box-shadow:0 8px 32px rgba(0,0,0,0.5);}
 .star-card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);}
 .star-card.show{opacity:1;transform:translateY(0) scale(1);}
 .star-card-label{font-size:8.8px;letter-spacing:0.25em;text-transform:uppercase;display:block;margin-bottom:5px;}
