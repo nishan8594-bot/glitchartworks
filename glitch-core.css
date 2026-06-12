@@ -104,8 +104,8 @@ header{
 .hdr-logo span{display:none;}
 /* Full-bleed gallery pages: the floating header would vanish over the artwork,
    so give it a solid bar with a hairline edge. Other pages stay transparent. */
-:root.is-gallery header{background:rgba(8,7,6,0.62);border-bottom:0.5px solid var(--border);}
-:root.day.is-gallery header{background:rgba(248,246,241,0.72);border-bottom:0.5px solid var(--border);}
+:root.is-gallery header{background:rgba(8,7,6,0.5);border-bottom:0.5px solid var(--border);}
+:root.day.is-gallery header{background:rgba(248,246,241,0.6);border-bottom:0.5px solid var(--border);}
 .hdr-left{display:flex;align-items:center;gap:32px;}
 .hdr-logo{
   width:30px;height:30px;border-radius:8px;
@@ -260,7 +260,7 @@ footer{
   position:fixed;left:0;right:0;bottom:0;z-index:60;
   padding:11px 30px;
   background:rgba(8,7,6,0.5);
-  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
   pointer-events:none;
 }
 /* Lift any bottom-pinned gallery UI (e.g. the project progress dots) clear of the bar */
