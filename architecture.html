@@ -27,8 +27,12 @@
   background:radial-gradient(ellipse at center, rgba(255,127,0,0.0) 0%, transparent 65%);
   transition:background 0.6s ease;}
 
-/* MAIN SCENE — now lives in normal flow, framed by the shared header/footer */
-.scene{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:90px 24px 60px;}
+/* Coming-soon: lock the whole page to one viewport — content + footer, no scroll */
+html,body{height:100vh;height:100svh;overflow:hidden;}
+body{display:flex;flex-direction:column;}
+
+/* MAIN SCENE — fills the gap between fixed header and the footer; footer stays visible */
+.scene{position:relative;z-index:2;flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;padding:70px 24px 24px;}
 .composition{position:relative;transition:transform 0.1s ease;}
 .lines-svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;overflow:visible;}
 .letters-svg{position:relative;z-index:2;overflow:visible;cursor:default;}
@@ -193,25 +197,29 @@
 const comp     = document.getElementById('comp');
 const wash     = document.getElementById('wash');
 const lettersSvg = document.getElementById('lettersSvg');
+const scene    = document.querySelector('.scene');
 
-// ── SIZE SVG to fit viewport ──
+// ── SIZE SVG to fit the scene box, then hold it at 70% (coming-soon scale) ──
+const COMING_SCALE = 0.70;
 function sizeComposition() {
-  const W = window.innerWidth;
-  const H = window.innerHeight;
-  const padding = 80;
+  const cs = getComputedStyle(scene);
+  const availW = scene.clientWidth  - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const availH = scene.clientHeight - parseFloat(cs.paddingTop)  - parseFloat(cs.paddingBottom);
   // viewBox is 675.9 x 316.94
   const aspect = 675.9 / 316.94;
-  let w = W - padding*2;
+  let w = availW;
   let h = w / aspect;
-  if(h > H - padding*2) {
-    h = H - padding*2;
+  if(h > availH) {
+    h = availH;
     w = h * aspect;
   }
-  lettersSvg.style.width  = w + 'px';
-  lettersSvg.style.height = h + 'px';
+  lettersSvg.style.width  = (w * COMING_SCALE) + 'px';
+  lettersSvg.style.height = (h * COMING_SCALE) + 'px';
 }
 sizeComposition();
 window.addEventListener('resize', sizeComposition);
+// Footer is injected by the deferred core script — re-fit once the scene's true height is known
+window.addEventListener('load', sizeComposition);
 
 // ── HOVER INTERACTION ──
 let isHovered = false;
