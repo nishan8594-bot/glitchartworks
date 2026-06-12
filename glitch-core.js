@@ -84,11 +84,11 @@
       return '<a class="soc-icon ' + s.cls + '" href="' + s.href + '" target="_blank" rel="noopener" title="' + s.title + '">' + s.svg + "</a>";
     }).join("");
 
-    var homeActive = active === "index.html" ? " active" : "";
+    var homeActive = (active === "index.html" || active === "home") ? " active" : "";
     var header = document.createElement("header");
     header.innerHTML =
       '<div class="hdr-left">' +
-        '<a href="index.html" class="hdr-logo' + homeActive + '" title="Home">' + HOME_ICON + "</a>" +
+        '<a href="home.html" class="hdr-logo' + homeActive + '" title="Home">' + HOME_ICON + "</a>" +
         "<nav>" + navHTML + "</nav>" +
       "</div>" +
       '<div class="hdr-right">' + socHTML + "</div>";
@@ -184,10 +184,12 @@
     injected = true;
     var body = document.body;
 
-    if (!document.querySelector(".orb")) {
-      var o1 = document.createElement("div"); o1.className = "orb orb1";
+    if (!document.querySelector(".orb2")) {
       var o2 = document.createElement("div"); o2.className = "orb orb2";
       body.insertBefore(o2, body.firstChild);
+    }
+    if (!document.querySelector(".orb1")) {
+      var o1 = document.createElement("div"); o1.className = "orb orb1";
       body.insertBefore(o1, body.firstChild);
     }
 
