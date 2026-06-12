@@ -23,6 +23,10 @@
 
     body {
       min-height: 100vh;
+      font-weight: 300;
+      font-synthesis-weight: none;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
     }
 
     .about-page {
@@ -82,10 +86,10 @@
     .about-name-mark {
       margin-bottom: 20px;
       font-size: clamp(30px, 4vw, 58px);
-      font-weight: 700;
+      font-weight: 400;
       line-height: 1;
       color: var(--text);
-      letter-spacing: 0;
+      letter-spacing: 0.01em;
     }
 
     .about-name-mark em {
@@ -203,7 +207,7 @@
 
     .identity-copy strong {
       color: var(--text);
-      font-weight: 500;
+      font-weight: 400;
     }
 
     .section {
