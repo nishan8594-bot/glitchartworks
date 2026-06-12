@@ -4,207 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Glitch Artworks — Nishan</title>
+
+<!-- Shared chrome: header, nav, social, day/night toggle, footer, cursor, orbs, grain, lightning protection -->
+<link rel="stylesheet" href="glitch-core.css">
+<script>try{if(localStorage.getItem('glitch-theme')==='day')document.documentElement.classList.add('day');}catch(e){}</script>
+<script>window.GLITCH={active:'home'};</script>
+<script defer src="glitch-core.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&display=swap');
+:root{ --accent:var(--gold); }
+#orb3{background:#ff6640;}
 
-*{margin:0;padding:0;box-sizing:border-box;}
-
-/* ── Theme tokens ─────────────────────────────────────────────────────── */
-:root{
-  --bg:#080808;
-  --surface:rgba(8,7,6,0.6);
-  --bone:#f0ebe0;
-  --ink:#0d0c0b;
-  --muted:#7a7268;
-  --muted-inv:#888078;
-  --border:rgba(240,235,224,0.07);
-  --border-inv:rgba(13,12,11,0.08);
-  --line-stroke:rgba(255,255,255,0.09);
-  --gold:#ffbe35;
-  --orb1-col:#ffbe35;
-  --orb2-col:#00e5b0;
-  --text:#ffffff;
-  --text-muted:rgba(255,255,255,0.72);
-  --text-dim:rgba(255,255,255,0.35);
-  --card-bg:rgba(8,8,8,0.6);
-  --card-border:rgba(240,235,224,0.08);
-  --logo-filter:none;
-  --header-bg:rgba(8,8,8,0.0);
-  --footer-bg:rgba(8,7,6,0.0);
-  --scan-col:rgba(240,235,224,0.03);
-  --grain-opacity:0.35;
-  transition: background 0.6s ease, color 0.6s ease;
-}
-:root.day{
-  --bg:#f8f6f1;
-  --surface:rgba(248,246,241,0.75);
-  --bone:#f0ebe0;
-  --muted:#999188;
-  --border:rgba(13,12,11,0.07);
-  --line-stroke:rgba(0,0,0,0.07);
-  --text:#000000;
-  --text-muted:rgba(0,0,0,0.75);
-  --text-dim:rgba(0,0,0,0.38);
-  --card-bg:rgba(248,246,241,0.82);
-  --card-border:rgba(13,12,11,0.09);
-  --logo-filter:invert(1) brightness(0.05);
-  --header-bg:rgba(248,246,241,0.45);
-  --scan-col:rgba(0,0,0,0.015);
-  --grain-opacity:0.18;
-}
-
-html,body{width:100%;min-height:100vh;background:var(--bg);color:var(--text);font-family:"Syne",sans-serif;overflow-x:hidden;transition:background 0.6s ease,color 0.6s ease;}
-
-/* ── Grain ──────────────────────────────────────────────────────────────── */
-body::after{content:"";position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:50;opacity:var(--grain-opacity);transition:opacity 0.6s;}
-
-/* ── Orbs ─────────────────────────────────────────────────────────────── */
-.orb{position:fixed;border-radius:50%;filter:blur(130px);opacity:0.06;pointer-events:none;z-index:0;transition:opacity 0.6s,background 0.6s;}
-.orb1{width:700px;height:700px;background:var(--orb1-col);top:-250px;left:-250px;}
-.orb2{width:600px;height:600px;background:var(--orb2-col);bottom:-200px;right:-200px;}
-.orb3{width:350px;height:350px;background:#ff6640;top:30%;left:38%;transform:translate(-50%,-50%);transition:background 0.8s ease;}
-:root.day .orb{opacity:0.05;} :root.day .orb1{opacity:0.03;} :root.day .orb2{opacity:0 !important;} :root.day .orb3{opacity:0.04;}
-
-/* ── HEADER ─────────────────────────────────────────────────────────────── */
-header{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  height:50px;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 28px;
-  background:var(--header-bg);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-bottom:none;
-  transition:background 0.6s,border-color 0.6s;
-}
-.hdr-logo span{display:none;}
-.hdr-left{display:flex;align-items:center;gap:32px;}
-.hdr-logo{
-  width:30px;height:30px;border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  text-decoration:none;
-  background:rgba(30,28,36,0.72);
-  border:0.5px solid rgba(255,255,255,0.10);
-  box-shadow:0 2px 8px rgba(0,0,0,0.45),0 1px 0 rgba(255,255,255,0.06) inset;
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  transition:transform 0.18s,box-shadow 0.22s,background 0.6s;
-  opacity:0.90;position:relative;overflow:hidden;
-}
-:root.day .hdr-logo{
-  background:rgba(255,255,255,0.55);
-  border:0.5px solid rgba(0,0,0,0.08);
-  box-shadow:0 2px 8px rgba(0,0,0,0.10),0 1px 0 rgba(255,255,255,0.9) inset;
-}
-.hdr-logo::before{
-  content:"";position:absolute;top:0;left:10%;width:80%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);
-  pointer-events:none;
-}
-.hdr-logo:hover{opacity:1;transform:scale(1.10) translateY(-1px);}
-.hdr-logo.active{background:rgba(255,76,76,0.20);border-color:rgba(255,76,76,0.35);}
-.hdr-logo.active svg{fill:#ff4c4c;filter:drop-shadow(0 0 4px #ff4c4c);}
-.hdr-logo svg{width:14px;height:14px;fill:var(--text);transition:fill 0.6s;position:relative;z-index:1;}
-nav{display:flex;align-items:center;gap:24px;}
-.nav-link{
-  font-size:11.3px;letter-spacing:0.28em;text-transform:uppercase;
-  color:var(--text-muted);text-decoration:none;
-  transition:color 0.25s;padding:2px 0;
-  border-bottom:0.5px solid transparent;
-}
-.nav-link:hover{color:var(--cat,var(--gold));border-bottom-color:var(--cat,var(--gold));} .nav-link.active{color:var(--cat,var(--gold));border-bottom-color:var(--cat,var(--gold));}
-.hdr-right{display:flex;align-items:center;gap:14px;}
-
-/* ── Social icons — glass app icon style ─────────────────────────────────── */
-.soc-icon{
-  width:30px;height:30px;border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  text-decoration:none;flex-shrink:0;color:#fff;
-  position:relative;overflow:hidden;
-  /* Dark glass base */
-  background:rgba(30,28,36,0.72);
-  border:0.5px solid rgba(255,255,255,0.10);
-  box-shadow:0 2px 8px rgba(0,0,0,0.45),0 1px 0 rgba(255,255,255,0.06) inset;
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  transition:transform 0.18s,box-shadow 0.22s;
-  opacity:0.90;
-}
-/* Bottom colour glow bleed — key feature of the reference */
-.soc-icon::after{
-  content:"";position:absolute;
-  bottom:-4px;left:10%;width:80%;height:55%;
-  border-radius:50%;
-  filter:blur(7px);
-  opacity:0.75;z-index:0;
-  transition:opacity 0.2s,transform 0.2s;
-}
-/* Very subtle top-edge gloss line */
-.soc-icon::before{
-  content:"";position:absolute;
-  top:0;left:10%;width:80%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);
-  z-index:2;pointer-events:none;
-}
-.soc-icon svg{position:relative;z-index:1;width:14px;height:14px;}
-.soc-icon:hover{
-  opacity:1;transform:scale(1.12) translateY(-1px);
-  box-shadow:0 6px 18px rgba(0,0,0,0.55),0 1px 0 rgba(255,255,255,0.10) inset;
-}
-.soc-icon:hover::after{opacity:1;transform:scaleX(1.2);}
-
-/* Per-icon glow colour via ::after */
-.soc-ig::after{background:#c13a3a;}
-.soc-fb::after{background:#4a7fc1;}
-.soc-wa::after{background:#3aad6e;}
-.soc-li::after{background:#4a7fc1;}
-.soc-yt::after{background:#c13a3a;}
-.soc-tt::after{background:#888;}
-
-/* Light mode — transparent white glass */
-:root.day .soc-icon{
-  background:rgba(255,255,255,0.55);
-  border:0.5px solid rgba(0,0,0,0.08);
-  box-shadow:0 2px 8px rgba(0,0,0,0.10),0 1px 0 rgba(255,255,255,0.9) inset;
-  color:#1a1a1a;
-}
-:root.day .soc-icon::before{
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);
-}
-:root.day .soc-icon::after{opacity:0.45;}
-:root.day .soc-icon:hover::after{opacity:0.80;}
-/* Keep SVG white readable on light glass */
-:root.day .soc-ig svg,:root.day .soc-fb svg,:root.day .soc-wa svg,
-:root.day .soc-li svg,:root.day .soc-yt svg,:root.day .soc-tt svg{color:#1a1a1a;}
-/* ── Neumorphic slider toggle ── */
-.theme-float{
-  position:fixed;top:60px;right:20px;z-index:110;
-  width:58px;height:30px;border-radius:15px;
-  background:#1c1c22;border:none;cursor:pointer;padding:0;
-  box-shadow:inset 0 2px 5px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.04),0 2px 8px rgba(0,0,0,0.5);
-  transition:background 0.4s,box-shadow 0.4s;
-  display:flex;align-items:center;overflow:hidden;
-}
-:root.day .theme-float{
-  background:#e8e4dc;
-  box-shadow:inset 0 1px 3px rgba(0,0,0,0.10),inset 0 1px 0 rgba(255,255,255,0.85),0 1px 4px rgba(0,0,0,0.08);
-}
-.theme-float-knob{
-  width:24px;height:24px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#6a6a7a,#22222e);
-  box-shadow:0 2px 6px rgba(0,0,0,0.7),0 1px 0 rgba(255,255,255,0.15) inset;
-  margin-left:3px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;line-height:1;
-  transform:translateX(0px);
-  transition:transform 0.38s cubic-bezier(0.34,1.56,0.64,1),background 0.38s,box-shadow 0.38s;
-  pointer-events:none;
-}
-:root.day .theme-float-knob{
-  transform:translateX(28px);
-  background:radial-gradient(circle at 35% 30%,#fff5c0,#ffd040);
-  box-shadow:0 2px 6px rgba(0,0,0,0.14),0 1px 0 rgba(255,255,255,1) inset,0 0 14px rgba(255,200,30,0.85);
-}
-.theme-float:hover .theme-float-knob{filter:brightness(1.1);}
-
-/* ── SCENE ──────────────────────────────────────────────────────────────── */
 .scene{position:relative;width:100%;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;z-index:1;padding-top:50px;}
 .wash{position:absolute;inset:0;opacity:0;transition:opacity 0.8s ease;pointer-events:none;z-index:1;}
 .scanline{position:absolute;top:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--scan-col),transparent);animation:scan 20s linear infinite;z-index:40;pointer-events:none;}
@@ -311,21 +120,14 @@ nav{display:flex;align-items:center;gap:24px;}
 .gc-desc{font-size:11.5px;letter-spacing:0.07em;color:var(--text-muted);line-height:1.8;}
 .gc-arrow{display:block;margin-top:10px;font-size:12.6px;color:var(--text-dim);}
 
-@keyframes glowPulse{0%,100%{opacity:0.18;transform:scale(1);}50%{opacity:0.60;transform:scale(1.12);}}50%{opacity:0.55;filter:blur(14px);}}
-@keyframes dotBreath{0%,100%{opacity:0.70;r:3.5;}50%{opacity:1;r:4.2;}}50%{opacity:1;filter:drop-shadow(0 0 6px currentColor) drop-shadow(0 0 16px currentColor) drop-shadow(0 0 28px currentColor);}}
+@keyframes glowPulse{0%,100%{opacity:0.18;transform:scale(1);}50%{opacity:0.60;transform:scale(1.12);}}
+@keyframes dotBreath{0%,100%{opacity:0.70;r:3.5;}50%{opacity:1;r:4.2;}}
 @keyframes lineAlive{0%,100%{opacity:0.07}50%{opacity:0.14}}
-/* Day mode — vivid glowing dots, not shadows */
-:root.day .dot-svg circle[fill]:not([fill="transparent"]){
-  filter:saturate(1.8) brightness(1.1);
-}
+:root.day .dot-svg circle[fill]:not([fill="transparent"]){filter:saturate(1.8) brightness(1.1);}
 @keyframes glowPulseDay{0%,100%{opacity:0.55;}50%{opacity:0.90;}}
-  50%{opacity:0.80;filter:blur(11px);}
-}
 @keyframes dotBreathDay{0%,100%{opacity:0.75;}50%{opacity:0.95;}}
-  50%{opacity:1;filter:drop-shadow(0 0 7px currentColor) drop-shadow(0 0 18px currentColor) drop-shadow(0 0 30px currentColor);}
-}
 
-/* ── BELOW FOLD ──────────────────────────────────────────────────────────── */
+/* BELOW FOLD */
 .below{position:relative;z-index:1;border-top:0.5px solid var(--border);display:flex;flex-direction:row;align-items:stretch;width:100%;transition:border-color 0.6s;}
 .bc{padding:32px 24px;flex:1;min-width:0;border-right:0.5px solid var(--border);transition:background 0.4s,border-color 0.6s;position:relative;overflow:hidden;}
 .bc:first-child{flex:1.4;}
@@ -344,6 +146,8 @@ nav{display:flex;align-items:center;gap:24px;}
 .bc-featured::before{display:none;}
 .feat-img{width:100%;height:180px;background:rgba(240,235,224,0.04);border-bottom:0.5px solid var(--border);overflow:hidden;display:flex;align-items:center;justify-content:center;transition:background 0.6s,border-color 0.6s;flex-shrink:0;}
 :root.day .feat-img{background:rgba(0,0,0,0.025);}
+.feat-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(0.95) contrast(1.02);transition:transform 0.6s ease,filter 0.6s ease;}
+.bc-featured:hover .feat-img img{transform:scale(1.035);filter:saturate(1.05) contrast(1.04);}
 .feat-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:var(--text-dim);}
 .feat-placeholder span{font-size:11.5px;letter-spacing:0.3em;text-transform:uppercase;}
 .feat-body{padding:24px 28px 30px;}
@@ -352,88 +156,12 @@ nav{display:flex;align-items:center;gap:24px;}
 .feat-meta{font-size:12.6px;letter-spacing:0.08em;color:var(--text-muted);line-height:1.9;margin-bottom:7px;transition:color 0.6s;}
 .feat-link{display:inline-flex;align-items:center;gap:7px;font-size:12.6px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;border-bottom:0.5px solid var(--border);padding-bottom:1.5px;transition:color 0.2s,border-color 0.2s;}
 .feat-link:hover{color:var(--text);border-color:var(--text-muted);}
-
-/* ── FOOTER ─────────────────────────────────────────────────────────────── */
-footer{
-  position:relative;z-index:1;
-  padding:20px 40px;
-  border-top:0.5px solid var(--border);
-  display:flex;justify-content:space-between;align-items:center;
-  transition:border-color 0.6s;
-}
-.foot-l{font-size:11.5px;letter-spacing:0.22em;color:var(--text-dim);transition:color 0.6s;}
-.foot-c{font-size:10.3px;letter-spacing:0.28em;text-transform:uppercase;color:var(--text-dim);transition:color 0.6s;}
-.foot-r{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:14.9px;color:var(--text-dim);transition:color 0.6s;}
-
-/* ── SCROLLBAR ───────────────────────────────────────────────────────────── */
-::-webkit-scrollbar{width:0;height:0;background:transparent;}
-
-/* ── LIGHTNING ──────────────────────────────────────────────────────────── */
-#lightning{position:fixed;inset:0;z-index:99999;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0;}
-#lightning.strike{animation:strikeSeq 1.3s forwards;}
-@keyframes strikeSeq{0%{opacity:0;background:transparent;}6%{opacity:1;background:rgba(255,20,20,0.12);}12%{opacity:0;background:transparent;}18%{opacity:1;background:rgba(255,20,20,0.22);}24%{opacity:0;background:transparent;}30%{opacity:1;background:rgba(255,30,30,0.35);}42%{opacity:0;background:transparent;}100%{opacity:0;}}
-#lightning svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;filter:drop-shadow(0 0 24px #ff2200) drop-shadow(0 0 60px #ff4400);}
-#lightning.strike svg{animation:boltFlash 1.3s forwards;}
-@keyframes boltFlash{0%{opacity:0;transform:translate(-50%,-50%) scale(0.7);}8%{opacity:1;transform:translate(-50%,-50%) scale(1.05);}16%{opacity:0;}22%{opacity:0.95;transform:translate(-50%,-50%) scale(1);}32%{opacity:0;}40%{opacity:1;transform:translate(-50%,-50%) scale(1.02);}58%{opacity:0;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;}}
-#lightning-msg{position:absolute;bottom:18%;left:50%;transform:translateX(-50%);font-family:"Syne",sans-serif;font-size:11.5px;letter-spacing:0.35em;text-transform:uppercase;color:#ff4422;opacity:0;text-shadow:0 0 14px rgba(255,60,20,0.9);white-space:nowrap;}
-#lightning.strike #lightning-msg{animation:msgFlash 1.3s forwards;}
-@keyframes msgFlash{0%{opacity:0;}42%{opacity:0;}52%{opacity:1;}88%{opacity:1;}100%{opacity:0;}}
 </style>
 </head>
 <body>
 
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
 <div class="orb orb3" id="orb3"></div>
 
-<!-- ── HEADER ─────────────────────────────────────────────────────────────── -->
-<header>
-  <div class="hdr-left">
-    <!-- Home icon -->
-    <a href="#" class="hdr-logo active" title="Home">
-      <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
-        <path d="M10 2.5L2 9.5h2V17h5v-4h2v4h5V9.5h2L10 2.5z"/>
-      </svg>
-    </a>
-    <nav>
-      <a class="nav-link" href="https://www.glitchartworks.com" target="_blank" style="--cat:#61a7ff">Branding</a>
-      <a class="nav-link" href="https://www.glitchartworks.com/ui-ux" target="_blank" style="--cat:#ffbe35">UI/UX</a>
-      <a class="nav-link" href="https://www.glitchartworks.com/digital-art" target="_blank" style="--cat:#55ffa2">Digital Art</a>
-      <a class="nav-link" href="https://www.glitchartworks.com/art" target="_blank" style="--cat:#ff4c4c">Art</a>
-      <a class="nav-link" href="https://www.glitchartworks.com/3d" target="_blank" style="--cat:#a57afe">3D</a>
-      <a class="nav-link" href="https://www.glitchartworks.com/architecture" target="_blank" style="--cat:#fe9d32">Architecture</a>
-      <a class="nav-link" href="https://www.glitchartworks.com/contact-8" target="_blank" style="--cat:#ff4c4c">Contact</a>
-    </nav>
-  </div>
-  <div class="hdr-right">
-    <!-- Social icons — flat coloured circles -->
-    <a class="soc-icon soc-ig" href="https://www.instagram.com/glitchartworks/" target="_blank" title="Instagram">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
-    </a>
-    <a class="soc-icon soc-fb" href="https://www.facebook.com/glitchartworks" target="_blank" title="Facebook">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-    </a>
-    <a class="soc-icon soc-wa" href="https://api.whatsapp.com/send?phone=%2B60183514961" target="_blank" title="WhatsApp">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-    </a>
-    <a class="soc-icon soc-li" href="http://www.linkedin.com/in/nishaanthiny-shanmuggam-188259233" target="_blank" title="LinkedIn">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-    </a>
-    <a class="soc-icon soc-yt" href="http://www.youtube.com/@glitchartworks" target="_blank" title="YouTube">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#fff" opacity="0.9"/></svg>
-    </a>
-    <a class="soc-icon soc-tt" href="https://www.tiktok.com/@glitchartworks" target="_blank" title="TikTok">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.67a8.16 8.16 0 0 0 4.77 1.52V7.74a4.85 4.85 0 0 1-1-.05z"/></svg>
-    </a>
-  </div>
-</header>
-
-
-<!-- Floating day/night toggle -->
-<button class="theme-float" id="themeToggle" title="Toggle day/night" aria-label="Toggle day/night">
-  <div class="theme-float-knob" id="themeKnob">🌙</div>
-</button>
-<!-- ── HERO SCENE ─────────────────────────────────────────────────────────── -->
 <section class="scene" id="scene">
   <div class="scanline"></div>
   <div class="wash" id="wash"></div>
@@ -479,7 +207,7 @@ footer{
 <div class="below" style="display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;width:100%!important;">
   <div class="bc bc-featured" style="flex:1.4!important;min-width:0!important;max-width:none!important;" onclick="window.open('https://www.glitchartworks.com/art','_blank')">
     <div class="feat-img">
-      <div class="feat-placeholder"><span>Mural photo coming soon</span></div>
+      <img src="home-assets/star-avenue-mural.jpg" alt="Star Avenue Lifestyle Mall mural artwork">
     </div>
     <div class="feat-body">
       <div class="feat-label">Featured Work</div>
@@ -505,13 +233,6 @@ footer{
   </div>
 </div>
 
-
-<!-- ── FOOTER ─────────────────────────────────────────────────────────────── -->
-<footer>
-  <span class="foot-l">© 2025 Glitch Artworks — Nishan. Penang · Kuala Lumpur</span>
-  <span class="foot-c">All works are copyrighted</span>
-  <span class="foot-r">Architect by training. Artist by nature.</span>
-</footer>
 
 <!-- ── SCRIPTS ────────────────────────────────────────────────────────────── -->
 <script>
@@ -552,9 +273,9 @@ const DOT_DIST = 90;
 const zones = [
   {id:"branding",num:"01",name:"Branding",desc:"Identity & visual systems\nLogos · Strategy · Print",color:"#61a7ff",dotSvg:{x:50.73,y:241.96-DOT_DIST},lineEnd:{x:50.73,y:241.96},url:"/branding"},
   {id:"art",num:"02",name:"Art",desc:"Physical & hand-made\nMurals · Illustration · Canvas",color:"#ff4c4c",dotSvg:{x:677,y:241.96-DOT_DIST},lineEnd:{x:677,y:241.96},url:"/art"},
-  {id:"arch",num:"03",name:"Architecture",desc:"Space as language\nSpatial design · Renders",color:"#fe9d32",dotSvg:{x:-DOT_DIST,y:336.76},lineEnd:{x:0,y:336.76},url:"/architecture"},
+  {id:"arch",num:"03",name:"Architecture",desc:"Space as language\nSpatial design · Renders",color:"#ff7f00",dotSvg:{x:-DOT_DIST,y:336.76},lineEnd:{x:0,y:336.76},url:"/architecture"},
   {id:"digital",num:"04",name:"Digital Art",desc:"Screen-born imagery\nMotion · Graphic design",color:"#55ffa2",dotSvg:{x:765.89+DOT_DIST,y:440.06},lineEnd:{x:765.89,y:440.06},url:"/digital-art"},
-  {id:"uiux",num:"05",name:"UI / UX",desc:"Interfaces & experiences\nWeb · App · Interaction",color:"#ffbe35",dotSvg:{x:166.2,y:488.88+DOT_DIST},lineEnd:{x:166.2,y:488.88},url:"/uiux"},
+  {id:"uiux",num:"05",name:"UI / UX",desc:"Interfaces & experiences\nWeb · App · Interaction",color:"#fff34f",dayColor:"#ffbe35",dotSvg:{x:166.2,y:488.88+DOT_DIST},lineEnd:{x:166.2,y:488.88},url:"/uiux"},
   {id:"3d",num:"06",name:"3D",desc:"Form, depth & dimension\nModelling · Environments",color:"#a57afe",dotSvg:{x:585.03,y:488.88+DOT_DIST},lineEnd:{x:585.03,y:488.88},url:"/3d"},
 ];
 
@@ -571,22 +292,18 @@ const glassCard = document.getElementById("glassCard");
 const gcNum     = document.getElementById("gcNum");
 const gcName    = document.getElementById("gcName");
 const gcDesc    = document.getElementById("gcDesc");
-const toggle    = document.getElementById("themeToggle");
-
 let scaleX,scaleY,logoLeft,logoTop,LOGO_W,LOGO_H;
 let els={},cardStyleTag=null;
-let isDay=false;
+let isDay=document.documentElement.classList.contains("day");
 
-// ── Theme toggle ──────────────────────────────────────────────────────────
-toggle.addEventListener("click",()=>{
-  isDay=!isDay;
-  document.documentElement.classList.toggle("day",isDay);
-  document.getElementById('themeKnob').textContent=isDay?'☀️':'🌙';
+window.addEventListener("glitch:themechange",e=>{
+  isDay=!!e.detail.day;
   buildLines();
   buildDots();
 });
 
 function s2p(svgX,svgY){return{x:logoLeft+svgX*scaleX,y:logoTop+svgY*scaleY};}
+function zoneColor(z){return isDay&&z.dayColor?z.dayColor:z.color;}
 
 function setup(){
   const W=scene.clientWidth,H=scene.clientHeight;
@@ -656,6 +373,7 @@ function buildDots(){
   dotSvg.appendChild(defs);
 
   zones.forEach((z,i)=>{
+    const col=zoneColor(z);
     const dot=s2p(z.dotSvg.x,z.dotSvg.y);
     const lEnd=s2p(z.lineEnd.x,z.lineEnd.y);
     const lineLen=Math.hypot(dot.x-lEnd.x,dot.y-lEnd.y);
@@ -672,20 +390,20 @@ function buildDots(){
     const revGlow=document.createElementNS("http://www.w3.org/2000/svg","line");
     revGlow.setAttribute("x1",lEnd.x);revGlow.setAttribute("y1",lEnd.y);
     revGlow.setAttribute("x2",dot.x);revGlow.setAttribute("y2",dot.y);
-    revGlow.setAttribute("stroke",z.color);
+    revGlow.setAttribute("stroke",col);
     revGlow.setAttribute("stroke-width",isDay?"4":"7");
     revGlow.setAttribute("stroke-dasharray",lineLen);revGlow.setAttribute("stroke-dashoffset",lineLen);
     revGlow.setAttribute("stroke-linecap","round");
     revGlow.style.transition="stroke-dashoffset 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.3s";
     revGlow.style.opacity="0";
     if(!isDay) revGlow.setAttribute("filter","url(#gf-"+z.id+")");
-    else { revGlow.style.filter=`drop-shadow(0 0 4px ${z.color}) drop-shadow(0 0 8px ${z.color}50)`; }
+    else { revGlow.style.filter=`drop-shadow(0 0 4px ${col}) drop-shadow(0 0 8px ${col}50)`; }
     dotSvg.appendChild(revGlow);
 
     const rev=document.createElementNS("http://www.w3.org/2000/svg","line");
     rev.setAttribute("x1",lEnd.x);rev.setAttribute("y1",lEnd.y);
     rev.setAttribute("x2",dot.x);rev.setAttribute("y2",dot.y);
-    rev.setAttribute("stroke",z.color);rev.setAttribute("stroke-width","1.2");
+    rev.setAttribute("stroke",col);rev.setAttribute("stroke-width","1.2");
     rev.setAttribute("stroke-dasharray",lineLen);rev.setAttribute("stroke-dashoffset",lineLen);
     rev.setAttribute("stroke-linecap","round");
     rev.style.transition="stroke-dashoffset 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.3s";
@@ -711,7 +429,7 @@ function buildDots(){
     grad.setAttribute("cx","50%");grad.setAttribute("cy","50%");
     grad.setAttribute("r","50%");
     // Parse hex colour to rgb for stop-color
-    const hex = z.color.replace('#','');
+    const hex = col.replace('#','');
     const cr = parseInt(hex.substring(0,2),16);
     const cg = parseInt(hex.substring(2,4),16);
     const cb = parseInt(hex.substring(4,6),16);
@@ -760,10 +478,10 @@ function buildDots(){
     const innerDot = document.createElementNS("http://www.w3.org/2000/svg","circle");
     innerDot.setAttribute("cx",dot.x);innerDot.setAttribute("cy",dot.y);
     innerDot.setAttribute("r","3.5");
-    innerDot.setAttribute("fill", isDay ? "white" : z.color);
+    innerDot.setAttribute("fill", isDay ? "white" : col);
     if(isDay){
       // White centre with colour ring for light mode
-      innerDot.setAttribute("stroke", z.color);
+      innerDot.setAttribute("stroke", col);
       innerDot.setAttribute("stroke-width","1.5");
     }
     innerDot.style.animation=(isDay?"dotBreathDay":"dotBreath")+" 2s ease-in-out infinite";
@@ -774,7 +492,7 @@ function buildDots(){
     [[dot.x-ch,dot.y,dot.x+ch,dot.y],[dot.x,dot.y-ch,dot.x,dot.y+ch]].forEach(([x1,y1,x2,y2])=>{
       const l=document.createElementNS("http://www.w3.org/2000/svg","line");
       l.setAttribute("x1",x1);l.setAttribute("y1",y1);l.setAttribute("x2",x2);l.setAttribute("y2",y2);
-      l.setAttribute("stroke",z.color);l.setAttribute("stroke-width","0.5");l.setAttribute("opacity","0.4");
+      l.setAttribute("stroke",col);l.setAttribute("stroke-width","0.5");l.setAttribute("opacity","0.4");
       dotSvg.appendChild(l);
     });
 
@@ -782,7 +500,7 @@ function buildDots(){
     const hit=document.createElementNS("http://www.w3.org/2000/svg","circle");
     hit.setAttribute("cx",dot.x);hit.setAttribute("cy",dot.y);
     hit.setAttribute("r","160");hit.setAttribute("fill","transparent");
-    hit.style.cursor="pointer";hit.style.pointerEvents="all";
+    hit.style.cursor="pointer";hit.style.pointerEvents="all";hit.setAttribute("data-cursor-hover","");
     dotSvg.appendChild(hit);
 
     els[z.id]={rev,revGlow,revCore,innerDot,haloOuter,hit,dot,lineLen,isDay};
@@ -796,6 +514,7 @@ function buildDots(){
 
 function onEnter(z){
   const el=els[z.id];
+  const col=zoneColor(z);
   el.rev.style.opacity="1";el.rev.setAttribute("stroke-dashoffset","0");
   if(el.revGlow){el.revGlow.style.opacity=isDay?"0.85":"0.55";el.revGlow.setAttribute("stroke-dashoffset","0");}
   if(el.revCore){el.revCore.style.opacity=isDay?"0":"0.90";el.revCore.setAttribute("stroke-dashoffset","0");}
@@ -817,20 +536,20 @@ function onEnter(z){
   } else if(el.haloOuter&&!isDay){
     el.haloOuter.setAttribute("r","30");
   }
-  positionCard(z,el.dot.x,el.dot.y,z.color);
+  positionCard(z,el.dot.x,el.dot.y,col);
   if(!isDay){
-    wash.style.background=`radial-gradient(ellipse at center,${z.color}1a 0%,transparent 60%)`;
+    wash.style.background=`radial-gradient(ellipse at center,${col}1a 0%,transparent 60%)`;
     wash.style.opacity="1";
-    orb3.style.background=z.color;
+    orb3.style.background=col;
     orb3.style.opacity="";
   } else {
     wash.style.opacity="0";
-    orb3.style.background=z.color;
+    orb3.style.background=col;
     orb3.style.opacity="0";
   }
   hint.style.opacity="0";
-  aboutElem.style.setProperty("--zone-col",z.color);aboutElem.classList.add("active");
-  contactCta.style.setProperty("--zone-col",z.color);contactCta.classList.add("active");
+  aboutElem.style.setProperty("--zone-col",col);aboutElem.classList.add("active");
+  contactCta.style.setProperty("--zone-col",col);contactCta.classList.add("active");
 }
 function onLeave(z){
   const el=els[z.id];
@@ -877,20 +596,5 @@ function positionCard(z,dotX,dotY,color){
 setup();
 window.addEventListener("resize",()=>{setup();glassCard.classList.remove("visible");});
 </script>
-
-<!-- LIGHTNING STRIKE PROTECTION -->
-<div id="lightning">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 765.89 730.83" style="height:90vh;width:auto;filter:drop-shadow(0 0 30px #ff2200) drop-shadow(0 0 80px #ff4400) drop-shadow(0 0 120px rgba(255,60,0,0.5));">
-    <path d="M339.87,359.6s-3.8,5.58-13.9,14c-.13.11-.57.47-1.26.7-1.25.43-2.94.28-3.88-.61-.99-.94-.93-2.48-.89-3.34.69-13.67,2.22-21.81,2.22-21.81.1-.52.15-.77.18-.95,1.37-7.14,20.58-102.86,69.77-347.37l-.57-.21c-27.53,131.91-55.05,263.82-82.58,395.72.13-.08.27-.15.4-.23,3.39-3.66,5.97-6.7,7.55-8.61,2.35-2.83,8.63-9.64,21.2-23.26.76-.83,2.25-2.4,3.22-2.01,1.47.59.86,5.3.65,6.9-1.22,9.43-42.22,213.27-72.26,362.16.26.05.53.11.79.16,27.53-131.91,55.05-263.82,82.58-395.72-.24-.07-.48-.14-.72-.21-1.92,5.15-5.98,15.11-12.5,24.7Z" fill="#ff3300"/>
-    <path d="M339.87,359.6s-3.8,5.58-13.9,14c-.13.11-.57.47-1.26.7-1.25.43-2.94.28-3.88-.61-.99-.94-.93-2.48-.89-3.34.69-13.67,2.22-21.81,2.22-21.81.1-.52.15-.77.18-.95,1.37-7.14,20.58-102.86,69.77-347.37l-.57-.21c-27.53,131.91-55.05,263.82-82.58,395.72.13-.08.27-.15.4-.23,3.39-3.66,5.97-6.7,7.55-8.61,2.35-2.83,8.63-9.64,21.2-23.26.76-.83,2.25-2.4,3.22-2.01,1.47.59.86,5.3.65,6.9-1.22,9.43-42.22,213.27-72.26,362.16.26.05.53.11.79.16,27.53-131.91,55.05-263.82,82.58-395.72-.24-.07-.48-.14-.72-.21-1.92,5.15-5.98,15.11-12.5,24.7Z" fill="white" opacity="0.4"/>
-  </svg>
-  <div id="lightning-msg">⚡ nice try — this work is protected ⚡</div>
-<script>
-const _lb=document.getElementById("lightning");let _lt;
-function _strike(){clearTimeout(_lt);_lb.classList.remove("strike");void _lb.offsetWidth;_lb.classList.add("strike");_lt=setTimeout(()=>_lb.classList.remove("strike"),1400);}
-document.addEventListener("contextmenu",e=>{if(e.target.tagName==="IMG"){e.preventDefault();_strike();}});
-document.addEventListener("dragstart",e=>{if(e.target.tagName==="IMG"){e.preventDefault();_strike();}});
-</script>
-</div>
 </body>
 </html>
