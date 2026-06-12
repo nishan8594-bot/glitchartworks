@@ -30,7 +30,6 @@
   /* ── Apply saved theme — every page supports day/night ────────────────── */
   var savedDay = false;
   try { savedDay = localStorage.getItem("glitch-theme") === "day"; } catch (e) {}
-  if (isGallery) savedDay = false;   // galleries are dark-only
   document.documentElement.classList.toggle("day", savedDay);
 
   /* ── Category pages: the cursor takes the page's own accent colour ────── */
@@ -57,6 +56,8 @@
       svg: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>' },
     { cls: "soc-li", title: "LinkedIn", href: "http://www.linkedin.com/in/nishaanthiny-shanmuggam-188259233",
       svg: '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>' },
+    { cls: "soc-yt", title: "YouTube", href: "http://www.youtube.com/@glitchartworks",
+      svg: '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#fff" opacity="0.9"/></svg>' },
     { cls: "soc-tt", title: "TikTok", href: "https://www.tiktok.com/@glitchartworks",
       svg: '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.67a8.16 8.16 0 0 0 4.77 1.52V7.74a4.85 4.85 0 0 1-1-.05z"/></svg>' }
   ];
@@ -120,22 +121,24 @@
     return f;
   }
 
-  /* ── Stars: shared client / coursework badges ─────────────────────────── */
-  function starSVG(isHw) {
-    var col = isHw ? "#4a9eff" : "#ff8c42";
+  /* ── Stars: client (orange) / class (blue, pulse) / personal (blue) ─────── */
+  var STAR = {
+    rc: { col: "#ff8c42", label: "Real Client",   msg: "Commissioned by a real client. Delivered and applied in production." },
+    hw: { col: "#4a9eff", label: "Class Project",  msg: "Academic assignment \u2014 designed to brief, executed to portfolio standard." },
+    pw: { col: "#4a9eff", label: "Personal Work",  msg: "Self-initiated personal work \u2014 made to explore, not to brief." }
+  };
+  function starSVG(col) {
     return '<svg viewBox="0 0 20 20" fill="' + col + '" xmlns="http://www.w3.org/2000/svg"><path d="M10 1l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.27 6.62l5.34-.78L10 1z"/></svg>';
   }
   var scTimer;
-  function showStarCard(el, isHw) {
-    var card = document.getElementById("starCard");
-    if (!card) return;
+  function showStarCard(el, type) {
+    var d = STAR[type], card = document.getElementById("starCard");
+    if (!d || !card) return;
     clearTimeout(scTimer);
     var r = el.getBoundingClientRect();
-    card.className = "star-card show " + (isHw ? "hw" : "rc");
-    document.getElementById("starCardLabel").textContent = isHw ? "Class Project" : "Real Client";
-    document.getElementById("starCardMsg").textContent = isHw
-      ? "Academic assignment \u2014 designed to brief, executed to portfolio standard."
-      : "Commissioned by a real client. Delivered and applied in production.";
+    card.className = "star-card show " + type;
+    document.getElementById("starCardLabel").textContent = d.label;
+    document.getElementById("starCardMsg").textContent = d.msg;
     var left = r.right + 10, top = r.top - 10;
     if (left + 290 > window.innerWidth) left = r.left - 295;
     if (top + 90 > window.innerHeight) top = window.innerHeight - 100;
@@ -143,15 +146,15 @@
     card.style.top = top + "px";
     scTimer = setTimeout(function () { card.classList.remove("show"); }, 3500);
   }
-  /* Public: returns a wired star <span> (or null). type = "hw" | "rc". */
+  /* Public: returns a wired star <span> (or null). type = "rc" | "hw" | "pw". */
   function makeStar(type, extraClass) {
-    if (type !== "hw" && type !== "rc") return null;
-    var isHw = type === "hw";
+    var d = STAR[type];
+    if (!d) return null;
     var span = document.createElement("span");
     span.className = "star-badge " + type + (extraClass ? " " + extraClass : "");
-    span.innerHTML = starSVG(isHw);
+    span.innerHTML = starSVG(d.col);
     span.setAttribute("data-cursor-hover", "");
-    span.addEventListener("click", function (e) { e.stopPropagation(); showStarCard(span, isHw); });
+    span.addEventListener("click", function (e) { e.stopPropagation(); showStarCard(span, type); });
     return span;
   }
 
@@ -188,7 +191,7 @@
       body.insertBefore(o1, body.firstChild);
     }
 
-    if (!isGallery) body.insertBefore(buildToggle(), body.firstChild);  // dark-only galleries get no toggle
+    body.insertBefore(buildToggle(), body.firstChild);   // standard on every page
     body.insertBefore(buildHeader(), body.firstChild);
 
     if (!document.querySelector("footer")) body.appendChild(buildFooter());

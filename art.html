@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Glitch Artworks — Art</title>
 <link rel="stylesheet" href="glitch-core.css">
+<script>try{if(localStorage.getItem('glitch-theme')==='day')document.documentElement.classList.add('day');}catch(e){}</script>
 <script>window.GLITCH={active:'art'};</script>
 <script defer src="glitch-core.js"></script>
 <style>
@@ -35,6 +36,21 @@
   --panel-bg:#080706;
   --intro-fade:rgba(8,7,6,0.95);
   transition:background 0.6s ease,color 0.6s ease;
+}
+:root.day{
+  --bg:#f8f6f1;
+  --bone:#1a1714;
+  --muted:#7a6f66;
+  --red:#b53232;
+  --red-bright:#e03b3b;
+  --border:rgba(13,12,11,0.10);
+  --text:#000000;
+  --text-muted:rgba(0,0,0,0.75);
+  --header-bg:rgba(248,246,241,0.45);
+  --scan-col:rgba(181,50,50,0.10);
+  --grain-opacity:0.18;
+  --panel-bg:#ece8e0;
+  --intro-fade:rgba(248,246,241,0.94);
 }
 
 html,body{width:100%;height:100%;background:var(--bg);color:var(--bone);font-family:"Syne",sans-serif;overflow:hidden;cursor:none;transition:background 0.6s ease,color 0.6s ease;}
@@ -123,10 +139,6 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--bone);font-fam
 .ph-panel small{font-size:8px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(127,114,104,0.5);position:relative;z-index:1;}
 
 /* ── PROGRESS DOTS ─────────────────────────────────────────────────────────── */
-.progress{position:fixed;bottom:46px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:210;align-items:center;pointer-events:auto;padding:8px 12px;}
-.prog-dot{width:6px;height:6px;border-radius:50%;background:rgba(127,114,104,0.3);transition:all 0.35s;cursor:none;pointer-events:auto;}
-.prog-dot:hover{background:rgba(var(--redb-rgb),0.5);}
-.prog-dot.active{background:var(--red-bright);box-shadow:0 0 8px var(--red-bright);width:24px;border-radius:3px;}
 
 /* ── LIGHTBOX ──────────────────────────────────────────────────────────────── */
 #lb{display:none;position:fixed;inset:0;z-index:9998;background:rgba(8,4,4,0.97);backdrop-filter:blur(20px);align-items:center;justify-content:center;}
@@ -255,7 +267,7 @@ const projects = [
     ]
   },
   {
-    num:"04",
+    num:"04", star:"pw",
     name:`On <em>Paper</em>`,
     cover:IMGS.studyTaj,
     type:"Handmade \u00b7 Watercolour & Ink",

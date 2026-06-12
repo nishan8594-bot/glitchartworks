@@ -224,8 +224,6 @@ nav{display:flex;align-items:center;gap:24px;}
   box-shadow:0 2px 6px rgba(0,0,0,0.14),0 1px 0 rgba(255,255,255,1) inset,0 0 14px rgba(255,200,30,0.85);
 }
 .theme-float:hover .theme-float-knob{filter:brightness(1.1);}
-/* Dark-only galleries never show the toggle (also not injected by core.js). */
-:root.is-gallery .theme-float{display:none !important;}
 
 /* ── Custom cursor — dot + ring + glow, white on dark / black on light ─────── */
 #cursor{position:fixed;pointer-events:none;z-index:9999;top:0;left:0;}
@@ -269,7 +267,15 @@ footer{
   pointer-events:none;
 }
 /* Lift any bottom-pinned gallery UI (e.g. the project progress dots) clear of the bar */
-:root.is-gallery .progress{bottom:54px;}
+/* ── Scroll progress — horizontal centred dots; active stretches to a pill,
+   coloured by the page's own accent. Standard across all category pages. ──── */
+.progress{position:fixed;bottom:46px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:210;align-items:center;pointer-events:auto;padding:8px 12px;}
+.prog-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.18);transition:all 0.35s;cursor:none;pointer-events:auto;}
+.prog-dot:hover{background:var(--accent);opacity:0.55;}
+.prog-dot.active{background:var(--accent);width:24px;border-radius:3px;opacity:1;}
+:root.day .prog-dot{background:rgba(0,0,0,0.2);}
+:root.day .prog-dot.active{background:var(--accent);opacity:1;}
+:root.is-gallery .progress{bottom:54px;}   /* clear the slim gallery footer */
 /* Day-mode gallery footer scrim — light wash instead of the dark gradient */
 :root.day.is-gallery footer{
   background:linear-gradient(to top,rgba(248,246,241,0.94) 0%,rgba(248,246,241,0.66) 55%,rgba(248,246,241,0) 100%);
@@ -297,6 +303,7 @@ footer{
 .star-badge.hw svg{animation:starPulse 2s ease-in-out infinite;}
 @keyframes starPulse{0%,100%{opacity:0.5;filter:drop-shadow(0 0 2px #4a9eff);}50%{opacity:1;filter:drop-shadow(0 0 8px #4a9eff) drop-shadow(0 0 16px rgba(74,158,255,0.6));}}
 .star-badge.rc svg{filter:drop-shadow(0 0 4px #ff8c42);}
+.star-badge.pw svg{filter:drop-shadow(0 0 3px rgba(74,158,255,0.85));}
 .pi-name .pi-star{display:inline-flex;vertical-align:middle;margin-left:10px;cursor:none;}
 /* glass info card — shown next to a star on tap, auto-hides */
 .star-card{position:fixed;z-index:9990;background:var(--card-bg);border:0.5px solid var(--card-border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:12px 16px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity 0.25s,transform 0.25s;transform:translateY(4px) scale(0.96);min-width:220px;max-width:280px;box-shadow:0 8px 32px rgba(0,0,0,0.5);}
@@ -304,6 +311,7 @@ footer{
 .star-card.show{opacity:1;transform:translateY(0) scale(1);}
 .star-card-label{font-size:8.8px;letter-spacing:0.25em;text-transform:uppercase;display:block;margin-bottom:5px;}
 .star-card.hw .star-card-label{color:rgba(74,158,255,0.85);}
+.star-card.pw .star-card-label{color:rgba(74,158,255,0.85);}
 .star-card.rc .star-card-label{color:rgba(255,140,66,0.9);}
 .star-card-msg{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:14.3px;font-weight:300;color:var(--text-muted);line-height:1.6;}
 
