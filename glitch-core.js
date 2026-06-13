@@ -22,7 +22,7 @@
 
   /* ── Which page is this? ──────────────────────────────────────────────── */
   var activeKey = (CFG.active || currentFile()).replace(/\.html$/i, "").toLowerCase();
-  var GALLERY  = ["branding", "uiux", "digitalart", "art"];   // full-bleed image galleries (layout only)
+  var GALLERY  = ["branding", "uiux", "digitalart", "art", "3d"];   // full-bleed image galleries (layout only)
   var CATEGORY = GALLERY.concat(["3d", "architecture"]);      // all six categories
   var isGallery  = GALLERY.indexOf(activeKey) !== -1;
   var isCategory = CATEGORY.indexOf(activeKey) !== -1;
