@@ -212,59 +212,78 @@ const IMGS = {
 const projects = [
   {
     num:"01", star:"pw",
-    name:`Architectural <em>Visualisation</em>`,
-    cover:null,
-    type:"Arch-Viz · Exterior & Interior",
-    brief:"Photoreal and stylised visualisation of built and unbuilt space \u2014 the architecture training brought into three dimensions. Massing studies, material light tests and rendered walk-throughs.",
-    tags:["Arch-Viz","Lighting","Materials","Exterior","Interior"],
+    name:`Residential <em>Apartment</em>`,
+    cover:"3d-assets/apt-hero.webp",
+    type:"Architectural Visualisation · Interior",
+    brief:"A residential apartment visualised end to end \u2014 from cut-through sectional elevations to photoreal interior renders. A navy-and-grey scheme with a bold geometric feature wall ties the living, dining, kitchen and bedrooms into one identity.",
+    tags:["Arch-Viz","Interior","Lighting","Sectional","Photoreal"],
     meta:[
-      {label:"Discipline", val:"Architectural visualisation"},
-      {label:"Tools",      val:"Blender / rendering"},
-      {label:"Focus",      val:"Light, material, space"}
+      {label:"Type",  val:"Residential interior"},
+      {label:"Tools", val:"SketchUp \u00b7 rendering"},
+      {label:"Focus", val:"Light, material, space"}
     ],
-    panels:[]
+    panels:[
+      {type:"img", src:"3d-assets/apt-hero.webp"},
+      {type:"text"},
+      {type:"img", src:"3d-assets/apt-render-wide.webp"},
+      {type:"img", src:"3d-assets/apt-render-living.webp"},
+      {type:"img", src:"3d-assets/apt-render-dusk.webp"},
+      {type:"img", src:"3d-assets/apt-render-kitchen.webp"},
+      {type:"vid", src:"3d-assets/apt-walkthrough.mp4", portrait:false},
+      {type:"img", src:"3d-assets/apt-section-bedbath.webp"},
+      {type:"img", src:"3d-assets/apt-section-bedrooms.webp"},
+      {type:"img", src:"3d-assets/apt-section-unit.webp"}
+    ]
   },
   {
-    num:"02", star:"pw",
-    name:`Product <em>Renders</em>`,
-    cover:null,
-    type:"Product / Industrial Viz",
-    brief:"Studio-lit product renders \u2014 form, surface and material isolated against clean backdrops. Built for brand decks, packaging mock-ups and hero shots.",
-    tags:["Product","Studio Lighting","Materials","Hero Shot"],
+    num:"02", star:"rc",
+    name:`Nasi Kandar <em>SRB</em>`,
+    cover:"3d-assets/srb-hero.webp",
+    type:"Architectural Visualisation · F&B Interior",
+    brief:"A built F&B fit-out for a real client \u2014 Restoran Nasi Kandar SRB in Kelana Jaya. Visualised from shopfront identity through to the dining hall: a living moss brand wall, Peranakan-style patterned tilework, backlit food menu boards and an open servery line.",
+    tags:["Arch-Viz","F&B Interior","Branding","Lighting","Client"],
     meta:[
-      {label:"Discipline", val:"Product visualisation"},
-      {label:"Output",     val:"Stills · turntables"},
-      {label:"Focus",      val:"Surface & form"}
+      {label:"Client",   val:"Restoran Nasi Kandar SRB"},
+      {label:"Location", val:"Kelana Jaya"},
+      {label:"Scope",    val:"Interior visualisation"}
     ],
-    panels:[]
+    panels:[
+      {type:"img", src:"3d-assets/srb-shopfront.webp"},
+      {type:"text"},
+      {type:"img", src:"3d-assets/srb-hero.webp"},
+      {type:"img", src:"3d-assets/srb-dining-tv.webp"},
+      {type:"img", src:"3d-assets/srb-entry.webp"},
+      {type:"img", src:"3d-assets/srb-servery.webp"},
+      {type:"img", src:"3d-assets/srb-drinks.webp"},
+      {type:"img", src:"3d-assets/srb-entry-wide.webp"},
+      {type:"vid", src:"3d-assets/srb-walkthrough.mp4", portrait:false}
+    ]
   },
   {
     num:"03", star:"pw",
-    name:`Dimensional <em>Type</em>`,
-    cover:null,
-    type:"3D Lettering & Logo Forms",
-    brief:"Type and brand marks pulled off the page into volume \u2014 extruded, lit and textured. Where the branding practice meets the third dimension.",
-    tags:["3D Type","Lettering","Brand","Extrusion"],
+    name:`Warm <em>Minimal</em>`,
+    cover:"3d-assets/classic-hero.webp",
+    type:"Architectural Visualisation · Residential",
+    brief:"A self-initiated home interior \u2014 a warm, lived-in take on minimalism. Marble, rattan, herringbone timber and soft light carry one calm material story across the living, dining, kitchen and bedroom.",
+    tags:["Arch-Viz","Interior","Residential","Lighting","Materials"],
     meta:[
-      {label:"Discipline", val:"3D typography"},
-      {label:"Ties to",    val:"Branding practice"},
-      {label:"Focus",      val:"Volume & material"}
+      {label:"Type",  val:"Residential interior"},
+      {label:"Brief", val:"Personal / self-initiated"},
+      {label:"Focus", val:"Warmth & material"}
     ],
-    panels:[]
-  },
-  {
-    num:"04", star:"pw",
-    name:`Scenes &amp; <em>Environments</em>`,
-    cover:null,
-    type:"Environment / Diorama",
-    brief:"Self-initiated scenes \u2014 small worlds built to explore mood, composition and atmosphere rather than to a brief. The sketchbook of the 3D practice.",
-    tags:["Environment","Diorama","Mood","Composition"],
-    meta:[
-      {label:"Discipline", val:"Environment art"},
-      {label:"Type",       val:"Personal / studio"},
-      {label:"Focus",      val:"Mood & atmosphere"}
-    ],
-    panels:[]
+    panels:[
+      {type:"img", src:"3d-assets/classic-hero.webp"},
+      {type:"text"},
+      {type:"img", src:"3d-assets/classic-living-dining.webp"},
+      {type:"img", src:"3d-assets/classic-living.webp"},
+      {type:"img", src:"3d-assets/classic-dining-city.webp"},
+      {type:"img", src:"3d-assets/classic-kitchen-dining.webp"},
+      {type:"img", src:"3d-assets/classic-kitchen.webp"},
+      {type:"img", src:"3d-assets/classic-bedroom.webp"},
+      {type:"img", src:"3d-assets/classic-bedroom2.webp"},
+      {type:"img", src:"3d-assets/classic-bedroom-wardrobe.webp"},
+      {type:"vid", src:"3d-assets/classic-walkthrough.mp4", portrait:false}
+    ]
   }
 ];
 
@@ -354,7 +373,7 @@ function buildCanvas(){
           scroll.appendChild(cp);
         } else if(panel.type==="text"){
           const cp=document.createElement("div"); cp.className="cp-text";
-          cp.innerHTML=`<div><span class="cpt-label">${panel.label||""}</span><p class="cpt-body">${panel.body||""}</p></div>`;
+          cp.innerHTML=`<div><span class="cpt-label">${panel.label||"The Brief"}</span><p class="cpt-body">${panel.body||p.brief}</p></div>`;
           scroll.appendChild(cp);
         }
       });
