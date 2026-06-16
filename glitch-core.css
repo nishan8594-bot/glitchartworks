@@ -348,3 +348,4 @@ footer{
   .nav-link{font-size:10px;letter-spacing:0.18em;}
   header{padding:0 16px;}
 }
+:root.day .knockout{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(1.08);}
