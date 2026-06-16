@@ -34,6 +34,7 @@
 
   /* ── Category pages: the cursor takes the page's own accent colour ────── */
   if (isCategory) document.documentElement.style.setProperty("--cursor-col", "var(--accent-eff)");
+  else document.documentElement.classList.add("plain-cursor");
   if (isGallery) document.documentElement.classList.add("is-gallery");
 
   /* ── Canonical nav — relative links so it works on GitHub Pages ────────── */

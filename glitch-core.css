@@ -238,6 +238,9 @@ nav{display:flex;align-items:center;gap:24px;}
 /* Hide the native pointer only on real mouse devices; leave touch untouched */
 @media (hover:hover) and (pointer:fine){ *{cursor:none !important;} }
 @media (hover:none),(pointer:coarse){ #cursor,#cursor-glow{display:none !important;} }
+/* Plain pages (Home / About / Contact): white cursor stays, but no glow in dark mode */
+:root.plain-cursor:not(.day) #cursor .dot{box-shadow:none;}
+:root.plain-cursor:not(.day) #cursor-glow{display:none;}
 
 /* ── Generic scanline ─────────────────────────────────────────────────────── */
 .scanline{position:absolute;top:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--scan-col),transparent);animation:scan 20s linear infinite;z-index:40;pointer-events:none;}
