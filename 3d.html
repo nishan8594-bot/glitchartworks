@@ -188,7 +188,7 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--bone);font-fam
    IMAGE HELPERS
    - W()  : Wix CDN PNG   (use when the render is hosted on Wix → give me the key)
    - WJ() : Wix CDN JPG
-   - or set src directly to a relative path e.g. "3d-assets/assets/3d/render-01.webp"
+   - or set src directly to a relative path e.g. "glitch-3d-assets/3d-assets/assets/3d/render-01.webp"
    ════════════════════════════════════════════════════════════════════════════ */
 const W  = s => `https://static.wixstatic.com/media/${s}~mv2.png`;
 const WJ = s => `https://static.wixstatic.com/media/${s}~mv2.jpg`;
@@ -197,7 +197,7 @@ const WJ = s => `https://static.wixstatic.com/media/${s}~mv2.jpg`;
    PROJECTS  —  stubs. panels[] empty → renders "coming soon" placeholder.
    Drop real renders the same way the Art page does:
 
-     {type:"img",   w:"cp-w|cp-m|cp-n", src: "3d-assets/.../render.webp" }
+     {type:"img",   w:"cp-w|cp-m|cp-n", src: "glitch-3d-assets/3d-assets/.../render.webp" }
      {type:"split", imgs:[ src1, src2 ] }
      {type:"text",  label:"...", body:"..." }
      {type:"vid",   src:"...", portrait:false }     // turntable / motion
@@ -206,14 +206,14 @@ const WJ = s => `https://static.wixstatic.com/media/${s}~mv2.jpg`;
    ════════════════════════════════════════════════════════════════════════════ */
 
 const IMGS = {
-  /* e.g.  archVizHero:"3d-assets/assets/3d/archviz-hero.webp", */
+  /* e.g.  archVizHero:"glitch-3d-assets/3d-assets/assets/3d/archviz-hero.webp", */
 };
 
 const projects = [
   {
     num:"01", star:"pw",
     name:`Residential <em>Apartment</em>`,
-    cover:"3d-assets/apt-hero.webp",
+    cover:"glitch-3d-assets/3d-assets/apt-hero.webp",
     type:"Architectural Visualisation · Interior",
     brief:"A residential apartment visualised end to end \u2014 from cut-through sectional elevations to photoreal interior renders. A navy-and-grey scheme with a bold geometric feature wall ties the living, dining, kitchen and bedrooms into one identity.",
     tags:["Arch-Viz","Interior","Lighting","Sectional","Photoreal"],
@@ -223,22 +223,22 @@ const projects = [
       {label:"Focus", val:"Light, material, space"}
     ],
     panels:[
-      {type:"img", src:"3d-assets/apt-hero.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/apt-hero.webp"},
       {type:"text"},
-      {type:"img", src:"3d-assets/apt-render-wide.webp"},
-      {type:"img", src:"3d-assets/apt-render-living.webp"},
-      {type:"img", src:"3d-assets/apt-render-dusk.webp"},
-      {type:"img", src:"3d-assets/apt-render-kitchen.webp"},
-      {type:"vid", src:"3d-assets/apt-walkthrough.mp4", portrait:false},
-      {type:"img", src:"3d-assets/apt-section-bedbath.webp"},
-      {type:"img", src:"3d-assets/apt-section-bedrooms.webp"},
-      {type:"img", src:"3d-assets/apt-section-unit.webp"}
+      {type:"img", src:"glitch-3d-assets/3d-assets/apt-render-wide.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/apt-render-living.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/apt-render-dusk.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/apt-render-kitchen.webp"},
+      {type:"vid", src:"glitch-3d-assets/3d-assets/apt-walkthrough.mp4", portrait:false},
+      {type:"img", src:"glitch-3d-assets/3d-assets/apt-section-bedbath.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/apt-section-bedrooms.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/apt-section-unit.webp"}
     ]
   },
   {
     num:"02", star:"rc",
     name:`Nasi Kandar <em>SRB</em>`,
-    cover:"3d-assets/srb-hero.webp",
+    cover:"glitch-3d-assets/3d-assets/srb-hero.webp",
     type:"Architectural Visualisation · F&B Interior",
     brief:"A built F&B fit-out for a real client \u2014 Restoran Nasi Kandar SRB in Kelana Jaya. Visualised from shopfront identity through to the dining hall: a living moss brand wall, Peranakan-style patterned tilework, backlit food menu boards and an open servery line.",
     tags:["Arch-Viz","F&B Interior","Branding","Lighting","Client"],
@@ -248,21 +248,21 @@ const projects = [
       {label:"Scope",    val:"Interior visualisation"}
     ],
     panels:[
-      {type:"img", src:"3d-assets/srb-shopfront.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/srb-shopfront.webp"},
       {type:"text"},
-      {type:"img", src:"3d-assets/srb-hero.webp"},
-      {type:"img", src:"3d-assets/srb-dining-tv.webp"},
-      {type:"img", src:"3d-assets/srb-entry.webp"},
-      {type:"img", src:"3d-assets/srb-servery.webp"},
-      {type:"img", src:"3d-assets/srb-drinks.webp"},
-      {type:"img", src:"3d-assets/srb-entry-wide.webp"},
-      {type:"vid", src:"3d-assets/srb-walkthrough.mp4", portrait:false}
+      {type:"img", src:"glitch-3d-assets/3d-assets/srb-hero.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/srb-dining-tv.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/srb-entry.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/srb-servery.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/srb-drinks.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/srb-entry-wide.webp"},
+      {type:"vid", src:"glitch-3d-assets/3d-assets/srb-walkthrough.mp4", portrait:false}
     ]
   },
   {
     num:"03", star:"pw",
     name:`Warm <em>Minimal</em>`,
-    cover:"3d-assets/classic-hero.webp",
+    cover:"glitch-3d-assets/3d-assets/classic-hero.webp",
     type:"Architectural Visualisation · Residential",
     brief:"A self-initiated home interior \u2014 a warm, lived-in take on minimalism. Marble, rattan, herringbone timber and soft light carry one calm material story across the living, dining, kitchen and bedroom.",
     tags:["Arch-Viz","Interior","Residential","Lighting","Materials"],
@@ -272,17 +272,17 @@ const projects = [
       {label:"Focus", val:"Warmth & material"}
     ],
     panels:[
-      {type:"img", src:"3d-assets/classic-hero.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/classic-hero.webp"},
       {type:"text"},
-      {type:"img", src:"3d-assets/classic-living-dining.webp"},
-      {type:"img", src:"3d-assets/classic-living.webp"},
-      {type:"img", src:"3d-assets/classic-dining-city.webp"},
-      {type:"img", src:"3d-assets/classic-kitchen-dining.webp"},
-      {type:"img", src:"3d-assets/classic-kitchen.webp"},
-      {type:"img", src:"3d-assets/classic-bedroom.webp"},
-      {type:"img", src:"3d-assets/classic-bedroom2.webp"},
-      {type:"img", src:"3d-assets/classic-bedroom-wardrobe.webp"},
-      {type:"vid", src:"3d-assets/classic-walkthrough.mp4", portrait:false}
+      {type:"img", src:"glitch-3d-assets/3d-assets/classic-living-dining.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/classic-living.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/classic-dining-city.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/classic-kitchen-dining.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/classic-kitchen.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/classic-bedroom.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/classic-bedroom2.webp"},
+      {type:"img", src:"glitch-3d-assets/3d-assets/classic-bedroom-wardrobe.webp"},
+      {type:"vid", src:"glitch-3d-assets/3d-assets/classic-walkthrough.mp4", portrait:false}
     ]
   }
 ];
