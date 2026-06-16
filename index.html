@@ -180,7 +180,7 @@
 
   <div class="about-elem" id="aboutElem">
     <span class="about-line">Architect by training.<br>Artist and designer by nature.</span>
-    <a class="about-link" href="/about" target="_blank">About Glitch</a>
+    <a class="about-link" href="/about">About Glitch</a>
   </div>
 
   <div class="contact-cta" id="contactCta">
@@ -188,7 +188,7 @@
     <div class="contact-row">
       <a class="contact-email" href="mailto:nishan.glitch@gmail.com">nishan.glitch@gmail.com</a>
       <span class="contact-sep">·</span>
-      <a class="contact-page" href="/contact" target="_blank">Contact ↗</a>
+      <a class="contact-page" href="/contact">Contact ↗</a>
     </div>
   </div>
 
@@ -205,7 +205,7 @@
 
 <!-- ── BELOW FOLD ─────────────────────────────────────────────────────────── -->
 <div class="below" style="display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;width:100%!important;">
-  <div class="bc bc-featured" style="flex:1.4!important;min-width:0!important;max-width:none!important;" onclick="window.open('/art','_blank')">
+  <div class="bc bc-featured" style="flex:1.4!important;min-width:0!important;max-width:none!important;" onclick="location.href='/art'">
     <div class="feat-img">
       <img src="home-assets/star-avenue-mural.jpg" alt="Star Avenue Lifestyle Mall mural artwork">
     </div>
@@ -213,7 +213,7 @@
       <div class="feat-label">Featured Work</div>
       <div class="feat-title">Star Avenue<br>Lifestyle Mall</div>
       <div class="feat-meta">Large-scale mural · Shah Alam, KL<br>33 sqm · Acrylic · 2025</div>
-      <a class="feat-link" href="/art" target="_blank">View project →</a>
+      <a class="feat-link" href="/art">View project →</a>
     </div>
   </div>
   <div class="bc" style="flex:1!important;min-width:0!important;max-width:none!important;">
@@ -507,7 +507,7 @@ function buildDots(){
     [hit].forEach(el=>{
       el.addEventListener("mouseenter",()=>onEnter(z));
       el.addEventListener("mouseleave",()=>onLeave(z));
-      el.addEventListener("click",()=>window.open(z.url,"_blank"));
+      el.addEventListener("click",()=>{location.href=z.url;});
     });
   });
 }
