@@ -180,7 +180,7 @@
 
   <div class="about-elem" id="aboutElem">
     <span class="about-line">Architect by training.<br>Artist and designer by nature.</span>
-    <a class="about-link" href="https://www.glitchartworks.com/about" target="_blank">About Glitch</a>
+    <a class="about-link" href="/about" target="_blank">About Glitch</a>
   </div>
 
   <div class="contact-cta" id="contactCta">
@@ -188,7 +188,7 @@
     <div class="contact-row">
       <a class="contact-email" href="mailto:nishan.glitch@gmail.com">nishan.glitch@gmail.com</a>
       <span class="contact-sep">·</span>
-      <a class="contact-page" href="https://www.glitchartworks.com/contact-8" target="_blank">Contact ↗</a>
+      <a class="contact-page" href="/contact" target="_blank">Contact ↗</a>
     </div>
   </div>
 
@@ -205,7 +205,7 @@
 
 <!-- ── BELOW FOLD ─────────────────────────────────────────────────────────── -->
 <div class="below" style="display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;width:100%!important;">
-  <div class="bc bc-featured" style="flex:1.4!important;min-width:0!important;max-width:none!important;" onclick="window.open('https://www.glitchartworks.com/art','_blank')">
+  <div class="bc bc-featured" style="flex:1.4!important;min-width:0!important;max-width:none!important;" onclick="window.open('/art','_blank')">
     <div class="feat-img">
       <img src="home-assets/star-avenue-mural.jpg" alt="Star Avenue Lifestyle Mall mural artwork">
     </div>
@@ -213,7 +213,7 @@
       <div class="feat-label">Featured Work</div>
       <div class="feat-title">Star Avenue<br>Lifestyle Mall</div>
       <div class="feat-meta">Large-scale mural · Shah Alam, KL<br>33 sqm · Acrylic · 2025</div>
-      <a class="feat-link" href="https://www.glitchartworks.com/art" target="_blank">View project →</a>
+      <a class="feat-link" href="/art" target="_blank">View project →</a>
     </div>
   </div>
   <div class="bc" style="flex:1!important;min-width:0!important;max-width:none!important;">
@@ -274,7 +274,7 @@ const zones = [
   {id:"branding",num:"01",name:"Branding",desc:"Identity & visual systems\nLogos · Strategy · Print",color:"#61a7ff",dotSvg:{x:50.73,y:241.96-DOT_DIST},lineEnd:{x:50.73,y:241.96},url:"/branding"},
   {id:"art",num:"02",name:"Art",desc:"Physical & hand-made\nMurals · Illustration · Canvas",color:"#ff4c4c",dotSvg:{x:677,y:241.96-DOT_DIST},lineEnd:{x:677,y:241.96},url:"/art"},
   {id:"arch",num:"03",name:"Architecture",desc:"Space as language\nSpatial design · Renders",color:"#ff7f00",dotSvg:{x:-DOT_DIST,y:336.76},lineEnd:{x:0,y:336.76},url:"/architecture"},
-  {id:"digital",num:"04",name:"Digital Art",desc:"Screen-born imagery\nMotion · Graphic design",color:"#55ffa2",dotSvg:{x:765.89+DOT_DIST,y:440.06},lineEnd:{x:765.89,y:440.06},url:"/digital-art"},
+  {id:"digital",num:"04",name:"Digital Art",desc:"Screen-born imagery\nMotion · Graphic design",color:"#55ffa2",dotSvg:{x:765.89+DOT_DIST,y:440.06},lineEnd:{x:765.89,y:440.06},url:"/digitalart"},
   {id:"uiux",num:"05",name:"UI / UX",desc:"Interfaces & experiences\nWeb · App · Interaction",color:"#fff34f",dayColor:"#ffbe35",dotSvg:{x:166.2,y:488.88+DOT_DIST},lineEnd:{x:166.2,y:488.88},url:"/uiux"},
   {id:"3d",num:"06",name:"3D",desc:"Form, depth & dimension\nModelling · Environments",color:"#a57afe",dotSvg:{x:585.03,y:488.88+DOT_DIST},lineEnd:{x:585.03,y:488.88},url:"/3d"},
 ];
@@ -507,7 +507,7 @@ function buildDots(){
     [hit].forEach(el=>{
       el.addEventListener("mouseenter",()=>onEnter(z));
       el.addEventListener("mouseleave",()=>onLeave(z));
-      el.addEventListener("click",()=>window.open("https://www.glitchartworks.com"+z.url,"_blank"));
+      el.addEventListener("click",()=>window.open(z.url,"_blank"));
     });
   });
 }

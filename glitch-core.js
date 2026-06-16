@@ -38,13 +38,13 @@
 
   /* ── Canonical nav — relative links so it works on GitHub Pages ────────── */
   var NAV = [
-    { label: "Branding",    href: "branding.html",     cat: "var(--cat-branding)" },
-    { label: "UI/UX",       href: "uiux.html",         cat: "var(--cat-uiux)" },
-    { label: "Digital Art", href: "digitalart.html",   cat: "var(--cat-digital)" },
-    { label: "Art",         href: "art.html",          cat: "var(--cat-art)" },
-    { label: "3D",          href: "3d.html",           cat: "var(--cat-3d)" },
-    { label: "Architecture",href: "architecture.html", cat: "var(--cat-arch)" },
-    { label: "Contact",     href: "contact.html",      cat: "var(--util-red)" }
+    { label: "Branding",    href: "branding",     cat: "var(--cat-branding)" },
+    { label: "UI/UX",       href: "uiux",         cat: "var(--cat-uiux)" },
+    { label: "Digital Art", href: "digitalart",   cat: "var(--cat-digital)" },
+    { label: "Art",         href: "art",          cat: "var(--cat-art)" },
+    { label: "3D",          href: "3d",           cat: "var(--cat-3d)" },
+    { label: "Architecture",href: "architecture", cat: "var(--cat-arch)" },
+    { label: "Contact",     href: "contact",      cat: "var(--util-red)" }
   ];
 
   var SOCIAL = [
@@ -88,7 +88,7 @@
     var header = document.createElement("header");
     header.innerHTML =
       '<div class="hdr-left">' +
-        '<a href="home.html" class="hdr-logo' + homeActive + '" title="Home">' + HOME_ICON + "</a>" +
+        '<a href="/" class="hdr-logo' + homeActive + '" title="Home">' + HOME_ICON + "</a>" +
         "<nav>" + navHTML + "</nav>" +
       "</div>" +
       '<div class="hdr-right">' + socHTML + "</div>";
