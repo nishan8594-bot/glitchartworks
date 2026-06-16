@@ -1063,7 +1063,7 @@ function buildCanvas(){
         el=buildPhantomStage(pi);
       } else if(panel.type==="wd-img"){
         el=document.createElement("div"); el.className="wd-video-panel";
-        const im=document.createElement("img"); im.src=panel.src; im.loading="lazy";
+        const im=document.createElement("img"); im.src=panel.src; im.loading="lazy"; im.className="knockout";
         im.style.cssText="height:100%;width:auto;display:block;object-fit:contain;";
         const ii=(allImgs[pi]||[]).length;
         im.addEventListener("click",()=>openLB(pi,ii));
