@@ -204,6 +204,11 @@
       body.insertBefore(o1, body.firstChild);
     }
 
+    if (!document.querySelector(".scanline")) {
+      var sl = document.createElement("div"); sl.className = "scanline";
+      body.insertBefore(sl, body.firstChild);
+    }
+
     body.insertBefore(buildToggle(), body.firstChild);   // standard on every page
     body.insertBefore(buildHeader(), body.firstChild);
 
