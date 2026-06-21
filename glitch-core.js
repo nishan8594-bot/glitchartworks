@@ -163,8 +163,6 @@
     span.className = "star-badge " + type + (extraClass ? " " + extraClass : "");
     span.innerHTML = starSVG(d.col);
     span.setAttribute("data-cursor-hover", "");
-    span.addEventListener("mouseenter", function () { showStarCard(span, type, false); });
-    span.addEventListener("mouseleave", hideStarCard);
     span.addEventListener("click", function (e) { e.stopPropagation(); showStarCard(span, type, true); });
     return span;
   }
@@ -230,6 +228,18 @@
         var c = document.getElementById("starCard");
         if (c) c.classList.remove("show");
       }
+    });
+
+    /* Hover to reveal the star card — works for badges built by core OR by a
+       page's own gallery script, since this delegates on the document and the
+       card text is identical to the click path. */
+    document.addEventListener("mouseover", function (e) {
+      var b = e.target.closest && e.target.closest(".star-badge");
+      if (b) showStarCard(b, b.classList.contains("hw") ? "hw" : b.classList.contains("pw") ? "pw" : "rc", false);
+    });
+    document.addEventListener("mouseout", function (e) {
+      var b = e.target.closest && e.target.closest(".star-badge");
+      if (b) hideStarCard();
     });
 
     initCursor();
