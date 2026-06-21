@@ -238,9 +238,10 @@ nav{display:flex;align-items:center;gap:24px;}
 /* Hide the native pointer only on real mouse devices; leave touch untouched */
 @media (hover:hover) and (pointer:fine){ *{cursor:none !important;} }
 @media (hover:none),(pointer:coarse){ #cursor,#cursor-glow{display:none !important;} }
-/* Plain pages (Home / About / Contact): clean dot + ring, no glow in either mode */
-:root.plain-cursor #cursor .dot{box-shadow:none;}
+/* Plain pages (Home / About / Contact): no cursor glow in either mode — clean dot + ring.
+   Category pages keep their accent glow (set via JS at line ~36, untouched here). */
 :root.plain-cursor #cursor-glow{display:none;}
+:root.plain-cursor #cursor .dot{box-shadow:none;}
 
 /* ── Generic scanline ─────────────────────────────────────────────────────── */
 .scanline{position:fixed;top:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent-eff) 30%,transparent),transparent);animation:scan 18s linear infinite;z-index:40;pointer-events:none;}
