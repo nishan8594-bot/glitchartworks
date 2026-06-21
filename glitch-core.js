@@ -131,11 +131,12 @@
   function starSVG(col) {
     return '<svg viewBox="0 0 20 20" fill="' + col + '" xmlns="http://www.w3.org/2000/svg"><path d="M10 1l2.39 4.84 5.34.78-3.86 3.76.91 5.32L10 13.27l-4.78 2.51.91-5.32L2.27 6.62l5.34-.78L10 1z"/></svg>';
   }
-  var scTimer;
-  function showStarCard(el, type) {
+  var scTimer, scHideTimer;
+  function showStarCard(el, type, autoHide) {
     var d = STAR[type], card = document.getElementById("starCard");
     if (!d || !card) return;
     clearTimeout(scTimer);
+    clearTimeout(scHideTimer);
     var r = el.getBoundingClientRect();
     card.className = "star-card show " + type;
     document.getElementById("starCardLabel").textContent = d.label;
@@ -145,7 +146,14 @@
     if (top + 90 > window.innerHeight) top = window.innerHeight - 100;
     card.style.left = left + "px";
     card.style.top = top + "px";
-    scTimer = setTimeout(function () { card.classList.remove("show"); }, 3500);
+    if (autoHide) scTimer = setTimeout(function () { card.classList.remove("show"); }, 3500);
+  }
+  function hideStarCard() {
+    clearTimeout(scHideTimer);
+    scHideTimer = setTimeout(function () {
+      var c = document.getElementById("starCard");
+      if (c) c.classList.remove("show");
+    }, 80);
   }
   /* Public: returns a wired star <span> (or null). type = "rc" | "hw" | "pw". */
   function makeStar(type, extraClass) {
@@ -155,7 +163,9 @@
     span.className = "star-badge " + type + (extraClass ? " " + extraClass : "");
     span.innerHTML = starSVG(d.col);
     span.setAttribute("data-cursor-hover", "");
-    span.addEventListener("click", function (e) { e.stopPropagation(); showStarCard(span, type); });
+    span.addEventListener("mouseenter", function () { showStarCard(span, type, false); });
+    span.addEventListener("mouseleave", hideStarCard);
+    span.addEventListener("click", function (e) { e.stopPropagation(); showStarCard(span, type, true); });
     return span;
   }
 
