@@ -67,8 +67,7 @@
 
   /* Canvas */
   #canvas { flex: 1; overflow: hidden; height: 100%; display: flex; flex-direction: column; }
-  .project-scroll { display: flex; height: 100%; overflow-x: auto; overflow-y: hidden; scroll-behavior: smooth; scrollbar-width: none; }
-  .project-scroll::-webkit-scrollbar { display: none; }
+  .project-scroll { display: flex; height: 100%; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); will-change: transform; }
 
   /* Intro panel */
   .project-intro { position: relative; width: calc(100vw - var(--sidebar)); flex-shrink: 0; height: 100%; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 48px 52px; border-right: 0.5px solid var(--border); }
@@ -121,15 +120,7 @@
   #lb-prev { left: 20px; } #lb-next { right: 20px; }
   #lb-prev:hover, #lb-next:hover { color: #fff; }
 
-  /* Scroll dots */
-  #scroll-dots { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 100; }
-  .sdot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: background 0.3s, transform 0.3s; }
-  .sdot.active { background: var(--accent); transform: scale(1.4); }
-
-  /* Copyright */
-
-  /* day-mode polish */
-  :root.day .sdot { background: rgba(0,0,0,0.18); }
+  /* Progress indicator uses the shared .progress / .prog-dot from glitch-core.css */
 
   /* ── Multi-project: sidebar switcher ─────────────────── */
   .proj-switch { margin-top: 6px; }
@@ -177,7 +168,7 @@
   <div id="lb-next" onclick="nextLB()">Next &#8594;</div>
 </div>
 
-<div id="scroll-dots"></div>
+<div class="progress" id="progress"></div>
 
 
 <script>
@@ -268,8 +259,9 @@ const projects=[
 
 /* ---- engine ---- */
 const scroll=document.getElementById('scroll');
-const dotsEl=document.getElementById('scroll-dots');
+const progressEl=document.getElementById('progress');
 let allImgs=[], wireEls=[], activeProject=0;
+let panelCols=[], activePanel=0;
 const mk=(tag,cls,html)=>{const e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e;};
 
 function buildPairColumn(s,i){
@@ -309,13 +301,21 @@ function buildPageColumn(p,i){
   col.appendChild(img);
   return col;
 }
+function goPanel(i){
+  if(!panelCols.length) return;
+  i=Math.max(0,Math.min(panelCols.length-1,i));
+  activePanel=i;
+  scroll.style.transform=`translateX(${-panelCols[i].offsetLeft}px)`;
+  progressEl.querySelectorAll('.prog-dot').forEach((d,k)=>d.classList.toggle('active',k===i));
+}
 function buildDots(){
-  const cols=scroll.querySelectorAll('.cp, .project-intro');
-  dotsEl.innerHTML='';
-  cols.forEach((c,i)=>{
-    const d=mk('div','sdot'+(i===0?' active':'')); d.style.cursor='none';
-    d.addEventListener('click',()=>scroll.scrollTo({left:c.offsetLeft,behavior:'smooth'}));
-    dotsEl.appendChild(d);
+  panelCols=[...scroll.querySelectorAll('.cp, .project-intro')];
+  progressEl.innerHTML='';
+  panelCols.forEach((c,i)=>{
+    const d=mk('div','prog-dot'+(i===0?' active':''));
+    d.setAttribute('data-cursor-hover','');
+    d.addEventListener('click',()=>goPanel(i));
+    progressEl.appendChild(d);
   });
 }
 function renderProject(idx){
@@ -339,7 +339,10 @@ function renderProject(idx){
   if(pr.type==='pairs') pr.screens.forEach((sc,i)=>scroll.appendChild(buildPairColumn(sc,i)));
   else pr.pages.forEach((pg,i)=>scroll.appendChild(buildPageColumn(pg,i)));
   buildDots();
-  scroll.scrollTo({left:0,behavior:'auto'});
+  activePanel=0;
+  scroll.style.transition='none';
+  scroll.style.transform='translateX(0px)';
+  requestAnimationFrame(()=>{ scroll.style.transition=''; });
 }
 
 /* project switcher */
@@ -360,37 +363,23 @@ function hydrateAssignmentStars(){
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',hydrateAssignmentStars);
 else hydrateAssignmentStars();
 
-/* scroll: wheel snaps one panel per tick (branding-style), sync dots */
+/* scroll: wheel/touch step one panel per tick via transform (matches other pages) */
 let wLock=false;
-function snapPanel(dir){
-  const cols=[...scroll.querySelectorAll('.cp, .project-intro')];
-  if(!cols.length) return;
-  const sl=scroll.scrollLeft;
-  let cur=0,min=Infinity;
-  cols.forEach((c,i)=>{const d=Math.abs(c.offsetLeft-sl); if(d<min){min=d;cur=i;}});
-  const next=Math.max(0,Math.min(cols.length-1,cur+dir));
-  scroll.scrollTo({left:cols[next].offsetLeft,behavior:'smooth'});
-}
 scroll.addEventListener('wheel',(e)=>{
   const horiz=Math.abs(e.deltaX)>Math.abs(e.deltaY);
   const delta=horiz?e.deltaX:e.deltaY;
   if(Math.abs(delta)<2) return;
   e.preventDefault();
   if(wLock) return; wLock=true; setTimeout(()=>{wLock=false;},620);
-  snapPanel(delta>0?1:-1);
+  goPanel(activePanel+(delta>0?1:-1));
 },{passive:false});
 let tsx=0,tsy=0;
 scroll.addEventListener('touchstart',(e)=>{tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;},{passive:true});
 scroll.addEventListener('touchend',(e)=>{
   const dx=e.changedTouches[0].clientX-tsx, dy=e.changedTouches[0].clientY-tsy;
   if(Math.abs(dx)<40 && Math.abs(dy)<40) return;
-  if(Math.abs(dx)>=Math.abs(dy)){ snapPanel(dx<0?1:-1); } else { snapPanel(dy<0?1:-1); }
+  if(Math.abs(dx)>=Math.abs(dy)){ goPanel(activePanel+(dx<0?1:-1)); } else { goPanel(activePanel+(dy<0?1:-1)); }
 },{passive:true});
-scroll.addEventListener('scroll',()=>{
-  const cols=scroll.querySelectorAll('.cp, .project-intro'); const sl=scroll.scrollLeft;
-  let active=0,min=Infinity; cols.forEach((c,i)=>{const d=Math.abs(c.offsetLeft-sl); if(d<min){min=d;active=i;}});
-  dotsEl.querySelectorAll('.sdot').forEach((d,i)=>d.classList.toggle('active',i===active));
-});
 
 /* cursor hover feedback — the cursor element itself is owned by glitch-core.js;
    here we just flag hover for the gallery-specific interactive elements it doesn't know about */
@@ -399,15 +388,27 @@ scroll.addEventListener('scroll',()=>{
     const cur=document.getElementById('cursor');
     if(!cur) return; // touch / no-cursor device
     document.addEventListener('mouseover',e=>{
-      if(e.target.closest('img,.proj-item,.sdot,#lb-close,#lb-prev,#lb-next')) cur.classList.add('hover');
+      if(e.target.closest('img,.proj-item,.prog-dot,#lb-close,#lb-prev,#lb-next')) cur.classList.add('hover');
     });
     document.addEventListener('mouseout',e=>{
-      if(e.target.closest('img,.proj-item,.sdot,#lb-close,#lb-prev,#lb-next')) cur.classList.remove('hover');
+      if(e.target.closest('img,.proj-item,.prog-dot,#lb-close,#lb-prev,#lb-next')) cur.classList.remove('hover');
     });
   }
   if(document.readyState==='loading') window.addEventListener('DOMContentLoaded',()=>setTimeout(run,40),{once:true});
   else setTimeout(run,40);
 })();
+
+/* keep the active panel aligned when the viewport changes (transforms need this) */
+let rzT;
+window.addEventListener('resize',()=>{
+  clearTimeout(rzT);
+  rzT=setTimeout(()=>{
+    if(!panelCols.length) return;
+    const prev=scroll.style.transition; scroll.style.transition='none';
+    scroll.style.transform=`translateX(${-panelCols[activePanel].offsetLeft}px)`;
+    requestAnimationFrame(()=>{ scroll.style.transition=prev; });
+  },120);
+});
 
 /* theme — glitch-core.js owns the day/night toggle; we listen for its event
    to swap the wireframe blueprints between their dark and light variants */
