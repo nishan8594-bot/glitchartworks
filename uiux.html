@@ -192,7 +192,8 @@ const fm_p0="uiux-assets/assets/uiux/fm_p0.webp",fm_w0="uiux-assets/assets/uiux/
  fm_p7="uiux-assets/assets/uiux/fm_p7.webp",fm_w7="uiux-assets/assets/uiux/fm_w7.webp",fm_w7_light="uiux-assets/assets/uiux/fm_w7_light.webp",
  fm_p8="uiux-assets/assets/uiux/fm_p8.webp",fm_w8="uiux-assets/assets/uiux/fm_w8.webp",fm_w8_light="uiux-assets/assets/uiux/fm_w8_light.webp",
  fm_p9="uiux-assets/assets/uiux/fm_p9.webp",fm_w9="uiux-assets/assets/uiux/fm_w9.webp",fm_w9_light="uiux-assets/assets/uiux/fm_w9_light.webp",
- fm_p10="uiux-assets/assets/uiux/fm_p10.webp",fm_w10=null,fm_w10_light=null;
+ fm_p10="uiux-assets/assets/uiux/fm_p10.webp",fm_w10=null,fm_w10_light=null,
+ fm_hero="uiux-assets/assets/uiux/fm_hero.webp";
 
 const fuelScreens=[
  // proto files were mis-numbered against the screens; remapped so each prototype
@@ -212,6 +213,7 @@ const fuelScreens=[
 
 const projects=[
  { name:"Fuel Me", num:"01", type:"pairs",
+   hero: fm_hero,
    pi:{name:'Fuel<em>Me</em>', sub:"Food Delivery App &middot; UX Design"},
    meta:"Fuel Me &middot; Food Delivery App",
    desc:"A food delivery app designed for Malaysians — built around speed, local variety, and a frictionless order experience. Each screen pairs a working Figma prototype with its blueprint wireframe.",
@@ -323,7 +325,7 @@ function renderProject(idx){
   document.getElementById('sbTags').innerHTML=pr.tags.map(t=>`<span class="tag">${t}</span>`).join('');
   document.querySelectorAll('.proj-item').forEach((it,i)=>it.classList.toggle('active',i===idx));
   scroll.innerHTML=''; allImgs=[]; wireEls=[];
-  const firstImg = pr.type==='pairs' ? pr.screens[0].proto : pr.pages[0].img;
+  const firstImg = pr.hero ? pr.hero : (pr.type==='pairs' ? pr.screens[0].proto : pr.pages[0].img);
   scroll.appendChild(mk('div','project-intro',
     `<div class="bg-cover" style="background-image:url('${firstImg}')"></div>`+
     `<div class="pi-num">${pr.num} &mdash; UI/UX</div>`+
