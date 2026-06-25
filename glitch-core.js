@@ -187,6 +187,42 @@
     document.addEventListener("dragstart",   function (e) { if (e.target.tagName === "IMG") { e.preventDefault(); strike(); } });
   }
 
+  function buildContactDock() {
+    if (document.getElementById("contactDock")) return null;
+    var d = document.createElement("div");
+    d.className = "contact-dock";
+    d.id = "contactDock";
+    d.innerHTML =
+      '<button class="cdock-tab" id="cdockTab" aria-label="Open contact" aria-expanded="false"><span>Contact</span></button>' +
+      '<div class="cdock-panel" id="cdockPanel" role="dialog" aria-label="Contact" aria-hidden="true">' +
+        '<button class="cdock-x" id="cdockX" aria-label="Close">\u00D7</button>' +
+        '<div class="cdock-head">Let\u2019s make something real</div>' +
+        '<p class="cdock-sub">Open for freelance projects &amp; remote UI/UX roles.</p>' +
+        '<a class="cdock-link" href="mailto:nishan.glitch@gmail.com">Email</a>' +
+        '<a class="cdock-link" href="https://api.whatsapp.com/send?phone=%2B60183514961" target="_blank" rel="noopener">WhatsApp</a>' +
+        '<a class="cdock-link" href="https://www.linkedin.com/in/nishaanthiny-shanmuggam-188259233" target="_blank" rel="noopener">LinkedIn</a>' +
+        '<a class="cdock-link cdock-primary" href="/contact">Start a project \u2197</a>' +
+      '</div>';
+    return d;
+  }
+  function wireContactDock(dock) {
+    if (!dock) return;
+    var tab = dock.querySelector("#cdockTab"),
+        panel = dock.querySelector("#cdockPanel"),
+        x = dock.querySelector("#cdockX");
+    function set(open) {
+      dock.classList.toggle("open", open);
+      tab.setAttribute("aria-expanded", open ? "true" : "false");
+      panel.setAttribute("aria-hidden", open ? "false" : "true");
+    }
+    tab.addEventListener("click", function (e) { e.stopPropagation(); set(!dock.classList.contains("open")); });
+    x.addEventListener("click", function (e) { e.stopPropagation(); set(false); });
+    document.addEventListener("click", function (e) {
+      if (dock.classList.contains("open") && (!e.target.closest || !e.target.closest(".contact-dock"))) set(false);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
+  }
+
   var injected = false;
   function inject() {
     if (injected) return;          // idempotent: guard against double DOMContentLoaded / double include
@@ -211,6 +247,12 @@
     body.insertBefore(buildHeader(), body.firstChild);
 
     if (!document.querySelector("footer")) body.appendChild(buildFooter());
+
+    if (!document.getElementById("contactDock")) {
+      var dock = buildContactDock();
+      body.appendChild(dock);
+      wireContactDock(dock);
+    }
 
     var lightning = buildLightning();
     body.appendChild(lightning);

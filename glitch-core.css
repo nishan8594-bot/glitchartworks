@@ -350,3 +350,21 @@ footer{
   header{padding:0 16px;}
 }
 :root.day .knockout{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(1.08);}
+
+/* ── Contact dock — global slide-out (all pages) ─────────────────────────── */
+.contact-dock{position:fixed;top:0;right:0;bottom:0;width:0;z-index:60;font-family:"Syne",sans-serif;pointer-events:none;}
+.cdock-tab,.cdock-panel{pointer-events:auto;}
+.cdock-tab{position:absolute;top:50%;right:0;transform:translateY(-50%);background:var(--surface);border:0.5px solid var(--border);border-right:none;border-radius:8px 0 0 8px;color:var(--text-muted);cursor:pointer;padding:15px 7px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:color .3s,opacity .3s;}
+.cdock-tab span{display:block;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-size:10px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;}
+.cdock-tab:hover{color:var(--gold);}
+.cdock-panel{position:absolute;top:50%;right:0;transform:translateY(-50%) translateX(112%);width:232px;background:var(--surface);border:0.5px solid var(--border);border-right:none;border-radius:12px 0 0 12px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:24px 22px;box-shadow:-20px 0 55px rgba(0,0,0,0.40);opacity:0;visibility:hidden;transition:transform .45s cubic-bezier(.6,0,.2,1),opacity .35s,visibility .45s;}
+.contact-dock.open .cdock-panel{transform:translateY(-50%) translateX(0);opacity:1;visibility:visible;}
+.contact-dock.open .cdock-tab{opacity:0;pointer-events:none;}
+.cdock-x{position:absolute;top:8px;right:12px;background:none;border:none;color:var(--text-dim);font-size:20px;line-height:1;cursor:pointer;transition:color .3s;}
+.cdock-x:hover{color:var(--gold);}
+.cdock-head{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:19px;color:var(--text);margin-bottom:5px;}
+.cdock-sub{font-size:10.5px;line-height:1.5;color:var(--text-dim);margin:0 0 16px;letter-spacing:0.02em;}
+.cdock-link{display:block;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;padding:10px 0;border-top:0.5px solid var(--border);transition:color .25s,padding-left .25s;}
+.cdock-link:hover{color:var(--gold);padding-left:5px;}
+.cdock-primary{color:var(--gold);}
+@media (max-width:640px){.cdock-panel{width:204px;padding:20px 18px;}.cdock-tab{padding:13px 6px;}}
