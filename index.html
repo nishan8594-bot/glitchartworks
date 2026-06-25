@@ -160,6 +160,9 @@
 :root.day .feat-img{background:rgba(0,0,0,0.025);}
 .feat-img img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;filter:saturate(0.95) contrast(1.02);transition:transform 0.6s ease,filter 0.6s ease;}
 .bc-featured:hover .feat-img img{transform:scale(1.035);filter:saturate(1.05) contrast(1.04);}
+.bc-pic{width:100%;aspect-ratio:16/10;overflow:hidden;border:0.5px solid var(--border);border-radius:5px;margin-bottom:15px;background:rgba(240,235,224,0.04);}
+.bc-pic img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(0.95) contrast(1.02);transition:transform 0.6s ease,filter 0.6s ease;}
+.bc:hover .bc-pic img{transform:scale(1.04);filter:saturate(1.05) contrast(1.04);}
 .feat-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:var(--text-dim);}
 .feat-placeholder span{font-size:11.5px;letter-spacing:0.3em;text-transform:uppercase;}
 .feat-body{padding:24px 28px 30px;}
@@ -220,18 +223,18 @@
 <!-- ── BELOW FOLD ─────────────────────────────────────────────────────────── -->
 <!-- ── KEYWORD TICKER ─────────────────────────────────────────────────────── -->
 <style>
-.kw-marquee{position:relative;width:100%;overflow:hidden;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:13px 0;background:transparent;
+.kw-marquee{position:relative;width:100%;overflow:hidden;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:11px 0;background:transparent;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);}
-.kw-track{display:flex;width:max-content;animation:kw-scroll 42s linear infinite;will-change:transform;}
+.kw-track{display:flex;width:max-content;animation:kw-scroll 90s linear infinite;will-change:transform;}
 .kw-marquee:hover .kw-track{animation-play-state:paused;}
 .kw-group{display:flex;align-items:center;}
-.kw-item{font-family:"Syne",sans-serif;font-weight:600;font-size:12.5px;letter-spacing:0.13em;text-transform:uppercase;white-space:nowrap;}
-.kw-sep{color:var(--text-dim);padding:0 20px;font-size:11px;}
+.kw-item{font-family:"Syne",sans-serif;font-weight:600;font-size:9.4px;letter-spacing:0.13em;text-transform:uppercase;white-space:nowrap;}
+.kw-sep{color:var(--text-dim);padding:0 15px;font-size:8.3px;}
 @keyframes kw-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 @media (prefers-reduced-motion:reduce){.kw-track{animation:none;flex-wrap:wrap;justify-content:center;width:100%;}.kw-marquee{mask-image:none;-webkit-mask-image:none;}}
 </style>
-<div class="kw-marquee" aria-label="What I do and where">
-  <div class="kw-track"><span class="kw-group"><span class="kw-item" style="color:#ffbe35">Brand &amp; Product Designer · Malaysia</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#61a7ff">UI/UX Designer · Malaysia / Remote</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff7f00">Brand Identity Designer · Malaysia</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff4c4c">Mural Artist · Kuala Lumpur</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#a57afe">3D Visualisation · Malaysia</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#55ffa2">Digital Artist · Malaysia</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#fff34f">Architectural Design · Penang</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff6640">Freelance Designer · Penang</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ffbe35">Graphic Designer · Penang / Remote</span><span class="kw-sep">✦</span></span><span class="kw-group" aria-hidden="true"><span class="kw-item" style="color:#ffbe35">Brand &amp; Product Designer · Malaysia</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#61a7ff">UI/UX Designer · Malaysia / Remote</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff7f00">Brand Identity Designer · Malaysia</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff4c4c">Mural Artist · Kuala Lumpur</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#a57afe">3D Visualisation · Malaysia</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#55ffa2">Digital Artist · Malaysia</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#fff34f">Architectural Design · Penang</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff6640">Freelance Designer · Penang</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ffbe35">Graphic Designer · Penang / Remote</span><span class="kw-sep">✦</span></span></div>
+<div class="kw-marquee" aria-label="Skills and disciplines">
+  <div class="kw-track"><span class="kw-group"><span class="kw-item" style="color:#ffbe35">Brand Identity</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#61a7ff">Visual Systems</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff7f00">UI/UX Design</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff4c4c">Product Design</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#a57afe">Wireframes &amp; Flows</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#55ffa2">Design Systems</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#fff34f">Illustration</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff6640">Murals &amp; Wall Art</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ffbe35">3D Visualisation</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#61a7ff">Spatial Design</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff7f00">Digital Art</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff4c4c">Art Direction</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#a57afe">Architectural Design</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#55ffa2">Logo &amp; Mark Design</span><span class="kw-sep">✦</span></span><span class="kw-group" aria-hidden="true"><span class="kw-item" style="color:#ffbe35">Brand Identity</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#61a7ff">Visual Systems</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff7f00">UI/UX Design</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff4c4c">Product Design</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#a57afe">Wireframes &amp; Flows</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#55ffa2">Design Systems</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#fff34f">Illustration</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff6640">Murals &amp; Wall Art</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ffbe35">3D Visualisation</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#61a7ff">Spatial Design</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff7f00">Digital Art</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#ff4c4c">Art Direction</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#a57afe">Architectural Design</span><span class="kw-sep">✦</span><span class="kw-item" style="color:#55ffa2">Logo &amp; Mark Design</span><span class="kw-sep">✦</span></span></div>
 </div>
 
 <div class="below" style="display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;width:100%!important;">
@@ -252,11 +255,13 @@
     <div class="bc-body">Taking select freelance and contract projects, and open to remote UI/UX &amp; product design roles. Penang &amp; KL — working worldwide.</div>
   </div>
   <div class="bc" style="flex:1!important;min-width:0!important;max-width:none!important;">
+    <div class="bc-pic"><img src="glitch-3d-assets/3d-assets/apt-section-unit.webp" alt="Architectural section drawing of an apartment unit" loading="lazy"></div>
     <div class="bc-label">Structure</div>
     <div class="bc-head">Built on blueprints.</div>
     <div class="bc-body">Hierarchy, spacing, flow — the invisible decisions that make a piece feel resolved. Even expressive work needs a skeleton.</div>
   </div>
   <div class="bc" style="flex:1!important;min-width:0!important;max-width:none!important;">
+    <div class="bc-pic"><img src="glitch-3d-assets/3d-assets/apt-render-dusk.webp" alt="Dusk interior render in deep blue" loading="lazy"></div>
     <div class="bc-label">Instinct</div>
     <div class="bc-head">Driven by contrast.</div>
     <div class="bc-body">Color, gesture, mood, a point of view — where the system stops being cold and starts becoming memorable.</div>
