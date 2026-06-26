@@ -352,8 +352,9 @@ footer{
 :root.day .knockout{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(1.08);}
 
 /* ── Contact orb — neon-green glass beacon (all pages) ───────────────────── */
-.contact-orb{--orb-rgb:43,255,136;--orb-neon:#2bff88;position:fixed;right:30px;bottom:30px;width:60px;height:60px;z-index:70;font-family:"Syne",sans-serif;transition:transform .55s cubic-bezier(.6,0,.2,1);}
-:root.is-gallery .contact-orb{bottom:62px;}
+.contact-orb{--orb-rgb:43,255,136;--orb-neon:#2bff88;position:fixed;right:30px;bottom:54px;width:60px;height:60px;z-index:70;font-family:"Syne",sans-serif;transition:transform .55s cubic-bezier(.6,0,.2,1);}
+:root.day .contact-orb{--orb-neon:#0fa85c;--orb-rgb:15,168,92;}
+:root.is-gallery .contact-orb{bottom:72px;}
 .contact-orb.open{transform:translate(-66px,-66px);}
 
 /* transparent frosted glass: faint film + top sheen + neon edge */
@@ -396,8 +397,8 @@ footer{
 
 @media (prefers-reduced-motion:reduce){.orb-core{animation:none;}.orb-ring-svg{animation:none;}}
 @media (max-width:640px){
-  .contact-orb{right:20px;bottom:20px;}
-  :root.is-gallery .contact-orb{bottom:60px;}
+  .contact-orb{right:20px;bottom:44px;}
+  :root.is-gallery .contact-orb{bottom:70px;}
   .contact-orb.open{transform:translate(-56px,-56px);}
   .orb-cta{height:27px;padding:0 12px;right:70px;}
   .orb-cta-txt{font-size:10px;}
