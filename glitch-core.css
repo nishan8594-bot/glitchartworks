@@ -244,7 +244,7 @@ nav{display:flex;align-items:center;gap:24px;}
 :root.plain-cursor #cursor .dot{box-shadow:none;}
 
 /* ── Generic scanline ─────────────────────────────────────────────────────── */
-.scanline{position:fixed;top:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 36%,color-mix(in srgb,#ff4c4c 13%,transparent),transparent 64%);animation:scan 24s linear infinite;z-index:40;pointer-events:none;}
+.scanline{position:fixed;top:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent-eff) 30%,transparent),transparent);animation:scan 18s linear infinite;z-index:40;pointer-events:none;}
 @keyframes scan{0%{top:-2px}100%{top:100vh}}
 
 /* ── FOOTER ───────────────────────────────────────────────────────────────── */
@@ -382,7 +382,7 @@ footer{
 .contact-orb.open .orb-ring{opacity:1;transform:scale(1);}
 .orb-ring-svg{width:100%;height:100%;display:block;animation:orb-spin 28s linear infinite;filter:drop-shadow(0 0 6px rgba(var(--orb-rgb),.3));}
 @keyframes orb-spin{to{transform:rotate(360deg);}}
-.orb-ring-text{font-family:"Syne",sans-serif;font-size:12.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;fill:var(--orb-neon);}
+.orb-ring-text{font-family:"Syne",sans-serif;font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;fill:var(--orb-neon);}
 
 .orb-sat{position:absolute;left:30px;top:30px;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-muted);text-decoration:none;
   background:linear-gradient(155deg,rgba(255,255,255,0.12),rgba(var(--orb-rgb),0.05) 62%);
@@ -403,7 +403,7 @@ footer{
   .orb-cta{height:27px;padding:0 12px;right:70px;}
   .orb-cta-txt{font-size:10px;}
   .orb-ring{width:190px;height:190px;margin:-95px 0 0 -95px;}
-  .orb-ring-text{font-size:11px;letter-spacing:1px;}
+  .orb-ring-text{font-size:9.5px;letter-spacing:0.7px;}
   .contact-orb.open .orb-sat-1{transform:translate(2px,-120px) scale(1);}
   .contact-orb.open .orb-sat-2{transform:translate(-86px,-86px) scale(1);}
   .contact-orb.open .orb-sat-3{transform:translate(-120px,2px) scale(1);}
