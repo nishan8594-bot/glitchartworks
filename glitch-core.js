@@ -44,8 +44,7 @@
     { label: "Digital Art", href: "digitalart",   cat: "var(--cat-digital)" },
     { label: "Art",         href: "art",          cat: "var(--cat-art)" },
     { label: "3D",          href: "3d",           cat: "var(--cat-3d)" },
-    { label: "Architecture",href: "architecture", cat: "var(--cat-arch)" },
-    { label: "Contact",     href: "contact",      cat: "var(--util-red)" }
+    { label: "Architecture",href: "architecture", cat: "var(--cat-arch)" }
   ];
 
   var SOCIAL = [
