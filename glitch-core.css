@@ -408,3 +408,6 @@ footer{
   .contact-orb.open .orb-sat-2{transform:translate(-86px,-86px) scale(1);}
   .contact-orb.open .orb-sat-3{transform:translate(-120px,2px) scale(1);}
 }
+
+/* centered nav (wide screens) */
+@media (min-width:1100px){nav{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}}
