@@ -187,40 +187,51 @@
     document.addEventListener("dragstart",   function (e) { if (e.target.tagName === "IMG") { e.preventDefault(); strike(); } });
   }
 
-  function buildContactDock() {
-    if (document.getElementById("contactDock")) return null;
-    var d = document.createElement("div");
-    d.className = "contact-dock";
-    d.id = "contactDock";
-    d.innerHTML =
-      '<button class="cdock-tab" id="cdockTab" aria-label="Open contact" aria-expanded="false"><span>Contact</span></button>' +
-      '<div class="cdock-panel" id="cdockPanel" role="dialog" aria-label="Contact" aria-hidden="true">' +
-        '<button class="cdock-x" id="cdockX" aria-label="Close">\u00D7</button>' +
-        '<div class="cdock-head">Let\u2019s make something real</div>' +
-        '<p class="cdock-sub">Open for freelance projects &amp; remote UI/UX roles.</p>' +
-        '<a class="cdock-link" href="mailto:nishan.glitch@gmail.com">Email</a>' +
-        '<a class="cdock-link" href="https://api.whatsapp.com/send?phone=%2B60183514961" target="_blank" rel="noopener">WhatsApp</a>' +
-        '<a class="cdock-link" href="https://www.linkedin.com/in/nishaanthiny-shanmuggam-188259233" target="_blank" rel="noopener">LinkedIn</a>' +
-        '<a class="cdock-link cdock-primary" href="/contact">Start a project \u2197</a>' +
-      '</div>';
-    return d;
+  function buildContactOrb() {
+    if (document.getElementById("contactOrb")) return null;
+    var ringText = "HIRE ME \u2726 OPEN FOR WORK \u2726 LET\u2019S MAKE SOMETHING REAL \u2726 ";
+    var SEND = '<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>';
+    var MAIL = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>';
+    var WA = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>';
+    var LI = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>';
+    var o = document.createElement("div");
+    o.className = "contact-orb";
+    o.id = "contactOrb";
+    o.innerHTML =
+      '<div class="orb-ring" aria-hidden="true"><svg class="orb-ring-svg" viewBox="0 0 220 220">' +
+        '<defs><path id="orbTextPath" d="M110,110 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/></defs>' +
+        '<text class="orb-ring-text"><textPath href="#orbTextPath" startOffset="0">' + ringText + '</textPath></text>' +
+      '</svg></div>' +
+      '<a class="orb-sat orb-sat-1" href="mailto:nishan.glitch@gmail.com" aria-label="Email">' + MAIL + '</a>' +
+      '<a class="orb-sat orb-sat-2" href="https://api.whatsapp.com/send?phone=%2B60183514961" target="_blank" rel="noopener" aria-label="WhatsApp">' + WA + '</a>' +
+      '<a class="orb-sat orb-sat-3" href="https://www.linkedin.com/in/nishaanthiny-shanmuggam-188259233" target="_blank" rel="noopener" aria-label="LinkedIn">' + LI + '</a>' +
+      '<div class="orb-cta" id="orbCta"><span class="orb-cta-txt" id="orbCtaTxt">Hire me</span></div>' +
+      '<button class="orb-core" id="orbCore" type="button" aria-label="Contact" aria-expanded="false"><span class="orb-icon">' + SEND + '</span></button>';
+    return o;
   }
-  function wireContactDock(dock) {
-    if (!dock) return;
-    var tab = dock.querySelector("#cdockTab"),
-        panel = dock.querySelector("#cdockPanel"),
-        x = dock.querySelector("#cdockX");
+  function wireContactOrb(orb) {
+    if (!orb) return;
+    var core = orb.querySelector("#orbCore");
     function set(open) {
-      dock.classList.toggle("open", open);
-      tab.setAttribute("aria-expanded", open ? "true" : "false");
-      panel.setAttribute("aria-hidden", open ? "false" : "true");
+      orb.classList.toggle("open", open);
+      core.setAttribute("aria-expanded", open ? "true" : "false");
     }
-    tab.addEventListener("click", function (e) { e.stopPropagation(); set(!dock.classList.contains("open")); });
-    x.addEventListener("click", function (e) { e.stopPropagation(); set(false); });
+    core.addEventListener("click", function (e) { e.stopPropagation(); set(!orb.classList.contains("open")); });
     document.addEventListener("click", function (e) {
-      if (dock.classList.contains("open") && (!e.target.closest || !e.target.closest(".contact-dock"))) set(false);
+      if (orb.classList.contains("open") && (!e.target.closest || !e.target.closest(".contact-orb"))) set(false);
     });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
+
+    var ctas = ["Hire me", "Let\u2019s talk", "Open for work", "Got a project?", "Work with me", "Available now"];
+    var ctaTxt = orb.querySelector("#orbCtaTxt"), ci = 0;
+    setInterval(function () {
+      if (orb.classList.contains("open")) return;
+      ci = (ci + 1) % ctas.length;
+      ctaTxt.style.opacity = "0";
+      setTimeout(function () { ctaTxt.textContent = ctas[ci]; ctaTxt.style.opacity = "1"; }, 350);
+    }, 3600);
+    var ctaEl = orb.querySelector("#orbCta");
+    if (ctaEl) ctaEl.addEventListener("click", function (e) { e.stopPropagation(); set(true); });
   }
 
   var injected = false;
@@ -248,10 +259,10 @@
 
     if (!document.querySelector("footer")) body.appendChild(buildFooter());
 
-    if (!document.getElementById("contactDock")) {
-      var dock = buildContactDock();
-      body.appendChild(dock);
-      wireContactDock(dock);
+    if (!document.getElementById("contactOrb")) {
+      var orb = buildContactOrb();
+      body.appendChild(orb);
+      wireContactOrb(orb);
     }
 
     var lightning = buildLightning();
