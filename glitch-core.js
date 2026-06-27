@@ -188,7 +188,7 @@
 
   function buildContactOrb() {
     if (document.getElementById("contactOrb")) return null;
-    var ringText = "HIRE ME \u03DF OPEN FOR WORK \u03DF LET\u2019S MAKE SOMETHING REAL \u03DF ";
+    var ringText = "HIRE ME   \u03DF   OPEN FOR WORK   \u03DF   LET\u2019S MAKE SOMETHING REAL   \u03DF   ";
     var SEND = '<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>';
     var MAIL = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>';
     var WA = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>';
@@ -199,7 +199,7 @@
     o.innerHTML =
       '<div class="orb-ring" aria-hidden="true"><svg class="orb-ring-svg" viewBox="0 0 220 220">' +
         '<defs><path id="orbTextPath" d="M110,110 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/></defs>' +
-        '<text class="orb-ring-text"><textPath href="#orbTextPath" startOffset="0">' + ringText + '</textPath></text>' +
+        '<text class="orb-ring-text"><textPath href="#orbTextPath" startOffset="0" textLength="540" lengthAdjust="spacing">' + ringText + '</textPath></text>' +
       '</svg></div>' +
       '<a class="orb-sat orb-sat-1" href="mailto:nishan.glitch@gmail.com" aria-label="Email">' + MAIL + '</a>' +
       '<a class="orb-sat orb-sat-2" href="https://api.whatsapp.com/send?phone=%2B60183514961" target="_blank" rel="noopener" aria-label="WhatsApp">' + WA + '</a>' +
