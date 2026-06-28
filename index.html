@@ -195,7 +195,7 @@
 
   <div class="about-elem" id="aboutElem">
     <span class="about-line">Branding, visual interfaces, systems.<br>Made by hand and by structure.</span>
-    <a class="about-link" href="/about">About Glitch</a>
+    <a class="about-link" id="aboutTrigger" href="/about">About Glitch</a>
   </div>
 
   <div class="contact-cta" id="contactCta">
@@ -631,6 +631,80 @@ function positionCard(z,dotX,dotY,color){
 
 setup();
 window.addEventListener("resize",()=>{setup();glassCard.classList.remove("visible");});
+</script>
+
+<!-- ── ABOUT OVERLAY ──────────────────────────────────────────────────────── -->
+<style>
+.about-ov{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:22px;background:radial-gradient(circle at 50% 45%,rgba(43,255,136,.05),transparent 60%),rgba(10,10,11,.55);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);opacity:0;visibility:hidden;transform:scale(.96);transition:opacity .4s,transform .5s cubic-bezier(.34,1.2,.5,1),visibility .4s;}
+.about-ov.open{opacity:1;visibility:visible;transform:scale(1);}
+.abv-card{position:relative;width:100%;max-width:880px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;border:1px solid rgba(244,242,238,.12);border-radius:13px;padding:16px 18px;background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 40%);box-shadow:0 26px 80px rgba(0,0,0,.55);font-family:"Syne",sans-serif;color:rgba(244,242,238,.66);}
+.abv-x{position:absolute;top:11px;right:13px;z-index:4;background:none;border:none;color:rgba(244,242,238,.34);font-size:21px;line-height:1;cursor:pointer;transition:color .3s;}
+.abv-x:hover{color:#2bff88;}
+.abv-strip{display:flex;align-items:center;justify-content:space-between;gap:10px;font:600 8px "Syne";letter-spacing:.24em;text-transform:uppercase;color:rgba(244,242,238,.34);border-bottom:1px solid rgba(244,242,238,.12);padding-bottom:8px;margin-bottom:12px;flex:0 0 auto;}
+.abv-strip .mk{color:#2bff88;}
+.abv-grid{flex:1 1 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;min-height:0;}
+.abv-p{border:1px solid rgba(244,242,238,.12);border-radius:8px;padding:10px 12px;background:rgba(255,255,255,.025);position:relative;}
+.abv-p::before,.abv-p::after{content:"";position:absolute;width:6px;height:6px;border-color:rgba(244,242,238,.34);}
+.abv-p::before{top:-1px;left:-1px;border-top:1px solid;border-left:1px solid;}
+.abv-p::after{bottom:-1px;right:-1px;border-bottom:1px solid;border-right:1px solid;}
+.abv-lbl{font:700 8px "Syne";letter-spacing:.22em;text-transform:uppercase;color:rgba(244,242,238,.34);margin-bottom:8px;display:flex;gap:6px;align-items:center;}
+.abv-lbl::before{content:"";width:4px;height:4px;background:#2bff88;border-radius:1px;}
+.abv-fields{display:grid;grid-template-columns:auto 1fr;gap:5px 10px;}
+.abv-fields dt{font:600 8px "Syne";letter-spacing:.14em;text-transform:uppercase;color:rgba(244,242,238,.34);align-self:center;}
+.abv-fields dd{color:#f4f2ee;font-size:10.5px;}
+.abv-story{font-family:"Cormorant Garamond",serif;font-size:13px;line-height:1.45;color:rgba(244,242,238,.66);}
+.abv-story b{color:#f4f2ee;font-weight:500;font-style:italic;}
+.abv-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.abv-tag{font:600 9px "Syne";color:#f4f2ee;padding:4px 8px;border:.5px solid rgba(244,242,238,.12);border-radius:11px;background:rgba(255,255,255,.03);}
+.abv-approach{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:16px;color:#f4f2ee;line-height:1.12;}
+.abv-approach small{display:block;font-family:"Syne";font-style:normal;font-size:8.5px;letter-spacing:.03em;color:rgba(244,242,238,.34);margin-top:5px;line-height:1.4;}
+.abv-work{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:.5px solid rgba(244,242,238,.12);font-size:10px;}
+.abv-work:last-child{border-bottom:none;}
+.abv-work .t{color:#f4f2ee;}.abv-work .m{color:rgba(244,242,238,.34);font-size:8.5px;text-align:right;white-space:nowrap;}
+.abv-me{display:flex;align-items:center;gap:9px;}
+.abv-me .pic{width:36px;height:36px;flex:0 0 auto;border-radius:6px;border:.5px dashed rgba(244,242,238,.12);background:rgba(43,255,136,.05);display:flex;align-items:center;justify-content:center;font:600 7px "Syne";letter-spacing:.1em;color:rgba(244,242,238,.34);}
+.abv-me .mt{font:600 9px "Syne";letter-spacing:.1em;color:#f4f2ee;}
+.abv-me .ms{font:600 7.5px "Syne";letter-spacing:.16em;text-transform:uppercase;color:#2bff88;margin-top:2px;}
+.abv-roster{flex:0 0 auto;display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(244,242,238,.12);}
+.abv-r{border:.5px solid rgba(244,242,238,.12);border-radius:6px;padding:7px 5px;background:rgba(255,255,255,.02);text-align:center;cursor:pointer;transition:.22s;}
+.abv-r:hover{background:rgba(255,255,255,.05);transform:translateY(-2px);}
+.abv-r .dot{width:6px;height:6px;border-radius:50%;margin:0 auto 5px;box-shadow:0 0 7px currentColor;}
+.abv-r .dn{font:600 8px "Syne";letter-spacing:.06em;text-transform:uppercase;color:#f4f2ee;}
+@media (max-width:820px){.abv-grid{grid-template-columns:1fr 1fr;}.abv-roster{grid-template-columns:repeat(3,1fr);}.abv-card{max-height:94vh;overflow:auto;}}
+</style>
+<div class="about-ov" id="aboutOv" role="dialog" aria-modal="true" aria-label="About Glitch Artworks">
+  <div class="abv-card">
+    <button class="abv-x" id="aboutClose" aria-label="Close">×</button>
+    <div class="abv-strip"><span>Glitch Artworks <span class="mk">ϟ</span> Creative Profile <span class="mk">ϟ</span> Multidisciplinary Design</span><span>Penang / KL — 2026</span></div>
+    <div class="abv-grid">
+      <div class="abv-p"><div class="abv-lbl">Profile</div><dl class="abv-fields"><dt>Based</dt><dd>Penang &amp; KL</dd><dt>Trained</dt><dd>Architecture</dd><dt>Studio</dt><dd>Glitch Artworks</dd><dt>Status</dt><dd style="color:#2bff88">Open for work</dd></dl></div>
+      <div class="abv-p abv-me"><div class="pic">avatar</div><div><div class="mt">Glitch Artworks</div><div class="ms">The maker</div></div></div>
+      <div class="abv-p"><div class="abv-lbl">Toolkit</div><div class="abv-tags"><div class="abv-tag">Figma</div><div class="abv-tag">Illustrator</div><div class="abv-tag">Photoshop</div><div class="abv-tag">Blender</div><div class="abv-tag">Procreate</div><div class="abv-tag">AI</div></div></div>
+      <div class="abv-p"><div class="abv-lbl">Story</div><p class="abv-story">Architecture taught me to think in <b>structure</b> — grids, proportion, flow. But structure alone stays cold; the work needs <b>instinct</b> — colour, gesture, a point of view. I design at that intersection.</p></div>
+      <div class="abv-p"><div class="abv-lbl">Approach</div><div class="abv-approach">Art explores. Design solves.<small>One asks, the other answers.</small></div></div>
+      <div class="abv-p"><div class="abv-lbl">Selected Work</div><div class="abv-work"><span class="t">Star Avenue Mall</span><span class="m">33 m² · 2025</span></div><div class="abv-work"><span class="t">Nasi Kandar SRB</span><span class="m">Brand &amp; 3D</span></div><div class="abv-work"><span class="t">Fuel Me</span><span class="m">UI/UX</span></div></div>
+    </div>
+    <div class="abv-roster">
+      <div class="abv-r"><div class="dot" style="background:#4a7fc1;color:#4a7fc1"></div><div class="dn">Branding</div></div>
+      <div class="abv-r"><div class="dot" style="background:#e8c33a;color:#e8c33a"></div><div class="dn">UI/UX</div></div>
+      <div class="abv-r"><div class="dot" style="background:#3aad6e;color:#3aad6e"></div><div class="dn">Digital</div></div>
+      <div class="abv-r"><div class="dot" style="background:#c13a3a;color:#c13a3a"></div><div class="dn">Art</div></div>
+      <div class="abv-r"><div class="dot" style="background:#7c5cbf;color:#7c5cbf"></div><div class="dn">3D</div></div>
+      <div class="abv-r"><div class="dot" style="background:#ff7f00;color:#ff7f00"></div><div class="dn">Arch</div></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var trig=document.getElementById("aboutTrigger"),ov=document.getElementById("aboutOv");
+  if(!trig||!ov)return;
+  var closeBtn=document.getElementById("aboutClose");
+  function setOpen(o){ov.classList.toggle("open",o);document.body.style.overflow=o?"hidden":"";}
+  trig.addEventListener("click",function(e){e.preventDefault();setOpen(true);});
+  closeBtn.addEventListener("click",function(e){e.stopPropagation();setOpen(false);});
+  ov.addEventListener("click",function(e){if(e.target===ov)setOpen(false);});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")setOpen(false);});
+})();
 </script>
 </body>
 </html>
