@@ -101,11 +101,11 @@
     btn.id = "themeToggle";
     btn.title = "Toggle day/night";
     btn.setAttribute("aria-label", "Toggle day/night");
-    btn.innerHTML = '<div class="theme-float-knob" id="themeKnob">' + (savedDay ? "\u2600\uFE0F" : "\uD83C\uDF19") + "</div>";
+    var SUN = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.3M12 19.1v2.3M4.7 4.7l1.6 1.6M17.7 17.7l1.6 1.6M2.6 12h2.3M19.1 12h2.3M4.7 19.3l1.6-1.6M17.7 6.3l1.6-1.6"/></svg>'; var MOON = '<svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M21 12.8A8.6 8.6 0 1 1 11.2 3a6.9 6.9 0 0 0 9.8 9.8Z"/></svg>'; btn.innerHTML = (savedDay ? SUN : MOON);
     btn.addEventListener("click", function () {
       var day = !document.documentElement.classList.contains("day");
       document.documentElement.classList.toggle("day", day);
-      document.getElementById("themeKnob").textContent = day ? "\u2600\uFE0F" : "\uD83C\uDF19";
+      btn.innerHTML = day ? SUN : MOON;
       try { localStorage.setItem("glitch-theme", day ? "day" : "night"); } catch (e) {}
       window.dispatchEvent(new CustomEvent("glitch:themechange", { detail: { day: day } }));
     });
@@ -190,7 +190,7 @@
     if (document.getElementById("contactOrb")) return null;
     var ringText = "HIRE ME   \u03DF   OPEN FOR WORK   \u03DF   LET\u2019S MAKE SOMETHING REAL   \u03DF   ";
     var SEND = '<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>';
-    var BOLT = '<svg viewBox="0 0 119.79 432.72" height="24" fill="currentColor" aria-hidden="true"><path d="Layer_1"/></svg>';
+    var BOLT = '<svg viewBox="0 0 119.79 432.72" width="8" height="28" fill="currentColor" aria-hidden="true"><path d="Layer_1"/></svg>';
     var MAIL = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>';
     var WA = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>';
     var LI = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>';
