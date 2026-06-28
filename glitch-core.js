@@ -190,6 +190,7 @@
     if (document.getElementById("contactOrb")) return null;
     var ringText = "HIRE ME   \u03DF   OPEN FOR WORK   \u03DF   LET\u2019S MAKE SOMETHING REAL   \u03DF   ";
     var SEND = '<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>';
+    var BOLT = '<svg viewBox="0 0 119.79 432.72" height="24" fill="currentColor" aria-hidden="true"><path d="Layer_1"/></svg>';
     var MAIL = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>';
     var WA = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>';
     var LI = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>';
@@ -205,7 +206,7 @@
       '<a class="orb-sat orb-sat-2" href="https://api.whatsapp.com/send?phone=%2B60183514961" target="_blank" rel="noopener" aria-label="WhatsApp">' + WA + '</a>' +
       '<a class="orb-sat orb-sat-3" href="https://www.linkedin.com/in/nishaanthiny-shanmuggam-188259233" target="_blank" rel="noopener" aria-label="LinkedIn">' + LI + '</a>' +
       '<div class="orb-cta" id="orbCta"><span class="orb-cta-txt" id="orbCtaTxt">Hire me</span></div>' +
-      '<button class="orb-core" id="orbCore" type="button" aria-label="Contact" aria-expanded="false"><span class="orb-icon">' + SEND + '</span></button>';
+      '<button class="orb-core" id="orbCore" type="button" aria-label="Contact" aria-expanded="false"><span class="orb-icon">' + BOLT + '</span></button>';
     return o;
   }
   function wireContactOrb(orb) {
@@ -251,6 +252,14 @@
     if (!document.querySelector(".scanline")) {
       var sl = document.createElement("div"); sl.className = "scanline";
       body.insertBefore(sl, body.firstChild);
+    }
+
+    if (!document.querySelector('link[rel="icon"]')) {
+      var GLITCH_FAVICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#0d0d0c"/><g transform="translate(39.5,12) scale(0.1756)"><path fill="#2bff88" d="Layer_1"/></g></svg>';
+      var fav = document.createElement("link");
+      fav.rel = "icon"; fav.type = "image/svg+xml";
+      fav.href = "data:image/svg+xml," + encodeURIComponent(GLITCH_FAVICON);
+      document.head.appendChild(fav);
     }
 
     body.insertBefore(buildToggle(), body.firstChild);   // standard on every page
