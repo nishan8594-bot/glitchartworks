@@ -367,7 +367,7 @@ function buildCanvas(){
         } else if(panel.type==="vid"){
           const cp=document.createElement("div"); cp.className="cp-vid"+(panel.portrait?" portrait":"");
           const v=document.createElement("video");
-          v.src=panel.src; v.autoplay=true; v.loop=true; v.muted=true; v.playsInline=true;
+          v.src=panel.src; v.autoplay=true; v.loop=true; v.muted=true; v.playsInline=true; v.setAttribute("controlsList","nodownload"); v.disablePictureInPicture=true;
           v.setAttribute("playsinline",""); v.setAttribute("muted","");
           cp.appendChild(v);
           scroll.appendChild(cp);

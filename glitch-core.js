@@ -116,8 +116,8 @@
     var f = document.createElement("footer");
     f.innerHTML =
       '<span class="foot-l">' + (CFG.footerLeft || "\u00A9 2026 Glitch Artworks \u2014 Nishan. Penang \u00B7 Kuala Lumpur") + "</span>" +
-      '<span class="foot-c">' + (CFG.footerCenter || "All works are copyrighted") + "</span>" +
-      '<span class="foot-r">' + (CFG.footerRight || "Architect by training. Artist by nature.") + "</span>";
+      '<span class="foot-c">' + (CFG.footerCenter || "") + "</span>" +
+      '<span class="foot-r">' + (CFG.footerRight || "All works are copyrighted") + "</span>";
     return f;
   }
 
@@ -182,7 +182,7 @@
       lightning.classList.add("strike");
       t = setTimeout(function () { lightning.classList.remove("strike"); }, 1400);
     }
-    document.addEventListener("contextmenu", function (e) { if (e.target.tagName === "IMG") { e.preventDefault(); strike(); } });
+    document.addEventListener("contextmenu", function (e) { if (e.target.tagName === "IMG" || e.target.tagName === "VIDEO") { e.preventDefault(); strike(); } });
     document.addEventListener("dragstart",   function (e) { if (e.target.tagName === "IMG") { e.preventDefault(); strike(); } });
   }
 

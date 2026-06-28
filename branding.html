@@ -1074,7 +1074,7 @@ function buildCanvas(){
         el=document.createElement("div"); el.className="wd-video-panel";
         const vid=document.createElement("video");
         vid.src=panel.src; vid.muted=true; vid.loop=true; vid.playsInline=true;
-        vid.autoplay=true; vid.controls=false;
+        vid.autoplay=true; vid.controls=false; vid.setAttribute("controlsList","nodownload"); vid.disablePictureInPicture=true;
         el.appendChild(vid);
       } else if(panel.type==="phantom-poster3"){
         el=document.createElement("div"); el.className="phantom-stage";
