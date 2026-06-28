@@ -178,7 +178,7 @@ nav{display:flex;align-items:center;gap:24px;}
 }
 .soc-icon:hover::after{opacity:1;transform:scaleX(1.2);}
 
-.soc-ig::after,.soc-fb::after,.soc-wa::after,.soc-li::after,.soc-yt::after,.soc-tt::after{background:#2bff88;}
+.soc-ig::after,.soc-fb::after,.soc-wa::after,.soc-li::after,.soc-yt::after,.soc-tt::after{background:#ff4c4c;}
 
 :root.day .soc-icon{
   background:linear-gradient(155deg,rgba(255,255,255,0.78),rgba(255,255,255,0.45));
