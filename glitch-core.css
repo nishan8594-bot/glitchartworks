@@ -65,8 +65,8 @@
   --border:rgba(13,12,11,0.07);
   --line-stroke:rgba(0,0,0,0.07);
   --text:#000000;
-  --text-muted:rgba(0,0,0,0.75);
-  --text-dim:rgba(0,0,0,0.38);
+  --text-muted:rgba(0,0,0,0.82);
+  --text-dim:rgba(0,0,0,0.55);
   --card-bg:rgba(248,246,241,0.82);
   --card-border:rgba(13,12,11,0.09);
   --logo-filter:invert(1) brightness(0.05);
@@ -362,6 +362,7 @@ footer{
 .orb-ring-svg{width:100%;height:100%;display:block;animation:orb-spin 28s linear infinite;filter:drop-shadow(0 0 6px rgba(var(--orb-rgb),.3));}
 @keyframes orb-spin{to{transform:rotate(360deg);}}
 .orb-ring-text{font-family:"Syne",sans-serif;font-size:10.5px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;fill:var(--orb-neon);}
+.orb-dot{font-size:1.5em;}  /* separator dot size in the ring — bump this to make the dots bigger */
 
 .orb-sat{position:absolute;left:30px;top:30px;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-muted);text-decoration:none;
   background:linear-gradient(155deg,rgba(255,255,255,0.12),rgba(var(--orb-rgb),0.05) 62%);

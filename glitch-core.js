@@ -201,11 +201,11 @@
       '<div class="orb-ring" aria-hidden="true"><svg class="orb-ring-svg" viewBox="0 0 220 220" style="color:var(--orb-neon)">' +
         '<defs>' +
           '<path id="orbTextPath" d="M110,110 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/>' +
-          /* Custom Glitch bolt mark; placed at the measured separator points by placeRingBolts(). Nudge size via the scale() in that function. */
+          /* (dormant) Glitch bolt symbol \u2014 separators are now simple dots in the ring text below. */
           '<g id="orbBolt" fill="currentColor"><path d="M21.59,245.68c6.37-7.69,23.42-26.17,57.52-63.12,2.07-2.24,6.09-6.52,8.74-5.47,1.02.41,3.86,2.42,1.78,18.72-3.74,29.36-30.17,157.83-38.94,200.26-.32,2.78-.56,5.67-.7,8.68-.5,10.42.29,19.84,1.62,27.97,1.97-9.72,3.94-19.45,5.92-29.17,20.76-99.46,41.51-198.92,62.27-298.39-.66-.19-1.31-.38-1.97-.57-5.2,13.99-16.22,41-33.93,67.03,0,0-10.31,15.15-37.71,37.98-.35.29-1.56,1.28-3.42,1.91-3.4,1.16-7.97.76-10.53-1.67-2.68-2.55-2.53-6.72-2.41-9.06,1.87-37.1,6.02-59.2,6.02-59.2.26-1.4.39-2.1.49-2.57,4.22-22.06,6.96-35.16,13.79-69.18.36-1.77.8-3.85,1.35-6.72,1.22-6.35,2.91-15.16,4-25.43,1.11-10.45,1.67-15.68.81-22.09-.89-6.65-2.74-11.99-4.26-15.61-1.28,19.26-3.85,38.73-7.91,58.34-.12.57-.24,1.14-.36,1.71C29.16,129.92,14.58,199.79,0,269.66c.36-.21.73-.41,1.09-.61,9.2-9.93,16.2-18.18,20.49-23.36Z"/></g>' +
         '</defs>' +
         '<text class="orb-ring-text"><textPath href="#orbTextPath" startOffset="0" textLength="540" lengthAdjust="spacing">' +
-          'HIRE ME   <tspan class="orb-sep">\u03DF</tspan>   OPEN FOR WORK   <tspan class="orb-sep">\u03DF</tspan>   LET\u2019S MAKE SOMETHING REAL   <tspan class="orb-sep">\u03DF</tspan>   ' +
+          'HIRE ME   <tspan class="orb-dot">\u2022</tspan>   OPEN FOR WORK   <tspan class="orb-dot">\u2022</tspan>   LET\u2019S MAKE SOMETHING REAL   <tspan class="orb-dot">\u2022</tspan>   ' +
         '</textPath></text>' +
       '</svg></div>' +
       '<a class="orb-sat orb-sat-1" href="mailto:nishan.glitch@gmail.com" aria-label="Email">' + MAIL + '</a>' +
@@ -214,30 +214,6 @@
       '<div class="orb-cta" id="orbCta"><span class="orb-cta-txt" id="orbCtaTxt">Hire me</span></div>' +
       '<button class="orb-core" id="orbCore" type="button" aria-label="Contact" aria-expanded="false"><span class="orb-icon">' + BOLT + '</span></button>';
     return o;
-  }
-  function placeRingBolts(orb) {
-    try {
-      var svg = orb.querySelector(".orb-ring-svg");
-      var txt = orb.querySelector(".orb-ring-text");
-      if (!svg || !txt || !txt.getStartPositionOfChar || svg.querySelector(".orb-bolt")) return;
-      var content = txt.textContent, SEP = "\u03DF", NS = "http://www.w3.org/2000/svg", placed = 0;
-      for (var i = 0; i < content.length; i++) {
-        if (content.charAt(i) !== SEP) continue;
-        var s = txt.getStartPositionOfChar(i), e = txt.getEndPositionOfChar(i), r = txt.getRotationOfChar(i);
-        var cx = (s.x + e.x) / 2, cy = (s.y + e.y) / 2;
-        var use = document.createElementNS(NS, "use");
-        use.setAttribute("href", "#orbBolt");
-        use.setAttribute("class", "orb-bolt");
-        // scale() sets bolt size; tweak that one number to make the bolts bigger/smaller.
-        use.setAttribute("transform", "translate(" + cx.toFixed(2) + "," + cy.toFixed(2) + ") rotate(" + r.toFixed(1) + ") scale(0.034) translate(-59.9,-216.36)");
-        svg.appendChild(use);
-        placed++;
-      }
-      if (placed) {
-        var seps = orb.querySelectorAll(".orb-sep");
-        for (var j = 0; j < seps.length; j++) seps[j].style.fill = "transparent";
-      }
-    } catch (err) { /* on failure the text glyphs stay visible as a graceful fallback */ }
   }
   function wireContactOrb(orb) {
     if (!orb) return;
@@ -301,8 +277,6 @@
       var orb = buildContactOrb();
       body.appendChild(orb);
       wireContactOrb(orb);
-      if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function () { placeRingBolts(orb); }); }
-      else { setTimeout(function () { placeRingBolts(orb); }, 400); }
     }
 
     var lightning = buildLightning();
