@@ -124,7 +124,7 @@ header{
 :root.day .hdr-logo{
   background:linear-gradient(155deg,rgba(255,255,255,0.78),rgba(255,255,255,0.45));
   border:0.5px solid rgba(0,0,0,0.08);
-  box-shadow:0 2px 8px rgba(0,0,0,0.10),0 1px 0 rgba(255,255,255,1) inset;
+  box-shadow:0 1px 4px rgba(60,50,35,0.07),0 1px 0 rgba(255,255,255,1) inset;
 }
 .hdr-logo::before{
   content:"";position:absolute;top:0;left:10%;width:80%;height:1px;
@@ -183,11 +183,12 @@ nav{display:flex;align-items:center;gap:24px;}
 :root.day .soc-icon{
   background:linear-gradient(155deg,rgba(255,255,255,0.78),rgba(255,255,255,0.45));
   border:0.5px solid rgba(0,0,0,0.08);
-  box-shadow:0 2px 8px rgba(0,0,0,0.10),0 1px 0 rgba(255,255,255,1) inset;
+  box-shadow:0 1px 4px rgba(60,50,35,0.07),0 1px 0 rgba(255,255,255,1) inset;
   color:#1a1a1a;
 }
 :root.day .soc-icon::before{background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7),transparent);}
-:root.day .soc-icon::after{opacity:0.45;}
+:root.day .soc-icon::after{opacity:0.16;}
+:root.day .soc-icon:hover{box-shadow:0 3px 10px rgba(60,50,35,0.10),0 1px 0 rgba(255,255,255,1) inset;}
 :root.day .soc-icon:hover::after{opacity:0.80;}
 :root.day .soc-ig svg,:root.day .soc-fb svg,:root.day .soc-wa svg,
 :root.day .soc-li svg,:root.day .soc-yt svg,:root.day .soc-tt svg{color:#1a1a1a;}
@@ -368,6 +369,10 @@ footer{
   box-shadow:0 6px 20px rgba(0,0,0,.3),0 0 16px rgba(var(--orb-rgb),.14),inset 0 1px 0 rgba(255,255,255,.2);
   opacity:0;transform:translate(0,0) scale(.2);transition:transform .5s cubic-bezier(.34,1.3,.5,1),opacity .4s,color .25s,box-shadow .25s;z-index:2;}
 .orb-sat:hover{color:var(--orb-neon);box-shadow:0 6px 22px rgba(0,0,0,.34),0 0 22px rgba(var(--orb-rgb),.34),inset 0 1px 0 rgba(255,255,255,.2);}
+:root.day .orb-core{filter:drop-shadow(0 3px 12px rgba(60,50,35,.12));}
+:root.day .orb-sat{box-shadow:0 3px 12px rgba(60,50,35,.10),0 0 16px rgba(var(--orb-rgb),.14),inset 0 1px 0 rgba(255,255,255,.7);}
+:root.day .orb-sat:hover{box-shadow:0 5px 16px rgba(60,50,35,.12),0 0 22px rgba(var(--orb-rgb),.30),inset 0 1px 0 rgba(255,255,255,.7);}
+:root.day .orb-cta{box-shadow:0 2px 10px rgba(60,50,35,.08);}
 .contact-orb.open .orb-sat{opacity:1;}
 .contact-orb.open .orb-sat-1{transform:translate(2px,-138px) scale(1);transition-delay:.06s;}
 .contact-orb.open .orb-sat-2{transform:translate(-98px,-98px) scale(1);transition-delay:.13s;}

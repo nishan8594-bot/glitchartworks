@@ -188,7 +188,7 @@
 
   function buildContactOrb() {
     if (document.getElementById("contactOrb")) return null;
-    var ringText = "HIRE ME   \u03DF   OPEN FOR WORK   \u03DF   LET\u2019S MAKE SOMETHING REAL   \u03DF   ";
+    /* Ring is rebuilt below: three phrases centred in even arcs, custom bolt mark in the gaps. */
     var SEND = '<svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>';
     var BOLT = '<svg viewBox="0 0 119.79 432.72" width="13" height="47" fill="currentColor" aria-hidden="true"><path d="M21.59,245.68c6.37-7.69,23.42-26.17,57.52-63.12,2.07-2.24,6.09-6.52,8.74-5.47,1.02.41,3.86,2.42,1.78,18.72-3.74,29.36-30.17,157.83-38.94,200.26-.32,2.78-.56,5.67-.7,8.68-.5,10.42.29,19.84,1.62,27.97,1.97-9.72,3.94-19.45,5.92-29.17,20.76-99.46,41.51-198.92,62.27-298.39-.66-.19-1.31-.38-1.97-.57-5.2,13.99-16.22,41-33.93,67.03,0,0-10.31,15.15-37.71,37.98-.35.29-1.56,1.28-3.42,1.91-3.4,1.16-7.97.76-10.53-1.67-2.68-2.55-2.53-6.72-2.41-9.06,1.87-37.1,6.02-59.2,6.02-59.2.26-1.4.39-2.1.49-2.57,4.22-22.06,6.96-35.16,13.79-69.18.36-1.77.8-3.85,1.35-6.72,1.22-6.35,2.91-15.16,4-25.43,1.11-10.45,1.67-15.68.81-22.09-.89-6.65-2.74-11.99-4.26-15.61-1.28,19.26-3.85,38.73-7.91,58.34-.12.57-.24,1.14-.36,1.71C29.16,129.92,14.58,199.79,0,269.66c.36-.21.73-.41,1.09-.61,9.2-9.93,16.2-18.18,20.49-23.36Z"/></svg>';
     var MAIL = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>';
@@ -198,9 +198,18 @@
     o.className = "contact-orb";
     o.id = "contactOrb";
     o.innerHTML =
-      '<div class="orb-ring" aria-hidden="true"><svg class="orb-ring-svg" viewBox="0 0 220 220">' +
-        '<defs><path id="orbTextPath" d="M110,110 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/></defs>' +
-        '<text class="orb-ring-text"><textPath href="#orbTextPath" startOffset="0" textLength="540" lengthAdjust="spacing">' + ringText + '</textPath></text>' +
+      '<div class="orb-ring" aria-hidden="true"><svg class="orb-ring-svg" viewBox="0 0 220 220" style="color:var(--orb-neon)">' +
+        '<defs>' +
+          '<path id="orbTextPath" d="M110,110 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/>' +
+          /* Custom Glitch bolt, sized small and seated at 12 o'clock. To nudge: change scale (size) or translate (position). */
+          '<g id="orbBolt" fill="currentColor"><g transform="translate(107.5,15) scale(0.0416)"><path d="M21.59,245.68c6.37-7.69,23.42-26.17,57.52-63.12,2.07-2.24,6.09-6.52,8.74-5.47,1.02.41,3.86,2.42,1.78,18.72-3.74,29.36-30.17,157.83-38.94,200.26-.32,2.78-.56,5.67-.7,8.68-.5,10.42.29,19.84,1.62,27.97,1.97-9.72,3.94-19.45,5.92-29.17,20.76-99.46,41.51-198.92,62.27-298.39-.66-.19-1.31-.38-1.97-.57-5.2,13.99-16.22,41-33.93,67.03,0,0-10.31,15.15-37.71,37.98-.35.29-1.56,1.28-3.42,1.91-3.4,1.16-7.97.76-10.53-1.67-2.68-2.55-2.53-6.72-2.41-9.06,1.87-37.1,6.02-59.2,6.02-59.2.26-1.4.39-2.1.49-2.57,4.22-22.06,6.96-35.16,13.79-69.18.36-1.77.8-3.85,1.35-6.72,1.22-6.35,2.91-15.16,4-25.43,1.11-10.45,1.67-15.68.81-22.09-.89-6.65-2.74-11.99-4.26-15.61-1.28,19.26-3.85,38.73-7.91,58.34-.12.57-.24,1.14-.36,1.71C29.16,129.92,14.58,199.79,0,269.66c.36-.21.73-.41,1.09-.61,9.2-9.93,16.2-18.18,20.49-23.36Z"/></g></g>' +
+        '</defs>' +
+        '<text class="orb-ring-text" text-anchor="middle"><textPath href="#orbTextPath" startOffset="0%">HIRE ME</textPath></text>' +
+        '<text class="orb-ring-text" text-anchor="middle"><textPath href="#orbTextPath" startOffset="33.333%">OPEN FOR WORK</textPath></text>' +
+        '<text class="orb-ring-text" text-anchor="middle"><textPath href="#orbTextPath" startOffset="66.666%">LET\u2019S MAKE SOMETHING REAL</textPath></text>' +
+        '<use href="#orbBolt" transform="rotate(330 110 110)"/>' +
+        '<use href="#orbBolt" transform="rotate(90 110 110)"/>' +
+        '<use href="#orbBolt" transform="rotate(210 110 110)"/>' +
       '</svg></div>' +
       '<a class="orb-sat orb-sat-1" href="mailto:nishan.glitch@gmail.com" aria-label="Email">' + MAIL + '</a>' +
       '<a class="orb-sat orb-sat-2" href="https://api.whatsapp.com/send?phone=%2B60183514961" target="_blank" rel="noopener" aria-label="WhatsApp">' + WA + '</a>' +

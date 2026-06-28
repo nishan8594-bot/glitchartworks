@@ -109,12 +109,11 @@
   min-width:180px;overflow:hidden;
 }
 :root.day .glass-card{
-  background:linear-gradient(135deg,rgba(255,255,255,0.80) 0%,rgba(255,255,255,0.58) 100%);
-  border:1px solid rgba(255,255,255,0.85);
+  background:linear-gradient(135deg,rgba(255,255,255,0.82) 0%,rgba(255,255,255,0.60) 100%);
+  border:1px solid rgba(60,50,35,0.10);
   box-shadow:
     0 0 0 0.5px rgba(255,255,255,0.75) inset,
-    0 8px 32px rgba(0,0,0,0.07),
-    0 32px 64px rgba(0,0,0,0.04);
+    0 4px 16px rgba(60,50,35,0.06);
 }
 .glass-card.visible{opacity:1;transform:scale(1) translateY(0);}
 /* Top shimmer edge */
@@ -650,7 +649,7 @@ window.addEventListener("resize",()=>{setup();glassCard.classList.remove("visibl
   --abv-ink:#17140f;--abv-soft:rgba(23,20,15,.74);--abv-dim:rgba(23,20,15,.5);
   --abv-faint:rgba(23,20,15,.4);--abv-line:rgba(23,20,15,.16);--abv-line2:rgba(23,20,15,.12);
   --abv-panel:rgba(23,20,15,.035);--abv-panel2:rgba(23,20,15,.05);--abv-hover:rgba(23,20,15,.07);
-  --abv-card:linear-gradient(160deg,rgba(252,250,246,.62),rgba(245,242,236,.56));--abv-shadow:0 16px 40px rgba(0,0,0,.1);
+  --abv-card:linear-gradient(160deg,rgba(252,250,246,.62),rgba(245,242,236,.56));--abv-shadow:0 12px 32px rgba(60,50,35,.08);
   --abv-accent:#0c9a52;--abv-accent-soft:rgba(12,154,82,.08);}
 .about-ov.open{opacity:1;visibility:visible;transform:scale(1);}
 .abv-card{position:relative;width:100%;max-width:1080px;max-height:90vh;overflow-y:auto;border:1px solid var(--abv-line);border-radius:15px;padding:24px 28px;background:var(--abv-card);backdrop-filter:blur(20px) saturate(125%);-webkit-backdrop-filter:blur(20px) saturate(125%);box-shadow:var(--abv-shadow);font-family:"Syne",sans-serif;color:var(--abv-soft);}
