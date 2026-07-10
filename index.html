@@ -202,9 +202,9 @@
   <div class="contact-cta" id="contactCta">
     <span class="contact-label">Available for projects &amp; roles</span>
     <div class="contact-row">
-      <a class="contact-page" href="mailto:nishan.glitch@gmail.com">Start a project ↗</a>
+      <a class="contact-page" href="mailto:nishan@glitchartworks.com">Start a project ↗</a>
       <span class="contact-sep"><svg viewBox="0 0 119.79 432.72" width="3" height="12" fill="currentColor" style="vertical-align:-1px" aria-hidden="true"><path d="M21.59,245.68c6.37-7.69,23.42-26.17,57.52-63.12,2.07-2.24,6.09-6.52,8.74-5.47,1.02.41,3.86,2.42,1.78,18.72-3.74,29.36-30.17,157.83-38.94,200.26-.32,2.78-.56,5.67-.7,8.68-.5,10.42.29,19.84,1.62,27.97,1.97-9.72,3.94-19.45,5.92-29.17,20.76-99.46,41.51-198.92,62.27-298.39-.66-.19-1.31-.38-1.97-.57-5.2,13.99-16.22,41-33.93,67.03,0,0-10.31,15.15-37.71,37.98-.35.29-1.56,1.28-3.42,1.91-3.4,1.16-7.97.76-10.53-1.67-2.68-2.55-2.53-6.72-2.41-9.06,1.87-37.1,6.02-59.2,6.02-59.2.26-1.4.39-2.1.49-2.57,4.22-22.06,6.96-35.16,13.79-69.18.36-1.77.8-3.85,1.35-6.72,1.22-6.35,2.91-15.16,4-25.43,1.11-10.45,1.67-15.68.81-22.09-.89-6.65-2.74-11.99-4.26-15.61-1.28,19.26-3.85,38.73-7.91,58.34-.12.57-.24,1.14-.36,1.71C29.16,129.92,14.58,199.79,0,269.66c.36-.21.73-.41,1.09-.61,9.2-9.93,16.2-18.18,20.49-23.36Z"/></svg></span>
-      <a class="contact-email" href="mailto:nishan.glitch@gmail.com">Email</a>
+      <a class="contact-email" href="mailto:nishan@glitchartworks.com">Email</a>
       <span class="contact-sep"><svg viewBox="0 0 119.79 432.72" width="3" height="12" fill="currentColor" style="vertical-align:-1px" aria-hidden="true"><path d="M21.59,245.68c6.37-7.69,23.42-26.17,57.52-63.12,2.07-2.24,6.09-6.52,8.74-5.47,1.02.41,3.86,2.42,1.78,18.72-3.74,29.36-30.17,157.83-38.94,200.26-.32,2.78-.56,5.67-.7,8.68-.5,10.42.29,19.84,1.62,27.97,1.97-9.72,3.94-19.45,5.92-29.17,20.76-99.46,41.51-198.92,62.27-298.39-.66-.19-1.31-.38-1.97-.57-5.2,13.99-16.22,41-33.93,67.03,0,0-10.31,15.15-37.71,37.98-.35.29-1.56,1.28-3.42,1.91-3.4,1.16-7.97.76-10.53-1.67-2.68-2.55-2.53-6.72-2.41-9.06,1.87-37.1,6.02-59.2,6.02-59.2.26-1.4.39-2.1.49-2.57,4.22-22.06,6.96-35.16,13.79-69.18.36-1.77.8-3.85,1.35-6.72,1.22-6.35,2.91-15.16,4-25.43,1.11-10.45,1.67-15.68.81-22.09-.89-6.65-2.74-11.99-4.26-15.61-1.28,19.26-3.85,38.73-7.91,58.34-.12.57-.24,1.14-.36,1.71C29.16,129.92,14.58,199.79,0,269.66c.36-.21.73-.41,1.09-.61,9.2-9.93,16.2-18.18,20.49-23.36Z"/></svg></span>
       <a class="contact-role" href="https://www.linkedin.com/in/nishaanthiny-shanmuggam-188259233" target="_blank" rel="noopener">Hiring for a role? → LinkedIn</a>
     </div>
@@ -652,29 +652,28 @@ window.addEventListener("resize",()=>{setup();glassCard.classList.remove("visibl
   --abv-card:linear-gradient(160deg,rgba(252,250,246,.62),rgba(245,242,236,.56));--abv-shadow:0 12px 32px rgba(60,50,35,.08);
   --abv-accent:#0c9a52;--abv-accent-soft:rgba(12,154,82,.08);}
 .about-ov.open{opacity:1;visibility:visible;transform:scale(1);}
-.abv-card{position:relative;width:100%;max-width:1080px;max-height:90vh;overflow-y:auto;border:1px solid var(--abv-line);border-radius:15px;padding:24px 28px;background:var(--abv-card);backdrop-filter:blur(20px) saturate(125%);-webkit-backdrop-filter:blur(20px) saturate(125%);box-shadow:var(--abv-shadow);font-family:"Syne",sans-serif;color:var(--abv-soft);}
-.abv-card::-webkit-scrollbar{width:6px;}.abv-card::-webkit-scrollbar-thumb{background:var(--abv-line);border-radius:3px;}
+.abv-card{position:relative;width:100%;max-width:1080px;max-height:92vh;overflow:hidden;border:1px solid var(--abv-line);border-radius:15px;padding:clamp(14px,2.4vh,24px) clamp(16px,2.2vw,28px);background:var(--abv-card);backdrop-filter:blur(20px) saturate(125%);-webkit-backdrop-filter:blur(20px) saturate(125%);box-shadow:var(--abv-shadow);font-family:"Syne",sans-serif;color:var(--abv-soft);display:flex;flex-direction:column;}
 .abv-x{position:absolute;top:16px;right:18px;z-index:4;background:none;border:none;color:var(--abv-dim);font-size:24px;line-height:1;cursor:pointer;transition:color .3s;}
 .abv-x:hover{color:var(--abv-accent);}
-.abv-strip{display:flex;align-items:center;justify-content:space-between;gap:10px;font:600 9px "Syne";letter-spacing:.24em;text-transform:uppercase;color:var(--abv-dim);border-bottom:1px solid var(--abv-line);padding-bottom:12px;margin-bottom:16px;padding-right:30px;}
+.abv-strip{display:flex;align-items:center;justify-content:space-between;gap:10px;font:600 9px "Syne";letter-spacing:.24em;text-transform:uppercase;color:var(--abv-dim);border-bottom:1px solid var(--abv-line);padding-bottom:clamp(6px,1vh,12px);margin-bottom:clamp(8px,1.4vh,16px);padding-right:30px;flex:0 0 auto;}
 .abv-strip .mk{color:var(--abv-accent);}
-.abv-cols{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;}
-.abv-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:14px;}
-.abv-p{border:1px solid var(--abv-line);border-radius:9px;padding:14px 16px;background:var(--abv-panel);position:relative;width:100%;}
+.abv-cols{display:flex;gap:14px;margin-bottom:clamp(8px,1.4vh,14px);align-items:flex-start;flex:0 1 auto;min-height:0;}
+.abv-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:clamp(8px,1.2vh,14px);}
+.abv-p{border:1px solid var(--abv-line);border-radius:9px;padding:clamp(9px,1.4vh,14px) clamp(11px,1.4vw,16px);background:var(--abv-panel);position:relative;width:100%;}
 .abv-p::before,.abv-p::after{content:"";position:absolute;width:7px;height:7px;border-color:var(--abv-faint);}
 .abv-p::before{top:-1px;left:-1px;border-top:1px solid;border-left:1px solid;}
 .abv-p::after{bottom:-1px;right:-1px;border-bottom:1px solid;border-right:1px solid;}
-.abv-lbl{font:700 9.5px "Syne";letter-spacing:.22em;text-transform:uppercase;color:var(--abv-dim);margin-bottom:12px;display:flex;gap:7px;align-items:center;}
+.abv-lbl{font:700 9.5px "Syne";letter-spacing:.22em;text-transform:uppercase;color:var(--abv-dim);margin-bottom:clamp(6px,1vh,12px);display:flex;gap:7px;align-items:center;}
 .abv-lbl::before{content:"";width:5px;height:5px;background:var(--abv-accent);border-radius:1px;}
-.abv-fields{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;}
+.abv-fields{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;}
 .abv-fields dt{font:600 9px "Syne";letter-spacing:.14em;text-transform:uppercase;color:var(--abv-dim);align-self:center;}
 .abv-fields dd{color:var(--abv-ink);font-size:13px;}
-.abv-story{font-family:"Cormorant Garamond",serif;font-size:16px;line-height:1.5;color:var(--abv-soft);}
+.abv-story{font-family:"Cormorant Garamond",serif;font-size:clamp(12.5px,1.9vh,16px);line-height:1.36;color:var(--abv-soft);}
 .abv-story b{color:var(--abv-ink);font-weight:500;font-style:italic;}
-.abv-tk-note{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:13.5px;line-height:1.42;color:var(--abv-soft);margin:-2px 0 13px;max-width:640px;}
-.abv-approach{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:21px;color:var(--abv-ink);line-height:1.15;}
+.abv-tk-note{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:clamp(11px,1.6vh,13.5px);line-height:1.32;color:var(--abv-soft);margin:-2px 0 clamp(6px,1vh,13px);max-width:640px;}
+.abv-approach{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:clamp(15px,2.4vh,21px);color:var(--abv-ink);line-height:1.15;}
 .abv-approach small{display:block;font-family:"Syne";font-style:normal;font-size:10px;letter-spacing:.03em;color:var(--abv-dim);margin-top:7px;}
-.abv-work{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:.5px solid var(--abv-line);font-size:13px;}
+.abv-work{display:flex;justify-content:space-between;gap:10px;padding:clamp(4px,0.8vh,8px) 0;border-bottom:.5px solid var(--abv-line);font-size:13px;}
 .abv-work:last-child{border-bottom:none;}
 a.abv-work{text-decoration:none;cursor:pointer;transition:color .2s;}
 a.abv-work:hover .t{color:var(--abv-accent);}
@@ -684,27 +683,26 @@ a.abv-work:hover .t{color:var(--abv-accent);}
 .abv-me .pic img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
 .abv-me .mt{font:600 11px "Syne";letter-spacing:.1em;color:var(--abv-ink);}
 .abv-me .ms{font:600 8.5px "Syne";letter-spacing:.16em;text-transform:uppercase;color:var(--abv-accent);margin-top:3px;}
-.abv-mark{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:9px;padding:22px 16px;flex:1;}
-.abv-mark svg{width:24px;height:auto;color:var(--abv-accent);}
-.abv-mark .abv-wm{font:700 13px "Syne";letter-spacing:.34em;text-transform:uppercase;color:var(--abv-ink);}
+.abv-mark{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:7px;padding:clamp(8px,1.4vh,14px) 16px;flex:1;}
+.abv-mark-logo{width:100%;max-width:130px;height:auto;max-height:9vh;object-fit:contain;filter:var(--logo-filter);}
 .abv-mark .abv-wm-sub{font:600 8.5px "Syne";letter-spacing:.16em;text-transform:uppercase;color:var(--abv-dim);}
-.abv-grp{font:700 8.5px "Syne";letter-spacing:.2em;text-transform:uppercase;color:var(--abv-dim);margin:4px 0 9px;}
-.abv-grp.second{margin-top:14px;}
-.abv-tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;}
-.abv-tool{display:flex;align-items:center;gap:9px;padding:8px 11px;border:.5px solid var(--abv-line2);border-radius:8px;background:var(--abv-panel2);min-width:0;}
+.abv-grp{font:700 8.5px "Syne";letter-spacing:.2em;text-transform:uppercase;color:var(--abv-dim);margin:4px 0 clamp(5px,0.9vh,9px);}
+.abv-grp.second{margin-top:clamp(8px,1.4vh,14px);}
+.abv-tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;}
+.abv-tool{display:flex;align-items:center;gap:9px;padding:clamp(4px,0.8vh,8px) 10px;border:.5px solid var(--abv-line2);border-radius:8px;background:var(--abv-panel2);min-width:0;}
 .abv-tool img{width:17px;height:17px;flex:0 0 auto;opacity:.92;}
 .abv-tool .abv-dot{width:6px;height:6px;border-radius:50%;background:var(--abv-faint);flex:0 0 auto;}
 .abv-tool span:last-child{font:600 10.5px "Syne";color:var(--abv-ink);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .abv-tool .ti{width:17px;height:17px;flex:0 0 auto;opacity:.92;}
 .abv-tool .tl{width:18px;height:18px;flex:0 0 auto;border-radius:4px;border:.5px solid var(--abv-line2);display:flex;align-items:center;justify-content:center;font:700 7.5px "Syne";color:var(--abv-ink);background:var(--abv-panel);letter-spacing:.02em;}
-.abv-media{display:flex;flex-wrap:wrap;gap:8px;}
-.abv-mchip{font:600 10.5px "Syne";color:var(--abv-ink);padding:7px 13px;border:.5px solid var(--abv-line2);border-radius:15px;background:var(--abv-panel2);}
-.abv-roster{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:14px;padding-top:14px;border-top:1px solid var(--abv-line);}
-.abv-r{border:.5px solid var(--abv-line);border-radius:7px;padding:10px 6px;background:var(--abv-panel);text-align:center;cursor:pointer;transition:.22s;}
+.abv-media{display:flex;flex-wrap:wrap;gap:6px;}
+.abv-mchip{font:600 10.5px "Syne";color:var(--abv-ink);padding:5px 11px;border:.5px solid var(--abv-line2);border-radius:15px;background:var(--abv-panel2);}
+.abv-roster{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-top:clamp(8px,1.4vh,14px);padding-top:clamp(8px,1.4vh,14px);border-top:1px solid var(--abv-line);flex:0 0 auto;}
+.abv-r{border:.5px solid var(--abv-line);border-radius:7px;padding:clamp(6px,1vh,10px) 6px;background:var(--abv-panel);text-align:center;cursor:pointer;transition:.22s;}
 .abv-r:hover{background:var(--abv-hover);transform:translateY(-2px);}
 .abv-r .dot{width:7px;height:7px;border-radius:50%;margin:0 auto 7px;box-shadow:0 0 8px currentColor;}
 .abv-r .dn{font:600 9.5px "Syne";letter-spacing:.06em;text-transform:uppercase;color:var(--abv-ink);}
-@media (max-width:860px){.abv-cols{flex-direction:column;}.abv-roster{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:860px){.abv-cols{flex-direction:column;}.abv-roster{grid-template-columns:repeat(3,1fr);}.abv-card{overflow-y:auto;}}
 </style>
 <div class="about-ov" id="aboutOv" role="dialog" aria-modal="true" aria-label="About Glitch Artworks">
   <div class="abv-card">
@@ -722,8 +720,7 @@ a.abv-work:hover .t{color:var(--abv-accent);}
       <div class="abv-col">
       <div class="abv-p"><div class="abv-lbl">Approach</div><div class="abv-approach">Art explores. Design solves.<small>My best work comes out of play and exploration.</small></div></div>
       <div class="abv-p abv-mark">
-        <svg viewBox="0 0 119.79 432.72" aria-hidden="true"><path fill="currentColor" d="M21.59,245.68c6.37-7.69,23.42-26.17,57.52-63.12,2.07-2.24,6.09-6.52,8.74-5.47,1.02.41,3.86,2.42,1.78,18.72-3.74,29.36-30.17,157.83-38.94,200.26-.32,2.78-.56,5.67-.7,8.68-.5,10.42.29,19.84,1.62,27.97,1.97-9.72,3.94-19.45,5.92-29.17,20.76-99.46,41.51-198.92,62.27-298.39-.66-.19-1.31-.38-1.97-.57-5.2,13.99-16.22,41-33.93,67.03,0,0-10.31,15.15-37.71,37.98-.35.29-1.56,1.28-3.42,1.91-3.4,1.16-7.97.76-10.53-1.67-2.68-2.55-2.53-6.72-2.41-9.06,1.87-37.1,6.02-59.2,6.02-59.2.26-1.4.39-2.1.49-2.57,4.22-22.06,6.96-35.16,13.79-69.18.36-1.77.8-3.85,1.35-6.72,1.22-6.35,2.91-15.16,4-25.43,1.11-10.45,1.67-15.68.81-22.09-.89-6.65-2.74-11.99-4.26-15.61-1.28,19.26-3.85,38.73-7.91,58.34-.12.57-.24,1.14-.36,1.71C29.16,129.92,14.58,199.79,0,269.66c.36-.21.73-.41,1.09-.61,9.2-9.93,16.2-18.18,20.49-23.36Z"/></svg>
-        <div class="abv-wm">GLTC</div>
+        <img class="abv-mark-logo" src="https://static.wixstatic.com/media/e7708a_57dd422cdfcb401bb0ed5d29d1588b89~mv2.png/v1/fill/w_851,h_605,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/latest%20logo.png" alt="Glitch Artworks" aria-hidden="true">
         <div class="abv-wm-sub">Est. Glitch Artworks</div>
       </div>
       </div>
