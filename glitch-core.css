@@ -223,7 +223,9 @@ nav{display:flex;align-items:center;gap:24px;}
 :root.plain-cursor #cursor .dot{box-shadow:none;}
 
 /* ── Generic scanline ─────────────────────────────────────────────────────── */
-.scanline{position:fixed;top:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,#ff4c4c 22%,transparent),transparent);animation:scan 18s linear infinite;z-index:40;pointer-events:none;}
+/* Reads --accent-eff so each page's category colour applies automatically.
+   Home and Architecture override this locally (see their own <style> blocks). */
+.scanline{position:fixed;top:-2px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent-eff) 22%,transparent),transparent);animation:scan 18s linear infinite;z-index:40;pointer-events:none;}
 @keyframes scan{0%{top:-2px}100%{top:100vh}}
 
 /* ── FOOTER ───────────────────────────────────────────────────────────────── */
